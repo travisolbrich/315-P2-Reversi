@@ -8,4 +8,4 @@ CSCE 315 Project 2: Reversi
 
 ### Development Log
 
-Please see the [Commit Log](https://github.com/travisolbrich/315-P1-DBMS/commits/master) for the most up-to-date and detailed development log. The below log will summarize major developments.
+Please see the [Commit Log](https://github.com/travisolbrich/315-P2-Reversi/commits/master) for the most up-to-date and detailed development log. The below log will summarize major developments.
