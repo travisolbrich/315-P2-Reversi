@@ -21,7 +21,7 @@ The game runs in a simple loop that uses several controller components that hand
 While the server class handles connecting clients, a Lobby Controller is used for figuring out what Lobby to place a player into. 
 For singleplayer Reversi game, this means creating a new Lobby and placing the user into that lobby. For a multiplayer Reversi game, the controller spawns a small task to take the user's input for the lobby they want to join.
 
-<Insert Image>
+![Reversi Logic Design](img/GameLogicDiagram.png)
 
 The Lobby Controller is run on a separate thread to keep the server from locking up while waiting for user input for multiplayer games, but for singleplayer the clients are sent to a new Lobby. 
 Created lobbies are given a GameFactory instance that allows them to create a gameboard using the Lobby settings.
@@ -31,7 +31,7 @@ First a new board is created by the BoardController, then the main gameloop begi
 The InputController follows, and is used to retrieve Input from players; in Reversi, this means a single player per turn. The InputController uses two delegates to handle human and AI input.
 The TurnController comes last, updating the board and players using the Input created from the InputController. The TurnController is responsible for handling the Undo function as well, so the ReversiTurnController will capture all ReversiTokens for the last several turns in a single-linked list.
 
-<Insert Image>
+![Server Client Design](img/ServerClientDiagram.png)
 
 Once the game ends or the player(s) want to end/restart their game, control will return to the lobby loop. 
 
