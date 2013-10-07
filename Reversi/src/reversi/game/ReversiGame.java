@@ -3,6 +3,7 @@ package reversi.game;
 import java.util.List;
 
 import reversi.game.controller.ReversiBoardController;
+import reversi.game.controller.ReversiControllerSet;
 import reversi.game.controller.ReversiInputController;
 import reversi.game.controller.ReversiPlayerController;
 import reversi.game.controller.ReversiTurnController;
@@ -12,29 +13,24 @@ import reversi.models.ReversiPlayer;
 import reversi.models.game.ReversiInput;
 import base.game.BoardGame;
 import base.game.controllers.BoardController;
+import base.game.controllers.ControllerSet;
 import base.game.controllers.InputController;
 import base.game.controllers.PlayerController;
 import base.game.controllers.TurnController;
+import base.game.messages.DefaultMessageHandler;
+import base.game.messages.MessageHandler;
 
 public class ReversiGame extends
 		BoardGame<ReversiPlayer, ReversiPiece, ReversiInput, ReversiBoard> {
 
-	public ReversiGame(
-			BoardController<ReversiBoard> boardController,
-			InputController<ReversiPlayer, ReversiInput> inputController,
-			PlayerController<ReversiPlayer, ReversiPiece, ReversiBoard> playerController,
-			TurnController<ReversiPlayer, ReversiPiece, ReversiInput> turnController) {
-		super(boardController, inputController, playerController,
-				turnController);
-
+	public ReversiGame(ControllerSet<ReversiPlayer, ReversiPiece, ReversiInput, ReversiBoard> controllerSet) {
+		super(controllerSet);
 	}
-	
-	
-	//Defaults
 
 	/**
 	 * Returns a new ReversiGame with no bots that is player vs player.
 	 * 
+	 * @deprecated Should not use, since it won't work with the Server.
 	 * @param players
 	 * @param botDifficulty
 	 * @return
@@ -44,23 +40,37 @@ public class ReversiGame extends
 	}
 
 	/**
-	 * 
+	 * @deprecated Should not use, since it won't work with the Server.
 	 * @param players
 	 * @param botDifficulty
 	 * @return
 	 */
 	public static ReversiGame gameWithBots(List<ReversiPlayer> players,
 			Integer difficulty) {
-		BoardController<ReversiBoard> boardController = new ReversiBoardController();
 
+		// TODO: If needed, create a ReversiMessageController class, and add a
+		// variable to each of these so that message controller can be accessed
+		// per-step.
+
+		ReversiControllerSet set = new ReversiControllerSet();
+		
+		ReversiBoardController boardController = new ReversiBoardController();
+		set.setBoardController(boardController);
+		
 		ReversiInputController inputController = ReversiInputController
 				.defaultConsoleController(difficulty);
+		set.setInputController(inputController);
 
 		ReversiPlayerController playerController = new ReversiPlayerController();
-		ReversiTurnController turnController = new ReversiTurnController();
+		set.setPlayerController(playerController);
 		
-		ReversiGame game = new ReversiGame(boardController, inputController,
-				playerController, turnController);
+		ReversiTurnController turnController = new ReversiTurnController();
+		set.setTurnController(turnController);
+
+		DefaultMessageHandler messageHandler = new DefaultMessageHandler();
+		set.setMessageHandler(messageHandler);		
+		
+		ReversiGame game = new ReversiGame(set);	
 		return game;
 	}
 

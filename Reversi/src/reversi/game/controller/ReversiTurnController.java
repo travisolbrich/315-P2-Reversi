@@ -16,7 +16,7 @@ import reversi.models.game.*;
  */
 public class ReversiTurnController implements
 		TurnController<ReversiPlayer, ReversiPiece, ReversiInput> {	
-	
+
 	@Override
 	public void processTurn(Turn<ReversiPlayer, ReversiInput> turn,
 			Board<ReversiPiece> board) {
@@ -39,6 +39,17 @@ public class ReversiTurnController implements
 			
 		}
 		
+	}
+	
+	@Override
+	public void undoTurn(Turn<ReversiPlayer, ReversiInput> turn,
+			Board<ReversiPiece> board) {
+		
+		/*
+		 * TODO: Undo commands! 
+		 * The easiest way is probably for this TurnController to keep track of previous turns before state, 
+		 * then when undo is called revert to that state.
+		 */	
 	}
 
 }

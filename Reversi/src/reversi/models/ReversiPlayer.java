@@ -1,5 +1,7 @@
 package reversi.models;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,10 @@ public class ReversiPlayer extends Player {
 
 	public ReversiPlayer(String name) {
 		super(name);
+	}
+	
+	public ReversiPlayer(String name, InputStream inputStream, OutputStream outputStream) {
+		super(name, inputStream, outputStream);
 	}
 
 	public List<ReversiPiece> getGamePieces() {

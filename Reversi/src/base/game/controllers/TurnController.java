@@ -10,4 +10,6 @@ public interface TurnController<P extends Player, E extends Entity, I extends In
 
 	public abstract void processTurn(Turn<P, I> turn, Board<E> board);
 	
+	public abstract void undoTurn(Turn<P, I> turn, Board<E> board);
+	
 }

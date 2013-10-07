@@ -1,5 +1,8 @@
 package base.models;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 /**
  * Base player class that contains information about a given player.
  * @author dereekb
@@ -12,8 +15,19 @@ public abstract class Player {
 	private Boolean inGame;
 	private Boolean controlledByAi;
 
+	protected final InputStream inputStream;
+	protected final OutputStream outputStream;
+
 	public Player(String name) {
 		this.name = name;
+		this.inputStream = System.in;
+		this.outputStream = System.out;
+	}
+	
+	public Player(String name, InputStream inputStream, OutputStream outputStream) {
+		this.name = name;
+		this.inputStream = inputStream;
+		this.outputStream = outputStream;
 	}
 
 	public String getName() {
@@ -36,4 +50,11 @@ public abstract class Player {
 		this.controlledByAi = controlledByAi;
 	}
 
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+
+	public OutputStream getOutputStream() {
+		return outputStream;
+	}
 }
