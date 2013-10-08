@@ -31,10 +31,10 @@ Created lobbies are given a GameFactory instance that allows them to create a ga
 If the user runs an AI vs AI command using a remote server, that user will recieve changes processed by the server. This is done by adding the client as a player, but skipping their input each turn.
 
 ### Game
-Once all players are ready, the game will begin and the GameFactory delegate is used for creating a new game. The newly created ReversiGame is run in the same loop as the lobby.
-First a new board is created by the BoardController, then the main gameloop begins which cycles first to the PlayerController to update the score. 
-The InputController follows, and is used to retrieve Input from players; in Reversi, this means a single player per turn. The InputController uses two delegates to handle human and AI input.
-The TurnController comes last, updating the board and players using the Input created from the InputController. The TurnController is responsible for handling the Undo function as well, so the ReversiTurnController will capture all ReversiTokens for the last several turns in a single-linked list.
+Once all players are ready, the game will begin and the `GameFactory` delegate is used for creating a new game. The newly created `ReversiGame` is run in the same loop as the lobby.
+First a new board is created by the `BoardController`, then the main gameloop begins which cycles first to the `PlayerController` to update the score. 
+The `InputController` follows, and is used to retrieve Input from players; in Reversi, this means a single player per turn. The `InputController` uses two delegates to handle human and AI input.
+The `TurnController` comes last, updating the board and players using the Input created from the `InputController`. The `TurnController` is responsible for handling the Undo function as well, so the `ReversiTurnController` will capture all `ReversiTokens` for the last several turns in a single-linked list.
 
 ![Reversi Logic Design](img/GameLogicDiagram.png)
 
@@ -44,15 +44,15 @@ Once the game ends or the player(s) want to end/restart their game, control will
 The gameloop will communicate minimally with the remote clients, asking only for coordinates. 
 
 Full range of client requests:
-command | move | comment
+`command | move | comment`
 
 Client Commands:
-EXIT | DISPLAY | difficulty | UNDO | HUMAN-AI | AI-AI <server> <port> difficulty difficulty | HUMAN-HUMAN <lobby>
+`EXIT | DISPLAY | difficulty | UNDO | HUMAN-AI | AI-AI <server> <port> difficulty difficulty | HUMAN-HUMAN <lobby>`
 
 Full range of server responses: 
-WELCOME | OK | column row | ILLEGAL | comment
+`WELCOME | OK | column row | ILLEGAL | comment`
 
-The client will have to specify the DISPLAY in order to not recieve ASCII GUI responses.
+The client will have to specify the `DISPLAY` in order to not recieve ASCII GUI responses.
 
 ## Benefits, Assumptions, and Risks
 
@@ -63,6 +63,6 @@ Highly modular design that allows for easy implementation of different AI's, rul
 Currently the design assumes that clients who connect will be able to use the response data. 
 
 ###Risks
-While any user may be able to connect via telnet at play that way, other standalone clients may not work depending on the InputController's HumanInputController implementation.
+While any user may be able to connect via telnet at play that way, other standalone clients may not work depending on the InputController's `HumanInputController` implementation.
 If the other client cannot communicate properly, the game loop may become locked after recieving strange input. If special rules/boards are implemented, clients may become out of sync. Individual clients may need to pay some attendtion to their network security suits to allow access over the ports required to connect.
 
