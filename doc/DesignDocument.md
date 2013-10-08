@@ -24,7 +24,7 @@ While the server class handles connecting clients, a Lobby Controller is used fo
 For singleplayer Reversi game, this means creating a new Lobby and placing the user into that lobby. For a multiplayer Reversi game, the controller spawns a small task to take the user's input for the lobby they want to join.
 
 The Lobby Controller is run on a separate thread to keep the server from locking up while waiting for user input for multiplayer games, but for singleplayer the clients are sent to a new Lobby. 
-Created lobbies are given a GameFactory instance that allows them to create a gameboard using the Lobby settings.
+Created lobbies are given a `GameFactory` instance that allows them to create a gameboard using the Lobby settings.
 
 ![Server Client Design](img/ServerClientDiagram.png)
 
