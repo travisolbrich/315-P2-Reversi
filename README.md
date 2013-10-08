@@ -1,6 +1,8 @@
 CSCE 315 Project 2: Reversi
 ===========================
 
+Please take a look at the [design documentation](doc/DesignDocument.md).
+
 ### Relevant Resources
 
 * [Project Instructions](http://courses.cs.tamu.edu/choe/13fall/315/proj2.html)
