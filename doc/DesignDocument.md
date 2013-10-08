@@ -3,13 +3,13 @@ Design Document
 
 ## Purpose of Project
 
-The goal is to create a Reversi game. This game will focus on an audience interested in strategy board games. Throughout the project, experience will then be gained in both AI algorithms as well as Server-Client programming. Finally, designing a high-quality GUI for the game will be the final step in the game's progression. The game will follow traditional Reversi rules found on the [Reversi wiki page](http://en.wikipedia.org/wiki/Reversi) as referenced by the [Project Instructions](http://courses.cs.tamu.edu/choe/13fall/315/proj2.html).
+The goal is to create a Reversi game. This game will focus on an audience which is interested in turn-based strategy board games. The game will be implemented through a client/server system, so that players will be able to play against AI and other human opponents through interaction with the game lobby. Players nopt wanting or unable to play using the client server system, will be allowed to play in stand-alone mode through the client itself. Throughout the project, experience will then be gained in both AI algorithms as well as Server-Client programming. Additionally, designing a high-quality GUI for the game will be a high priority toward the delivery of the final game. The game will follow traditional Reversi rules found on the [Reversi wiki page](http://en.wikipedia.org/wiki/Reversi) as referenced by the [Project Instructions](http://courses.cs.tamu.edu/choe/13fall/315/proj2.html).
 
 ## High Level Entities
 
 The three main entities are the Server, Client and Game loop. 
 
-The server will be the entry point for clients. They will be placed into a lobby and the game will begin once they user has selected their preferred settings.
+The server will be the entry point for clients. They will be placed into a lobby and the game will begin once the user has selected their preferred settings.
 
 The lobbies are run in separate, contained threads that handle creating and running the game's logic.
 
@@ -57,12 +57,12 @@ The client will have to specify the DISPLAY in order to not recieve ASCII GUI re
 ## Benefits, Assumptions, and Risks
 
 ###Benefits 
-Highly modular design that allows for easy implementation of different AI's, rules, and even games. Could easily switch to implement a new game, and modify reversi with additional rules, or modes.
+Highly modular design that allows for easy implementation of different AI's, rules, and even games. Could easily switch to implement a new game, and modify reversi with additional rules, or modes. This modularity will allow multiple play styles and difficulty settings to be implemented easily by the user via the GUI. The server will be able to handle multiple clients all running different games and settings as well as opponent matching in the lobby. This feature will enable the user/s to compete against eachother through the server from remote locations.
 
 ###Assumptions
 Currently the design assumes that clients who connect will be able to use the response data. 
 
 ###Risks
 While any user may be able to connect via telnet at play that way, other standalone clients may not work depending on the InputController's HumanInputController implementation.
-If the other client cannot communicate properly, the game loop may become locked after recieving strange input. If special rules/boards are implemented, clients may become out of sync.
+If the other client cannot communicate properly, the game loop may become locked after recieving strange input. If special rules/boards are implemented, clients may become out of sync. Individual clients may need to pay some attendtion to their network security suits to allow access over the ports required to connect.
 
