@@ -9,3 +9,7 @@ CSCE 315 Project 2: Reversi
 ### Development Log
 
 Please see the [Commit Log](https://github.com/travisolbrich/315-P2-Reversi/commits/master) for the most up-to-date and detailed development log. The below log will summarize major developments.
+
+### Scrum
+
+You can access all of our scrum reporting on [Pivotal Tracker](https://www.pivotaltracker.com/s/projects/929052).
