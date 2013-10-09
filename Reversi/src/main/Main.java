@@ -13,15 +13,15 @@ import reversi.server.ReversiServer;
  */
 public class Main {
 
+	private final static Integer defaultPort = 600;
+	
 	/**
 	 * @param args
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		ReversiServer server = new ReversiServer(1400);
-		
-		server.startServer();
-		
+		ReversiServer server = new ReversiServer(defaultPort);		
+		server.startServer();		
 	}
 
 }

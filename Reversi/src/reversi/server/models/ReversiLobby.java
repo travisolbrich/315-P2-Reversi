@@ -18,10 +18,9 @@ import base.server.ServerLobbyManager;
  * @author dereekb
  * 
  */
-public class ReversiLobby extends GameLobby{
+public class ReversiLobby extends GameLobby<ReversiRemoteClient>{
 
 	private ReversiRemoteClient host;
-	private final Set<ReversiRemoteClient> clients = new HashSet<ReversiRemoteClient>();
 	private final ReversiGameFactory gameFactory = new ReversiGameFactory();
 	private final ReversiSettings settings = new ReversiSettings();
 
@@ -30,23 +29,25 @@ public class ReversiLobby extends GameLobby{
 	public ReversiLobby(ReversiRemoteClient host, ServerLobbyManager<?, ?, ?> manager){
 		super(manager);
 		this.setHost(host);
-		this.clients.add(host);
+		this.getClients().add(host);
 	}
 
 	public ReversiLobby(ReversiRemoteClient host, ServerLobbyManager<?, ?, ?> manager, String lobbyName){
 		super(manager, lobbyName);
 		this.setHost(host);
-		this.clients.add(host);
+		this.getClients().add(host);
 	}
 
 	@Override
 	public void runLobby() throws IOException{
 
+		boolean beginGame = false;
+		
 		PrintWriter writer = host.getWriter();
 		writer.println("Welcome to your new lobby.");
 
 		//Keep alive while clients are still connected.
-		while(clients.size() > 0){
+		while(getClients().size() > 0 && beginGame){
 
 			/*
 			 * TODO: Run Lobby loop. 
@@ -63,10 +64,15 @@ public class ReversiLobby extends GameLobby{
 	@Override
 	public void runGame() throws IOException{
 
-		//Run the new game here!
-		ReversiGame game = this.gameFactory.createNewGame(this.settings);
-		game.playGame();
-
+		//TODO: Run the new game here!
+		//ReversiGame game = this.gameFactory.createNewGame(this.settings);
+		//game.playGame();
+		this.isRunning = false;
+	}
+	
+	@Override
+	public void closeLobby() throws IOException{
+		super.closeLobby();	//Call this to automatically close client sockets.
 	}
 
 	public boolean isInProgress(){

@@ -1,7 +1,9 @@
 package base.server;
 
 import java.io.IOException;
-
+import java.net.Socket;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Basic game lobby that waits for several players.
@@ -13,39 +15,44 @@ import java.io.IOException;
  * @author dereekb
  * 
  */
-public abstract class GameLobby implements Runnable{
+public abstract class GameLobby<C extends RemoteClient<?>> implements Runnable {
 
 	private Thread thread;
-	protected boolean isRunning = false;
 	private final ServerLobbyManager<?, ?, ?> parent;
+	
+	protected boolean isRunning = false;
+	protected final Set<C> clients = new HashSet<C>();
 
 	private static final String defaultLobbyName = "Lobby";
 
 	public String lobbyName;
 
-	public GameLobby(ServerLobbyManager<?, ?, ?> parent){
+	public GameLobby(ServerLobbyManager<?, ?, ?> parent) {
 		this.lobbyName = defaultLobbyName;
 		this.parent = parent;
 	}
 
-	public GameLobby(ServerLobbyManager<?, ?, ?> parent, String lobbyName){
+	public GameLobby(ServerLobbyManager<?, ?, ?> parent, String lobbyName) {
 		this.lobbyName = lobbyName;
 		this.parent = parent;
 	}
 
 	@Override
-	public void run(){
-		while(this.isRunning){
-			try{
+	public void run() {
+		this.isRunning = true;
+
+		try {
+			while (this.isRunning) {
 				this.runLobby();
 				this.runGame();
 			}
-			catch(IOException e){
 
-			}
+			this.closeLobby();
+		} catch (IOException e) {
+
 		}
 
-		//Remove the lobby from the parent's set.
+		// Remove the lobby from the parent's set.
 		this.parent.removeLobby(this);
 	}
 
@@ -53,19 +60,31 @@ public abstract class GameLobby implements Runnable{
 
 	public abstract void runGame() throws IOException;
 
-	public Thread getThread(){
+	public void startLobbyThread() {
+		Thread lobbyThread = this.getThread();
+		lobbyThread.start();
+	}
 
-		if(this.thread == null){
+	public void closeLobby() throws IOException {
+		for(C client : this.clients)
+		{
+			Socket clientSocket = client.getSocket();
+			clientSocket.close();
+		}
+	}
+
+	public Thread getThread() {
+
+		//Lazy Loading
+		if (this.thread == null) {
 			this.thread = new Thread(this);
-
-			//Don't want a game to hold up the server if the server's thread exits.
 			this.thread.setDaemon(true);
 		}
 
 		return this.thread;
 	}
 
-	public void startLobbyThread(){
-		this.thread.start();
+	public Set<C> getClients() {
+		return clients;
 	}
 }

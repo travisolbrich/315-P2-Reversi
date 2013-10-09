@@ -1,7 +1,9 @@
 package reversi.server;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
+
 import reversi.server.models.ReversiLobby;
 import reversi.server.models.ReversiRemoteClient;
 import base.server.GameServer;
@@ -24,8 +26,18 @@ public class ReversiServer extends GameServer{
 		 */
 
 		ReversiRemoteClient client = new ReversiRemoteClient(socket);
+		showConnectionMessage(client);
+		
 		ReversiLobby lobby = lobbyManager.createNewLobby(client);
 		lobby.startLobbyThread();
 	}
 
+	private final static String connectionMessage = "Hello!";
+	
+	public void showConnectionMessage(ReversiRemoteClient client) throws IOException
+	{
+		PrintWriter writer = client.getWriter();
+		writer.println(connectionMessage);
+	}
+	
 }
