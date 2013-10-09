@@ -3,9 +3,14 @@ package reversi.server.models;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
+
 import reversi.game.ReversiGame;
 import reversi.server.ReversiGameFactory;
+import reversi.server.ReversiServerResponse;
+import reversi.server.commands.ReversiCommand;
+import reversi.server.commands.ReversiCommandReader;
 import base.server.GameLobby;
 import base.server.ServerLobbyManager;
 
@@ -18,7 +23,7 @@ import base.server.ServerLobbyManager;
  * @author dereekb
  * 
  */
-public class ReversiLobby extends GameLobby<ReversiRemoteClient>{
+public class ReversiLobby extends GameLobby<ReversiRemoteClient> implements ReversiCommandReader{
 
 	private ReversiRemoteClient host;
 	private final ReversiGameFactory gameFactory = new ReversiGameFactory();
@@ -44,21 +49,37 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient>{
 		boolean beginGame = false;
 		
 		PrintWriter writer = host.getWriter();
+		Scanner scanner = host.getInputScanner();
 		writer.println("Welcome to your new lobby.");
 
 		//Keep alive while clients are still connected.
 		while(getClients().size() > 0 && beginGame){
 
-			/*
-			 * TODO: Run Lobby loop. 
-			 * 
-			 * This loop is the contained loop that the host sends commands to/from the server.
-			 * 
-			 * When the host starts the game, create and run a new game.
-			 */
-
-			break; //TEMP
+			String input = scanner.nextLine();
+			ReversiCommand command = this.readCommand(input);
+			
+			if(command != null)
+			{
+				/*
+				 * TODO: Update to process commands.
+				 */
+				ReversiServerResponse.sendOk(host);
+				
+				//Temp
+				beginGame = true;				
+				
+			} else {
+				ReversiServerResponse.sendIllegal(host);
+			}
 		}
+	
+		//TODO: this.settings.setPlayers(players);
+	}
+
+	@Override
+	public ReversiCommand readCommand(String input) {
+		// TODO Read the host's input and return the command for that input.
+		return null;
 	}
 
 	@Override
@@ -67,7 +88,8 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient>{
 		//TODO: Run the new game here!
 		//ReversiGame game = this.gameFactory.createNewGame(this.settings);
 		//game.playGame();
-		this.isRunning = false;
+		
+		
 	}
 	
 	@Override

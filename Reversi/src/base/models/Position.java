@@ -49,4 +49,11 @@ public final class Position {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString()
+	{
+		String string = String.format("%s%d", this.column, this.row);
+		return string;
+	}
 }

@@ -12,33 +12,58 @@ import java.net.Socket;
  * @author dereekb
  * 
  */
-public abstract class GameServer{
+public abstract class GameServer {
 
 	private final Integer serverPort;
-	
+
 	public GameServer(Integer serverPort) {
 		this.serverPort = serverPort;
 	}
-	
-	public void startServer() throws IOException
+
+	public void startServer() throws IOException {
+		ServerSocket serverSocket = null;
+
+		try {
+			serverSocket = new ServerSocket(this.serverPort);
+			boolean online = true;
+
+			this.printStartupMessage();
+
+			while (online) {
+				Socket socket = serverSocket.accept();
+				this.handleSocketConnection(socket);
+			}
+
+		} catch (IOException e) {
+			String.format("Could not listen on port '%d'.", this.serverPort);
+			System.exit(1);
+		} finally {
+			if (serverSocket != null) {
+				serverSocket.close();
+			}
+			
+			this.printShutdownMessage();
+		}
+	}
+
+	protected void printStartupMessage() {
+		String message = String.format("Server started on port '%d'.",
+				this.serverPort);
+		System.out.println(message);
+	}
+
+	protected void printShutdownMessage() {
+		String message = String.format("Server shutting down...",
+				this.serverPort);
+		System.out.println(message);
+	}
+
+	protected void handleSocketConnection(Socket socket) throws IOException
 	{
-        ServerSocket serverSocket = null;
-        
-        try {
-            serverSocket = new ServerSocket(this.serverPort);
-            boolean online = true;
-            
-            while(online)
-            {
-            	Socket connectedClient = serverSocket.accept();
-            	this.clientConnected(connectedClient);
-            }    		
-        } catch (IOException e) {
-            System.err.println("Could not listen on port: " + this.serverPort + ".");
-            System.exit(1);
-        } finally {
-        	if(serverSocket != null) serverSocket.close();
-        }
+		String message = String.format("Client connected from '%d'.", socket.getInetAddress().getHostAddress());
+		System.out.println(message);
+		
+		this.clientConnected(socket);
 	}
 	
 	public abstract void clientConnected(Socket socket) throws IOException;

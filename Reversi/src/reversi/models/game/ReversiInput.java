@@ -17,4 +17,10 @@ public class ReversiInput extends Input<ReversiPlayer> {
 		return position;
 	}
 
+	@Override
+	public String toString()
+	{
+		String string = String.format("%s", position.toString());
+		return string;
+	}
 }
