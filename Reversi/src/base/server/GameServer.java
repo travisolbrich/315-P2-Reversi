@@ -34,12 +34,12 @@ public abstract class GameServer{
             	this.clientConnected(connectedClient);
             }    		
         } catch (IOException e) {
-            System.err.println("Could not listen on port: 4444.");
+            System.err.println("Could not listen on port: " + this.serverPort + ".");
             System.exit(1);
         } finally {
-        	serverSocket.close();
+        	if(serverSocket != null) serverSocket.close();
         }
 	}
 	
-	public abstract void clientConnected(Socket socket);
+	public abstract void clientConnected(Socket socket) throws IOException;
 }
