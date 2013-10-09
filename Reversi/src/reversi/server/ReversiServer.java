@@ -1,30 +1,31 @@
 package reversi.server;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
-
+import reversi.server.models.ReversiLobby;
+import reversi.server.models.ReversiRemoteClient;
 import base.server.GameServer;
+
 
 public class ReversiServer extends GameServer{
 
-	private final ReversiGameFactory gameFactory = new ReversiGameFactory();
-	private final ReversiLobbyFactory lobbyFactory = new ReversiLobbyFactory();
-	
-	public ReversiServer(Integer serverPort) {
+	private final ReversiLobbyManager lobbyManager = new ReversiLobbyManager();
+
+	public ReversiServer(Integer serverPort){
 		super(serverPort);
 	}
-	
+
 	@Override
-	public void clientConnected(Socket socket) throws IOException {
+	public void clientConnected(Socket socket) throws IOException{
 
 		/*
-		 * TODO: When a client connects, this is where it is handled. 
-		 * 
-		 * If we want to implement PvP, 
-		 * give the user the ability to join a lobby that currently exists.
+		 * If we want to implement PvP "just because", 
+		 * check the client's connection info/request to see if they want to join a lobby with a name.
 		 */
-		System.out.println("Client connected on port " + socket.getRemoteSocketAddress() + ":" + socket.getPort() + ". ");
+
+		ReversiRemoteClient client = new ReversiRemoteClient(socket);
+		ReversiLobby lobby = lobbyManager.createNewLobby(client);
+		lobby.startLobbyThread();
 	}
 
 }
