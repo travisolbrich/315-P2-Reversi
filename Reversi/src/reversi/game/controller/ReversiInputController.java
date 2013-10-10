@@ -38,7 +38,7 @@ public class ReversiInputController extends
 	
 	
 	//Defaults
-	public static ReversiInputController defaultConsoleController(
+	public static ReversiInputController defaultServerController(
 			Integer difficulty) {
 
 		ReversiHumanInputController humanInput = new ReversiHumanInputController();

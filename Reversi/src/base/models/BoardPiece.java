@@ -9,7 +9,7 @@ public class BoardPiece<E extends Entity> {
 		this.position = position;
 	}
 
-	public E getElement() {
+	public E getEntity() {
 		return element;
 	}
 

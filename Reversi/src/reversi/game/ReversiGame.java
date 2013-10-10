@@ -58,7 +58,7 @@ public class ReversiGame extends
 		set.setBoardController(boardController);
 		
 		ReversiInputController inputController = ReversiInputController
-				.defaultConsoleController(difficulty);
+				.defaultServerController(difficulty);
 		set.setInputController(inputController);
 
 		ReversiPlayerController playerController = new ReversiPlayerController();

@@ -23,5 +23,10 @@ public class Board<E extends Entity> {
 		BoardPiece<E> boardPiece = boardElements.get(position);
 		return boardPiece;
 	}
-
+	
+	public E getEntityAtPosition(Position position) {
+		BoardPiece<E> boardPiece = boardElements.get(position);
+		E entity = boardPiece.getEntity();
+		return entity;
+	}
 }

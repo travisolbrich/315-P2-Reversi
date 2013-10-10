@@ -10,6 +10,9 @@ import base.models.Position;
 
 public class ReversiBoardController implements BoardController<ReversiBoard> {
 
+	private static final String[] columnAlpha = { "a", "b", "c", "d", "e", "f",
+			"g", "h" };
+
 	private final Integer columns;
 	private final Integer rows;
 
@@ -30,15 +33,17 @@ public class ReversiBoardController implements BoardController<ReversiBoard> {
 		Map<Position, BoardPiece<ReversiPiece>> boardPieces = board
 				.getBoardElements();
 
-		/*
-		 * TODO Generate a new board with the given columns/rows.
-		 * 
-		 * Will create a new, empty element for each row/column and insert them
-		 * into the board.
-		 * 
-		 * Just have two for-loops, generate positions, and create new
-		 * BoardPieces.
-		 */
+		for (int c = 0; c < columns; c++) {
+			String currentColumn = columnAlpha[c];
+
+			for (int r = 0; r < rows; r++) {
+				Integer currentRow = r;
+				Position position = new Position(currentColumn, currentRow);
+				BoardPiece<ReversiPiece> boardPiece = new BoardPiece<ReversiPiece>(
+						position);
+				boardPieces.put(position, boardPiece);
+			}
+		}
 
 		return board;
 	}
