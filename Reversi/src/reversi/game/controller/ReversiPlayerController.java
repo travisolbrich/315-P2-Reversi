@@ -1,12 +1,12 @@
 package reversi.game.controller;
 
 import reversi.models.ReversiBoard;
-import reversi.models.ReversiPiece;
+import reversi.models.ReversiEntity;
 import reversi.models.ReversiPlayer;
 import base.game.controllers.PlayerController;
 
 public class ReversiPlayerController extends
-		PlayerController<ReversiPlayer, ReversiPiece, ReversiBoard> {
+		PlayerController<ReversiPlayer, ReversiEntity, ReversiBoard> {
 
 	@Override
 	public void updateScore(ReversiBoard board) {

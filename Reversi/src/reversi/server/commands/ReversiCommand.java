@@ -17,6 +17,10 @@ public class ReversiCommand
 		ReversiCommandTypeDifficulty,
 
 		ReversiCommandTypeHumanAI,
+
+		ReversiCommandTypeWhite,
+
+		ReversiCommandTypeBlack,
 		
 		ReversiCommandTypeAIAI
 	}
@@ -30,4 +34,11 @@ public class ReversiCommand
 		this.parameters = parameters;
 	}
 	
+	public ReversiCommandType getType() {
+		return type;
+	}
+
+	public List<String> getParameters() {
+		return parameters;
+	}
 }

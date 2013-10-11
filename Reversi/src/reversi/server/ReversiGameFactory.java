@@ -3,7 +3,7 @@ package reversi.server;
 import reversi.game.ReversiGame;
 import reversi.game.controller.ReversiControllerSet;
 import reversi.models.ReversiBoard;
-import reversi.models.ReversiPiece;
+import reversi.models.ReversiEntity;
 import reversi.models.ReversiPlayer;
 import reversi.models.game.ReversiInput;
 import reversi.server.models.ReversiSettings;

@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
 
+import reversi.server.controllers.exceptions.ExitException;
+
 /**
  * Basic game lobby that waits for several players.
  * 
@@ -17,10 +19,13 @@ import java.util.Set;
  */
 public abstract class GameLobby<C extends RemoteClient<?>> implements Runnable {
 
+
 	private Thread thread;
 	private final ServerLobbyManager<?, ?, ?> parent;
 	
 	protected boolean isRunning = false;
+	private boolean gameInProgress = false;
+
 	protected final Set<C> clients = new HashSet<C>();
 
 	private static final String defaultLobbyName = "Lobby";
@@ -48,12 +53,17 @@ public abstract class GameLobby<C extends RemoteClient<?>> implements Runnable {
 			}
 
 			this.closeLobby();
-		} catch (IOException e) {
-
+		} catch (ExitException exit){
+			
+			//TODO: Tell all the players goodbye, etc.
+			
+		} catch (IOException e){
+			
+		} finally {
+			if(this.parent != null){
+				this.parent.removeLobby(this);
+			}
 		}
-
-		// Remove the lobby from the parent's set.
-		this.parent.removeLobby(this);
 	}
 
 	public abstract void runLobby() throws IOException;
@@ -65,6 +75,10 @@ public abstract class GameLobby<C extends RemoteClient<?>> implements Runnable {
 		lobbyThread.start();
 	}
 
+	/**
+	 * Automatically close client sockets.
+	 * @throws IOException
+	 */
 	public void closeLobby() throws IOException {
 		for(C client : this.clients)
 		{
@@ -86,5 +100,13 @@ public abstract class GameLobby<C extends RemoteClient<?>> implements Runnable {
 
 	public Set<C> getClients() {
 		return clients;
+	}
+
+	public boolean isGameInProgress() {
+		return gameInProgress;
+	}
+
+	public void setGameInProgress(boolean gameInProgress) {
+		this.gameInProgress = gameInProgress;
 	}
 }

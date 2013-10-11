@@ -3,12 +3,12 @@ package reversi.game.controller;
 import base.game.controllers.ControllerSet;
 import base.game.messages.DefaultMessageHandler;
 import reversi.models.ReversiBoard;
-import reversi.models.ReversiPiece;
+import reversi.models.ReversiEntity;
 import reversi.models.ReversiPlayer;
 import reversi.models.game.ReversiInput;
 import reversi.server.models.ReversiSettings;
 
-public class ReversiControllerSet extends ControllerSet<ReversiPlayer, ReversiPiece, ReversiInput, ReversiBoard>
+public class ReversiControllerSet extends ControllerSet<ReversiPlayer, ReversiEntity, ReversiInput, ReversiBoard>
 {
 	public ReversiControllerSet(){
 		super();

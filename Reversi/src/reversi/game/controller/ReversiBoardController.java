@@ -3,7 +3,7 @@ package reversi.game.controller;
 import java.util.Map;
 
 import reversi.models.ReversiBoard;
-import reversi.models.ReversiPiece;
+import reversi.models.ReversiEntity;
 import base.game.controllers.BoardController;
 import base.models.BoardPiece;
 import base.models.Position;
@@ -30,7 +30,7 @@ public class ReversiBoardController implements BoardController<ReversiBoard> {
 	public ReversiBoard generateNewBoard() {
 
 		ReversiBoard board = new ReversiBoard();
-		Map<Position, BoardPiece<ReversiPiece>> boardPieces = board
+		Map<Position, BoardPiece<ReversiEntity>> boardPieces = board
 				.getBoardElements();
 
 		for (int c = 0; c < columns; c++) {
@@ -39,7 +39,7 @@ public class ReversiBoardController implements BoardController<ReversiBoard> {
 			for (int r = 0; r < rows; r++) {
 				Integer currentRow = r;
 				Position position = new Position(currentColumn, currentRow);
-				BoardPiece<ReversiPiece> boardPiece = new BoardPiece<ReversiPiece>(
+				BoardPiece<ReversiEntity> boardPiece = new BoardPiece<ReversiEntity>(
 						position);
 				boardPieces.put(position, boardPiece);
 			}
