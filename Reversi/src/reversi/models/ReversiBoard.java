@@ -1,10 +1,14 @@
 package reversi.models;
 
+
+import reversi.server.display.ReversiAsciiDisplayController;
 import base.models.Board;
 
-public class ReversiBoard extends Board<ReversiPiece>{
+public class ReversiBoard extends Board<ReversiEntity> {
 
-	//TODO: Implement board
-	
-	//TODO: Create function that shows the board in ASCII
+	public String getASCIIView()
+	{
+		return ReversiAsciiDisplayController.drawBoard(this);
+	}
+
 }

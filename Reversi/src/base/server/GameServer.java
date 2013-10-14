@@ -35,7 +35,8 @@ public abstract class GameServer {
 			}
 
 		} catch (IOException e) {
-			String.format("Could not listen on port '%d'.", this.serverPort);
+			String message = String.format("Could not listen on port '%d'.", this.serverPort);
+			System.out.println(message);
 			System.exit(1);
 		} finally {
 			if (serverSocket != null) {

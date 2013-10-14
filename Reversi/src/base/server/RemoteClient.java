@@ -19,6 +19,7 @@ import base.models.Player;
 public class RemoteClient<P extends Player> {
 
 	private P player;
+	private String asciiPiece;
 	private final Socket socket;
 
 	public RemoteClient(Socket socket){
@@ -52,5 +53,13 @@ public class RemoteClient<P extends Player> {
 	public String getAddress(){
 		InetAddress address = this.socket.getInetAddress();
 		return address.getHostAddress();
+	}
+
+	public String getAsciiPiece() {
+		return asciiPiece;
+	}
+
+	public void setAsciiPiece(String asciiPiece) {
+		this.asciiPiece = asciiPiece;
 	}
 }

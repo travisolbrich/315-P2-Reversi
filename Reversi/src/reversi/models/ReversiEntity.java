@@ -3,15 +3,15 @@ package reversi.models;
 import base.models.Entity;
 import base.models.Position;
 
-public class ReversiPiece extends Entity {
+public class ReversiEntity extends Entity {
 
 	private final ReversiPlayer owner;
 
-	public ReversiPiece(ReversiPlayer owner) {
+	public ReversiEntity(ReversiPlayer owner) {
 		this.owner = owner;
 	}
 
-	public ReversiPiece(ReversiPlayer owner, Position position) {
+	public ReversiEntity(ReversiPlayer owner, Position position) {
 		super(position);
 		this.owner = owner;
 	}

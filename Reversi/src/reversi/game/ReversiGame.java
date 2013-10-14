@@ -8,7 +8,7 @@ import reversi.game.controller.ReversiInputController;
 import reversi.game.controller.ReversiPlayerController;
 import reversi.game.controller.ReversiTurnController;
 import reversi.models.ReversiBoard;
-import reversi.models.ReversiPiece;
+import reversi.models.ReversiEntity;
 import reversi.models.ReversiPlayer;
 import reversi.models.game.ReversiInput;
 import base.game.BoardGame;
@@ -21,9 +21,9 @@ import base.game.messages.DefaultMessageHandler;
 import base.game.messages.MessageHandler;
 
 public class ReversiGame extends
-		BoardGame<ReversiPlayer, ReversiPiece, ReversiInput, ReversiBoard> {
+		BoardGame<ReversiPlayer, ReversiEntity, ReversiInput, ReversiBoard> {
 
-	public ReversiGame(ControllerSet<ReversiPlayer, ReversiPiece, ReversiInput, ReversiBoard> controllerSet) {
+	public ReversiGame(ControllerSet<ReversiPlayer, ReversiEntity, ReversiInput, ReversiBoard> controllerSet) {
 		super(controllerSet);
 	}
 
@@ -58,7 +58,7 @@ public class ReversiGame extends
 		set.setBoardController(boardController);
 		
 		ReversiInputController inputController = ReversiInputController
-				.defaultConsoleController(difficulty);
+				.defaultServerController(difficulty);
 		set.setInputController(inputController);
 
 		ReversiPlayerController playerController = new ReversiPlayerController();

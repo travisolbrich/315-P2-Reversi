@@ -12,8 +12,9 @@ import java.io.OutputStream;
 public abstract class Player {
 
 	private final String name;
-	private Boolean inGame;
-	private Boolean controlledByAi;
+	private Boolean inGame = true;
+	private Boolean controlledByAi = false;
+	private Boolean asciiDisplay = false;
 
 	protected final InputStream inputStream;
 	protected final OutputStream outputStream;
@@ -56,5 +57,17 @@ public abstract class Player {
 
 	public OutputStream getOutputStream() {
 		return outputStream;
+	}
+
+	public Boolean getAsciiDisplay() {
+		return asciiDisplay;
+	}
+
+	public void setAsciiDisplay(Boolean asciiDisplay) {
+		this.asciiDisplay = asciiDisplay;
+	}
+	
+	public void toggleAsciiDisplay() {
+		this.asciiDisplay = !this.asciiDisplay;
 	}
 }

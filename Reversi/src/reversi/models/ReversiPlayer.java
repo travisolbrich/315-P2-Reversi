@@ -9,7 +9,11 @@ import base.models.Player;
 
 public class ReversiPlayer extends Player {
 
-	private final List<ReversiPiece> gamePieces = new ArrayList<ReversiPiece>();
+	/**
+	 * ASCII to represent this player's piece.
+	 */
+	private String pieceAscii;
+	private final List<ReversiEntity> gamePieces = new ArrayList<ReversiEntity>();
 
 	public ReversiPlayer(String name) {
 		super(name);
@@ -19,8 +23,16 @@ public class ReversiPlayer extends Player {
 		super(name, inputStream, outputStream);
 	}
 
-	public List<ReversiPiece> getGamePieces() {
+	public List<ReversiEntity> getGamePieces() {
 		return gamePieces;
+	}
+
+	public String getAsciiDisplayPiece() {
+		return pieceAscii;
+	}
+
+	public void setPieceAscii(String pieceAscii) {
+		this.pieceAscii = pieceAscii;
 	}
 
 }

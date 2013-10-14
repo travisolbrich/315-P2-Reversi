@@ -15,11 +15,11 @@ import reversi.models.game.*;
  *
  */
 public class ReversiTurnController implements
-		TurnController<ReversiPlayer, ReversiPiece, ReversiInput> {	
+		TurnController<ReversiPlayer, ReversiEntity, ReversiInput> {	
 
 	@Override
 	public void processTurn(Turn<ReversiPlayer, ReversiInput> turn,
-			Board<ReversiPiece> board) {
+			Board<ReversiEntity> board) {
 		
 		List<ReversiInput> playersInput = turn.getTurnInput();
 		
@@ -43,7 +43,7 @@ public class ReversiTurnController implements
 	
 	@Override
 	public void undoTurn(Turn<ReversiPlayer, ReversiInput> turn,
-			Board<ReversiPiece> board) {
+			Board<ReversiEntity> board) {
 		
 		/*
 		 * TODO: Undo commands! 
