@@ -6,19 +6,27 @@ public class ReversiCommand
 {
 	public static enum ReversiCommandType
 	{
-		ReversiCommandTypeExit,
+		Exit,
 
-		ReversiCommandTypeDisplay,
+		Display,
 
-		ReversiCommandTypeUndo,
+		Undo,
 		
-		ReversiCommandTypeRedo,
+		Easy,
 		
-		ReversiCommandTypeDifficulty,
-
-		ReversiCommandTypeHumanAI,
+		Medium,
 		
-		ReversiCommandTypeAIAI
+		Hard,
+		
+		HumanAI,
+		
+		AIAI,
+		
+		Move, 
+		
+		Comment,
+		
+		Unknown
 	}
 	
 	public final ReversiCommandType type;
@@ -28,6 +36,12 @@ public class ReversiCommand
 	{
 		this.type = type;
 		this.parameters = parameters;
+	}
+	
+	public ReversiCommand(ReversiCommandType type)
+	{
+		this.type = type;
+		this.parameters = null;
 	}
 	
 }
