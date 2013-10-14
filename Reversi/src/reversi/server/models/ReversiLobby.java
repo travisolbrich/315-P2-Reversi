@@ -65,7 +65,7 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 		writer.println("Welcome to your new lobby.");
 
 		// Keep alive while clients are still connected.
-		while (getClients().size() > 0 && beginGame) {
+		while (getClients().size() > 0 && !beginGame) {
 
 			boolean success = true;
 

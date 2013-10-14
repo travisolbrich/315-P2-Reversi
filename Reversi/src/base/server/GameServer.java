@@ -61,7 +61,7 @@ public abstract class GameServer {
 
 	protected void handleSocketConnection(Socket socket) throws IOException
 	{
-		String message = String.format("Client connected from '%d'.", socket.getInetAddress().getHostAddress());
+		String message = String.format("Client connected from '%s'.", socket.getInetAddress().getHostAddress());
 		System.out.println(message);
 		
 		this.clientConnected(socket);
