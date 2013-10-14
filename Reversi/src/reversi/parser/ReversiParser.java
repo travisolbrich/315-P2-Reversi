@@ -5,12 +5,13 @@ import java.util.List;
 
 import reversi.server.commands.ReversiCommand;
 import reversi.server.commands.ReversiCommand.ReversiCommandType;
+import reversi.server.commands.ReversiCommandReader;
 
-public class ReversiParser {
+public class ReversiParser implements ReversiCommandReader {
 	
 	private String[] columns = {"a", "b", "c", "d", "e", "f", "g", "h"};
 	
-	public ReversiCommand parse(String toParse)
+	public ReversiCommand parseCommand(String toParse)
 	{
 		String[] tokens = toParse.split("\\s+");
 		
@@ -60,5 +61,5 @@ public class ReversiParser {
 		
 		return new ReversiCommand(ReversiCommandType.AIAI, parameters);
 	}
-
+	
 }

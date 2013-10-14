@@ -5,6 +5,7 @@ import java.util.List;
 
 import base.game.controllers.input.HumanInputController;
 import base.game.controllers.input.IntelligenceInputController;
+import base.models.Board;
 import base.models.Player;
 import base.models.game.Input;
 
@@ -17,9 +18,9 @@ import base.models.game.Input;
  * @param <I>
  * @param <A>
  */
-public abstract class InputController<P extends Player, I extends Input<P>> {
+public abstract class InputController<P extends Player, I extends Input<P>, B extends Board<?>> {
 
-	private final IntelligenceInputController<P, I> intelligenceController;
+	private final IntelligenceInputController<P, I, B> intelligenceController;
 	private final HumanInputController<P, I> humanController;
 
 	public InputController(HumanInputController<P, I> humanController) {
@@ -27,12 +28,12 @@ public abstract class InputController<P extends Player, I extends Input<P>> {
 	}
 
 	public InputController(HumanInputController<P, I> humanController,
-			IntelligenceInputController<P, I> intelligenceController) {
+			IntelligenceInputController<P, I, B> intelligenceController) {
 		this.intelligenceController = intelligenceController;
 		this.humanController = humanController;
 	}
 
-	public List<I> getInputForPlayers(List<P> players) {
+	public List<I> getInputForPlayers(List<P> players, B board) {
 		List<I> turnInput = new ArrayList<I>();
 		List<P> playingPlayers = this.filterPlayersForNextTurn(players);
 
@@ -45,7 +46,7 @@ public abstract class InputController<P extends Player, I extends Input<P>> {
 					input = this.humanController.inputForHuman(player);
 				} else {
 					input = this.intelligenceController
-							.inputForIntelligence(player);
+							.inputForIntelligence(player, board);
 				}
 
 				if (input != null) {

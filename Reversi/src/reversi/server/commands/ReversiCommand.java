@@ -26,11 +26,17 @@ public class ReversiCommand
 		
 		Comment,
 		
-		Unknown
+		Unknown, 
+		
+		Black,
+		
+		White, 
+		
+		Difficulty
 	}
 	
-	public final ReversiCommandType type;
-	public final List<String> parameters;
+	private final ReversiCommandType type;
+	private final List<String> parameters;
 	
 	public ReversiCommand(ReversiCommandType type, List<String> parameters)
 	{
@@ -43,5 +49,12 @@ public class ReversiCommand
 		this.type = type;
 		this.parameters = null;
 	}
-	
+
+	public List<String> getParameters() {
+		return this.parameters;
+	}
+
+	public ReversiCommandType getType() {
+		return type;
+	}
 }

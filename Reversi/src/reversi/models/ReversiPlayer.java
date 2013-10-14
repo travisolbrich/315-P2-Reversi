@@ -2,8 +2,8 @@ package reversi.models;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import base.models.Player;
 
@@ -13,7 +13,7 @@ public class ReversiPlayer extends Player {
 	 * ASCII to represent this player's piece.
 	 */
 	private String pieceAscii;
-	private final List<ReversiEntity> gamePieces = new ArrayList<ReversiEntity>();
+	private final Set<ReversiEntity> gamePieces = new HashSet<ReversiEntity>();
 
 	public ReversiPlayer(String name) {
 		super(name);
@@ -23,7 +23,7 @@ public class ReversiPlayer extends Player {
 		super(name, inputStream, outputStream);
 	}
 
-	public List<ReversiEntity> getGamePieces() {
+	public Set<ReversiEntity> getGamePieces() {
 		return gamePieces;
 	}
 

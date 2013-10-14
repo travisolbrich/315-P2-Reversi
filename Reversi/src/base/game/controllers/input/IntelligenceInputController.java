@@ -1,5 +1,7 @@
 package base.game.controllers.input;
 
+import reversi.models.ReversiBoard;
+import base.models.Board;
 import base.models.Player;
 import base.models.game.Input;
 
@@ -13,9 +15,9 @@ import base.models.game.Input;
  * @param <P>
  *            Type of Player
  */
-public interface IntelligenceInputController<P extends Player, I extends Input<P>> {
+public interface IntelligenceInputController<P extends Player, I extends Input<P>, B extends Board<?>> {
 
-	public I inputForIntelligence(P intelligence);
+	public I inputForIntelligence(P intelligence, B board);
 
 	public Integer getDifficultyForPlayer(P intelligence);
 

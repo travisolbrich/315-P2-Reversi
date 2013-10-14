@@ -19,7 +19,7 @@ public class ControllerSet<P extends Player, E extends Entity, I extends Input<P
 	
 	private BoardController<B> boardController;
 
-	private InputController<P, I> inputController;
+	private InputController<P, I, B> inputController;
 
 	private PlayerController<P, E, B> playerController;
 
@@ -30,7 +30,7 @@ public class ControllerSet<P extends Player, E extends Entity, I extends Input<P
 	public ControllerSet(){};
 	
 	public ControllerSet(BoardController<B> boardController, 
-			InputController<P, I> inputController, 
+			InputController<P, I, B> inputController, 
 			PlayerController<P, E, B> playerController,
 			TurnController<P, E, I> turnController,
 			MessageHandler messageHandler){
@@ -50,11 +50,11 @@ public class ControllerSet<P extends Player, E extends Entity, I extends Input<P
 		this.boardController = boardController;
 	}
 
-	public InputController<P, I> getInputController() {
+	public InputController<P, I, B> getInputController() {
 		return inputController;
 	}
 
-	public void setInputController(InputController<P, I> inputController) {
+	public void setInputController(InputController<P, I, B> inputController) {
 		this.inputController = inputController;
 	}
 

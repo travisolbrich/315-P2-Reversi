@@ -36,7 +36,7 @@ public class ReversiMoveFinder {
 		Set<Position> possibleMoves = new HashSet<Position>();
 
 		for (int c = 0; c < ReversiBoardReader.rowsCount; c++) {
-			String currentColumn = ReversiBoardReader.columnAlpha[c];
+			String currentColumn = Position.columnAlpha[c];
 
 			for (int r = 0; r < ReversiBoardReader.columnsCount; r++) {
 				Integer currentRow = r;

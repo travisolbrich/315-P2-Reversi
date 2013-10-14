@@ -8,8 +8,8 @@ import base.models.game.Turn;
 
 public interface TurnController<P extends Player, E extends Entity, I extends Input<P>> {
 
-	public abstract void processTurn(Turn<P, I> turn, Board<E> board);
+	public abstract boolean processTurn(Turn<P, I> turn, Board<E> board);
 	
-	public abstract void undoTurn(Turn<P, I> turn, Board<E> board);
+	public abstract boolean undoTurn(Turn<P, I> turn, Board<E> board);
 	
 }

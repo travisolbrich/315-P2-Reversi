@@ -7,6 +7,6 @@ package reversi.server.commands;
  */
 public interface ReversiCommandReader {
 
-	public ReversiCommand readCommand(String input);
+	public ReversiCommand parseCommand(String input);
 	
 }

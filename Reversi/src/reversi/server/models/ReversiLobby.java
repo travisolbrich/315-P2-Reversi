@@ -10,6 +10,7 @@ import java.util.Set;
 
 import reversi.game.ReversiGame;
 import reversi.models.ReversiPlayer;
+import reversi.parser.ReversiParser;
 import reversi.server.ReversiGameFactory;
 import reversi.server.ReversiServerResponse;
 import reversi.server.commands.ReversiCommand;
@@ -29,8 +30,7 @@ import base.server.ServerLobbyManager;
  * @author dereekb
  * 
  */
-public class ReversiLobby extends GameLobby<ReversiRemoteClient> implements
-		ReversiCommandReader {
+public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 
 	private ReversiRemoteClient host;
 	private final ReversiPlayer aiPlayer = new ReversiPlayer("AI");
@@ -59,6 +59,7 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> implements
 
 		boolean beginGame = false;
 
+		ReversiParser parser = new ReversiParser();
 		PrintWriter writer = host.getWriter();
 		Scanner scanner = host.getInputScanner();
 		writer.println("Welcome to your new lobby.");
@@ -71,7 +72,7 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> implements
 			try {
 
 				String input = scanner.nextLine();
-				ReversiCommand command = this.readCommand(input);
+				ReversiCommand command = parser.parseCommand(input);
 
 				if (command != null) {
 					success = this.processCommand(command);
@@ -103,10 +104,10 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> implements
 
 	public boolean processCommand(ReversiCommand command) {
 		boolean success = true;
-		ReversiCommandType type = command.type;
+		ReversiCommandType type = command.getType();
 
 		switch (type) {
-		case ReversiCommandTypeAIAI: {
+		case AIAI: {
 			ReversiPlayer hostPlayer = this.host.getPlayer();
 			hostPlayer.setInGame(false);
 
@@ -122,7 +123,7 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> implements
 			this.selectedDifficulty = true;
 		}
 			break;
-		case ReversiCommandTypeDifficulty: {
+		case Difficulty: {
 			List<String> parameters = command.getParameters();
 			String stringDifficulty = parameters.get(0);
 			Integer difficulty = new Integer(stringDifficulty);
@@ -130,26 +131,26 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> implements
 			this.selectedDifficulty = true;
 		}
 			break;
-		case ReversiCommandTypeDisplay: {
+		case Display: {
 			ReversiPlayer hostPlayer = this.host.getPlayer();
 			hostPlayer.toggleAsciiDisplay();
 		}
 			break;
-		case ReversiCommandTypeExit: {
+		case Exit: {
 			throw new ExitException();
 		}
-		case ReversiCommandTypeHumanAI: {
+		case HumanAI: {
 			ReversiPlayer hostPlayer = this.host.getPlayer();
 			hostPlayer.setInGame(true);
 			this.selectedGameMode = true;
 		}
 			break;
-		case ReversiCommandTypeBlack: {
+		case Black: {
 			this.host.setAsciiPiece(ReversiAsciiDisplayController.blackReversiPiece);
 			aiPlayer.setPieceAscii(ReversiAsciiDisplayController.whiteReversiPiece);
 		}
 			break;
-		case ReversiCommandTypeWhite: {
+		case White: {
 			this.host.setAsciiPiece(ReversiAsciiDisplayController.whiteReversiPiece);
 			aiPlayer.setPieceAscii(ReversiAsciiDisplayController.blackReversiPiece);
 		}
@@ -161,12 +162,6 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> implements
 		}
 
 		return success;
-	}
-
-	@Override
-	public ReversiCommand readCommand(String input) {
-		// TODO Read the host's input and return the command for that input.
-		return null;
 	}
 
 	@Override
@@ -201,5 +196,5 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> implements
 	public void setHost(ReversiRemoteClient host) {
 		this.host = host;
 	}
-
+	
 }
