@@ -1,7 +1,9 @@
 package reversi.models;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +19,10 @@ public class ReversiPlayer extends Player {
 
 	public ReversiPlayer(String name) {
 		super(name);
+	}
+	
+	public ReversiPlayer(String name, Socket socket) throws IOException {
+		super(name, socket.getInputStream(), socket.getOutputStream());
 	}
 	
 	public ReversiPlayer(String name, InputStream inputStream, OutputStream outputStream) {

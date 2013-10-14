@@ -1,5 +1,6 @@
 package base.server;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import base.models.Player;
@@ -9,7 +10,7 @@ public abstract class ServerLobbyManager<L extends GameLobby, P extends Player, 
 
 	private final Set<L> lobbies = new HashSet<L>();
 
-	public L newLobby(C client){
+	public L newLobby(C client) throws IOException{
 		L newLobby = this.createNewLobby(client);
 		this.lobbies.add(newLobby);
 		return newLobby;
@@ -35,7 +36,7 @@ public abstract class ServerLobbyManager<L extends GameLobby, P extends Player, 
 		}
 	}
 
-	protected abstract L createNewLobby(C client);
+	protected abstract L createNewLobby(C client) throws IOException;
 
 	public Set<L> getLobbies(){
 		return lobbies;

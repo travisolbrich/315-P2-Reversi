@@ -41,14 +41,14 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 	private boolean selectedGameMode = false;
 
 	public ReversiLobby(ReversiRemoteClient host,
-			ServerLobbyManager<?, ?, ?> manager) {
+			ServerLobbyManager<?, ?, ?> manager) throws IOException {
 		super(manager);
 		this.setHost(host);
 		this.getClients().add(host);
 	}
 
 	public ReversiLobby(ReversiRemoteClient host,
-			ServerLobbyManager<?, ?, ?> manager, String lobbyName) {
+			ServerLobbyManager<?, ?, ?> manager, String lobbyName) throws IOException {
 		super(manager, lobbyName);
 		this.setHost(host);
 		this.getClients().add(host);
@@ -198,8 +198,11 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 		return host;
 	}
 
-	public void setHost(ReversiRemoteClient host) {
+	public void setHost(ReversiRemoteClient host) throws IOException {
 		this.host = host;
+		
+		ReversiPlayer hostPlayer = new ReversiPlayer("Host", host.getSocket());
+		this.host.setPlayer(hostPlayer);
 	}
 	
 }
