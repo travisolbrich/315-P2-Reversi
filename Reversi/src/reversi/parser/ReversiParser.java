@@ -33,22 +33,24 @@ public class ReversiParser implements ReversiCommandReader {
 		
 		if(tokens[0].equals(";")) return new ReversiCommand(ReversiCommandType.Comment);
 		
-		// Check for a move
-		for(String test : columns)
+		ReversiCommand command = null;
+		
+		if(tokens[0].length() == 2)
 		{
-			Integer row = new Integer(tokens[1]);
+			String move = tokens[0];
+			String column = move.substring(0,1);
+			String row = move.substring(1,2);
 			
-			if(tokens[0].equals(test) && (row <= 8 && row >= 1))
-			{
-				ArrayList<String> parameters = new ArrayList<String>();
-				parameters.add(tokens[0]);
-				parameters.add(tokens[1]);
-				
-				return new ReversiCommand(ReversiCommandType.Move, parameters);
-			}
+			List<String> moveParameters = new ArrayList<String>();
+			moveParameters.add(column);
+			moveParameters.add(row);
+			
+			command = new ReversiCommand(ReversiCommandType.Move, moveParameters);
+		} else {
+			command = new ReversiCommand(ReversiCommandType.Unknown);
 		}
 		
-		return new ReversiCommand(ReversiCommandType.Unknown);
+		return command;
 	}
 
 	private ReversiCommand parseAIAI(String[] tokens) {

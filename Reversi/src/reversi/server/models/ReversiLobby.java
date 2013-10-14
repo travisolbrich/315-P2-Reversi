@@ -123,11 +123,16 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 			this.selectedDifficulty = true;
 		}
 			break;
-		case Difficulty: {
-			List<String> parameters = command.getParameters();
-			String stringDifficulty = parameters.get(0);
-			Integer difficulty = new Integer(stringDifficulty);
-			this.settings.setDifficulty(difficulty);
+		case Easy: {
+			this.settings.setDifficulty(1);
+			this.selectedDifficulty = true;
+		}
+		case Medium: {
+			this.settings.setDifficulty(2);
+			this.selectedDifficulty = true;
+		}
+		case Hard: {
+			this.settings.setDifficulty(3);
 			this.selectedDifficulty = true;
 		}
 			break;
