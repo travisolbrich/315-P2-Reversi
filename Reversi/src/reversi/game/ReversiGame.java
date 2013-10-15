@@ -43,16 +43,12 @@ public class ReversiGame extends
 		List<ReversiPlayer> players = playerController.getPlayers();
 		Integer playerCount = players.size();
 		
+		board.setInitialPieces(players);
+		
 		boolean hasWinner = false;
 		Integer currentTurn = 0;
 		
 		while (hasWinner == false) {
-
-			/*
-			 * TODO: Run game loop.
-			 * 
-			 * This loop handles both the AI and the user's turn in the same loop
-			 */
 			
 			ReversiPlayer currentPlayer = players.get(currentTurn % playerCount);
 			Integer turnId = (currentTurn += 1);

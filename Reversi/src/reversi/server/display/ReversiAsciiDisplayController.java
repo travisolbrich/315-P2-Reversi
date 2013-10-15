@@ -15,7 +15,6 @@ public class ReversiAsciiDisplayController {
 	public static final String boardPipe = "|";
 	public static final String boardEmptySpace = "_";
 	
-	
 	private static final String[] columnAlpha = { "a", "b", "c", "d", "e", "f",
 			"g", "h" };
 
@@ -25,28 +24,32 @@ public class ReversiAsciiDisplayController {
 
 		StringBuilder builder = new StringBuilder();
 
-		for (int c = 0; c < 8; c++) {
+		for (int r = 1; r <= 8; r++) {
+			builder.append(r);
 
-			String currentColumn = columnAlpha[c];
-
-			builder.append(c);
-
-			for (int r = 0; r < 8; r++) {
+			for (int c = 0; c < 8; c++) {
 
 				builder.append(boardPipe);
 
-				Integer currentRow = r;
+				Position position = new Position(c, r);
 
-				Position position = new Position(currentColumn, currentRow);
-
-				BoardPiece<ReversiEntity> boardPiece = boardPieces
-						.get(position);
+				BoardPiece<ReversiEntity> boardPiece = boardPieces.get(position);
 
 				String representation = drawElement(boardPiece);
 
 				builder.append(representation);
 			}
 
+			builder.append("\n");
+		}
+		
+		builder.append("  ");
+		
+		for(int c = 0; c < 8; c += 1)
+		{
+			String currentColumn = columnAlpha[c];
+			builder.append(currentColumn);
+			builder.append(" ");
 		}
 
 		String output = builder.toString();

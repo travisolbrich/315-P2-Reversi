@@ -14,15 +14,25 @@ public class ReversiPlayer extends Player {
 	/**
 	 * ASCII to represent this player's piece.
 	 */
-	private String pieceAscii;
+	private String pieceAscii = null;
 	private final Set<ReversiEntity> gamePieces = new HashSet<ReversiEntity>();
 
 	public ReversiPlayer(String name) {
 		super(name);
 	}
-	
+
+	public ReversiPlayer(String name, String pieceAscii) {
+		super(name);
+		this.pieceAscii = pieceAscii;
+	}
+
 	public ReversiPlayer(String name, Socket socket) throws IOException {
 		super(name, socket.getInputStream(), socket.getOutputStream());
+	}
+	
+	public ReversiPlayer(String name, String pieceAscii, Socket socket) throws IOException {
+		super(name, socket.getInputStream(), socket.getOutputStream());
+		this.pieceAscii = pieceAscii;
 	}
 	
 	public ReversiPlayer(String name, InputStream inputStream, OutputStream outputStream) {
@@ -37,7 +47,7 @@ public class ReversiPlayer extends Player {
 		return pieceAscii;
 	}
 
-	public void setPieceAscii(String pieceAscii) {
+	public void setAsciiPiece(String pieceAscii) {
 		this.pieceAscii = pieceAscii;
 	}
 

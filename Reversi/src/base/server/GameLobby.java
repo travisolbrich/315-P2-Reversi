@@ -99,7 +99,7 @@ public abstract class GameLobby<C extends RemoteClient<?>> implements Runnable {
 	}
 
 	public Set<C> getClients() {
-		return clients;
+		return this.clients;
 	}
 
 	public boolean isGameInProgress() {

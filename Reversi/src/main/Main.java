@@ -13,7 +13,7 @@ import reversi.server.ReversiServer;
  */
 public class Main {
 
-	private final static Integer defaultPort = 600;
+	private final static Integer defaultPort = 1400;
 	
 	/**
 	 * @param args

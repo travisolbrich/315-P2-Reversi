@@ -9,10 +9,9 @@ import reversi.server.commands.ReversiCommandReader;
 
 public class ReversiParser implements ReversiCommandReader {
 	
-	private String[] columns = {"a", "b", "c", "d", "e", "f", "g", "h"};
-	
 	public ReversiCommand parseCommand(String toParse)
 	{
+		toParse = toParse.toUpperCase();
 		String[] tokens = toParse.split("\\s+");
 		
 		if(tokens[0].equals("EXIT")) return new ReversiCommand(ReversiCommandType.Exit);		

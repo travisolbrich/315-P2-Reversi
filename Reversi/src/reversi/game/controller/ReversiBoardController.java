@@ -34,11 +34,8 @@ public class ReversiBoardController implements BoardController<ReversiBoard> {
 				.getBoardElements();
 
 		for (int c = 0; c < columns; c++) {
-			String currentColumn = columnAlpha[c];
-
-			for (int r = 0; r < rows; r++) {
-				Integer currentRow = r;
-				Position position = new Position(currentColumn, currentRow);
+			for (int r = 1; r <= 8; r++) {
+				Position position = new Position(c, r);
 				BoardPiece<ReversiEntity> boardPiece = new BoardPiece<ReversiEntity>(
 						position);
 				boardPieces.put(position, boardPiece);

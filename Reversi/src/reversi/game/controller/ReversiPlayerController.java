@@ -1,5 +1,6 @@
 package reversi.game.controller;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.List;
@@ -42,17 +43,17 @@ public class ReversiPlayerController extends
 	}
 
 	@Override
-	public void drawBoard(ReversiBoard board) {
+	public void drawBoard(ReversiBoard board) throws IOException {
 		String boardDisplay = ReversiAsciiDisplayController.drawBoard(board);
 		
 		List<ReversiPlayer> players = this.getPlayers();
 		
 		for(ReversiPlayer player : players)
 		{
-			OutputStream output = player.getOutputStream();
-			PrintWriter writer = new PrintWriter(output);
-			
-			writer.println(boardDisplay);
+			if(player.isHuman()){
+				PrintWriter writer = player.getWriter();
+				writer.println(boardDisplay);
+			}
 		}
 	}
 

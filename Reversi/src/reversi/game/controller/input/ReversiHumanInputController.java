@@ -36,7 +36,7 @@ public class ReversiHumanInputController implements
 		boolean validMove = false;
 		boolean validInput = false;
 
-		while (validMove) {
+		while (!validMove) {
 			
 			String input = scanner.nextLine();
 			ReversiCommand command = parser.parseCommand(input);
@@ -60,7 +60,7 @@ public class ReversiHumanInputController implements
 					validInput = true;
 					validMove = false;
 					ReversiServerResponse.sendOk(human);
-				}
+				} break;
 				case Exit: {
 					throw new ExitException();
 				}

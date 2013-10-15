@@ -33,7 +33,8 @@ import base.server.ServerLobbyManager;
 public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 
 	private ReversiRemoteClient host;
-	private final ReversiPlayer aiPlayer = new ReversiPlayer("AI");
+	private final ReversiPlayer aiPlayer 
+		= new ReversiPlayer("AI",ReversiAsciiDisplayController.blackReversiPiece);
 	private final ReversiGameFactory gameFactory = new ReversiGameFactory();
 	private final ReversiSettings settings = new ReversiSettings();
 
@@ -92,6 +93,7 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 			}
 		}
 
+		//scanner.close();
 	}
 
 	private boolean canBeginGame() {
@@ -158,13 +160,13 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 		case Black: {
 			this.host
 					.setAsciiPiece(ReversiAsciiDisplayController.blackReversiPiece);
-			aiPlayer.setPieceAscii(ReversiAsciiDisplayController.whiteReversiPiece);
+			aiPlayer.setAsciiPiece(ReversiAsciiDisplayController.whiteReversiPiece);
 		}
 			break;
 		case White: {
 			this.host
 					.setAsciiPiece(ReversiAsciiDisplayController.whiteReversiPiece);
-			aiPlayer.setPieceAscii(ReversiAsciiDisplayController.blackReversiPiece);
+			aiPlayer.setAsciiPiece(ReversiAsciiDisplayController.blackReversiPiece);
 		}
 			break;
 		default: {
@@ -186,7 +188,8 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 			ReversiPlayer player = client.getPlayer();
 
 			if (player == null) {
-				player = new ReversiPlayer(asciiPiece);
+				player = new ReversiPlayer(asciiPiece, client.getSocket());
+				player.setAsciiPiece(asciiPiece);
 				client.setPlayer(player);
 			}
 
@@ -213,7 +216,8 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 	public void setHost(ReversiRemoteClient host) throws IOException {
 		this.host = host;
 
-		ReversiPlayer hostPlayer = new ReversiPlayer("Host", host.getSocket());
+		host.setAsciiPiece(ReversiAsciiDisplayController.whiteReversiPiece);
+		ReversiPlayer hostPlayer = new ReversiPlayer("Host", ReversiAsciiDisplayController.whiteReversiPiece, host.getSocket());
 		this.host.setPlayer(hostPlayer);
 	}
 

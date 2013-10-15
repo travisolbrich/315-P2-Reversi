@@ -1,5 +1,6 @@
 package base.game.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public abstract class PlayerController<P extends Player, E extends Entity, B ext
 
 	public abstract void updateScore(B board);
 
-	public abstract void drawBoard(B board);
+	public abstract void drawBoard(B board) throws IOException;
 	
 	public abstract void drawFinalScore(B board);
 	

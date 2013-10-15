@@ -47,6 +47,10 @@ public abstract class Player implements IOModel{
 	}
 
 	public Boolean isHuman() {
+		return (controlledByAi == false);
+	}
+
+	public Boolean isAI() {
 		return controlledByAi;
 	}
 

@@ -54,15 +54,14 @@ public final class Position {
 	{
 		Integer column = this.getColumnInteger();
 		Integer row = this.row;
-		boolean inBounds = ((row >= 0 && row < 8) && (column >= 0 && column < 8));
-		
+		boolean inBounds = ((row > 0 && row <= 8) && (column >= 0 && column < 8));
 		return inBounds;
 	}
 	
 	public Integer[] difference(Position position) {
 		Integer[] difference = { 0, 0 };
 
-		Integer dcolumn = this.getColumnInteger() - position.getColumnInteger();
+		Integer dcolumn = (this.getColumnInteger() - position.getColumnInteger());
 		Integer drow = this.getRow() - position.getRow();
 
 		difference[differenceColumn] = dcolumn;
