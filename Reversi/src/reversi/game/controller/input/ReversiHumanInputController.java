@@ -44,12 +44,17 @@ public class ReversiHumanInputController implements
 					List<String> parameters = command.getParameters();
 					String column = parameters.get(0);
 					String row = parameters.get(1);
-					Integer rowInteger = new Integer(row);
 					
-					Position position = new Position(column, rowInteger);
-					reversiInput = new ReversiInput(human, position);
-					validMove = true;
-					validInput = true;
+					try{
+						Integer rowInteger = new Integer(row);
+						Position position = new Position(column, rowInteger);
+						reversiInput = new ReversiInput(human, position);
+						validMove = true;
+						validInput = true;
+					}catch(NumberFormatException e){
+						validMove = false;
+						validInput = false;
+					}
 				}
 					break;
 				case Display: {
