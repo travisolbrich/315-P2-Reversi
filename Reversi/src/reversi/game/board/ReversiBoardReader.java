@@ -14,7 +14,7 @@ public class ReversiBoardReader {
 	public static void addRelativePositionToList(Position position, RelativePosition change, List<Position> positions) {
 		Position relativePosition = Position.relativePosition(position, change);
 		
-		if(relativePosition.isWithinBounds())
+		if(relativePosition != null)
 		{
 			positions.add(relativePosition);
 		}

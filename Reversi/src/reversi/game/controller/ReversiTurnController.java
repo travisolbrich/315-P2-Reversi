@@ -1,11 +1,13 @@
 package reversi.game.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import base.game.controllers.TurnController;
 import base.models.Board;
 import base.models.Position;
 import base.models.game.Turn;
+import reversi.game.board.ReversiMoveFinder;
 import reversi.game.board.ReversiMoveMaker;
 import reversi.models.*;
 import reversi.models.game.*;
@@ -46,14 +48,22 @@ public class ReversiTurnController implements
 
 			if(play.isWithinBounds())
 			{
-	
 				ReversiPlayer player = input.getPlayer();
-	
-				ReversiMoveMaker maker = new ReversiMoveMaker(board, player);
-				maker.playAtPosition(play);
+
+				ReversiMoveFinder finder = new ReversiMoveFinder(board, player);
+				Set<Position> moves = finder.findMoves();
+
+				//If the white player goes first, it can play c5, d6, f4, and e3.
+				if(moves.contains(play))
+				{
+					ReversiMoveMaker maker = new ReversiMoveMaker(board, player);
+					maker.playAtPosition(play);
+					success = true;
+				} else {
+					success = false;
+				}			
 			} else {
 				success = false;
-				// TODO: Undo changes. Although I guess this won't matter since there is only 1 player.
 				break; 
 			}
 		}

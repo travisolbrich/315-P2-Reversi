@@ -197,6 +197,7 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 			players.add(player);
 		}
 
+		aiPlayer.setControlledByAi(true);
 		players.add(aiPlayer);
 		this.settings.setPlayers(players);
 

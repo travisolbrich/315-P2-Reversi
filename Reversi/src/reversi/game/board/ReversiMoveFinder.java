@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import reversi.models.ReversiBoard;
 import reversi.models.ReversiEntity;
 import reversi.models.ReversiPlayer;
+import base.models.Board;
 import base.models.Position;
 
 /**
@@ -24,10 +24,10 @@ public class ReversiMoveFinder {
 	public static final Integer rowsCount = 8;
 	public static final Integer columnsCount = 8;
 
-	private final ReversiBoard board;
+	private final Board<ReversiEntity> board;
 	private final ReversiPlayer player;
 
-	public ReversiMoveFinder(ReversiBoard board, ReversiPlayer player) {
+	public ReversiMoveFinder(Board<ReversiEntity> board, ReversiPlayer player) {
 		this.board = board;
 		this.player = player;
 	}
@@ -35,10 +35,10 @@ public class ReversiMoveFinder {
 	public Set<Position> findMoves() {
 		Set<Position> possibleMoves = new HashSet<Position>();
 
-		for (int c = 0; c < ReversiBoardReader.rowsCount; c++) {
+		for (int c = 0; c < ReversiBoardReader.rowsCount; c += 1) {
 			String currentColumn = Position.columnAlpha[c];
 
-			for (int r = 0; r < ReversiBoardReader.columnsCount; r++) {
+			for (int r = 1; r <= ReversiBoardReader.columnsCount; r += 1) {
 				Integer currentRow = r;
 
 				Position currentPosition = new Position(currentColumn,
@@ -66,14 +66,14 @@ public class ReversiMoveFinder {
 	public List<Position> findMovesAtPosition(Position position) {
 		List<Position> possibleMoves = new ArrayList<Position>();
 		boolean foundMove = false;
-		
+
 		Integer opponentPieces = 0;
 		List<Position> opponentPositions = new ArrayList<Position>();
 		List<Position> edgePositions = ReversiBoardReader
 				.positionsSurroundingPosition(position);
 
 		for (Position edgePosition : edgePositions) {
-			
+
 			ReversiEntity entity = this.board.getEntityAtPosition(edgePosition);
 
 			if (entity == null) // Empty
@@ -91,13 +91,15 @@ public class ReversiMoveFinder {
 
 			if (foundMove == true && opponentPieces > 0) {
 				boolean emptySpace = (entity == null);
-				
-				if (emptySpace) {	//An empty space makes this move valid
+
+				if (emptySpace) { // An empty space makes this move valid
 					possibleMoves.add(edgePosition);
 				}
 			}
+
+			foundMove = false;
 		}
-		
+
 		return possibleMoves;
 	}
 }

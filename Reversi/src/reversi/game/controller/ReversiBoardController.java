@@ -10,9 +10,6 @@ import base.models.Position;
 
 public class ReversiBoardController implements BoardController<ReversiBoard> {
 
-	private static final String[] columnAlpha = { "a", "b", "c", "d", "e", "f",
-			"g", "h" };
-
 	private final Integer columns;
 	private final Integer rows;
 
@@ -34,7 +31,7 @@ public class ReversiBoardController implements BoardController<ReversiBoard> {
 				.getBoardElements();
 
 		for (int c = 0; c < columns; c++) {
-			for (int r = 1; r <= 8; r++) {
+			for (int r = 1; r <= rows; r++) {
 				Position position = new Position(c, r);
 				BoardPiece<ReversiEntity> boardPiece = new BoardPiece<ReversiEntity>(
 						position);

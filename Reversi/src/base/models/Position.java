@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class Position {
-	
+
 	public static final String[] columnAlpha = { "a", "b", "c", "d", "e", "f",
 			"g", "h" };
 
 	public static final Integer differenceColumn = 0;
 	public static final Integer differenceRow = 1;
-	
+
 	public static final Integer rowsCount = 8;
 	public static final Integer columnsCount = 8;
 
@@ -40,7 +40,7 @@ public final class Position {
 	public String getColumn() {
 		return column;
 	}
-	
+
 	public Integer getColumnInteger() {
 		Integer column = columnIntegers.get(this.column);
 		return column;
@@ -50,18 +50,18 @@ public final class Position {
 		return row;
 	}
 
-	public boolean isWithinBounds() 
-	{
+	public boolean isWithinBounds() {
 		Integer column = this.getColumnInteger();
 		Integer row = this.row;
 		boolean inBounds = ((row > 0 && row <= 8) && (column >= 0 && column < 8));
 		return inBounds;
 	}
-	
+
 	public Integer[] difference(Position position) {
 		Integer[] difference = { 0, 0 };
 
-		Integer dcolumn = (this.getColumnInteger() - position.getColumnInteger());
+		Integer dcolumn = (this.getColumnInteger() - position
+				.getColumnInteger());
 		Integer drow = this.getRow() - position.getRow();
 
 		difference[differenceColumn] = dcolumn;
@@ -72,18 +72,17 @@ public final class Position {
 	public Position positionWithDifference(Integer[] difference) {
 		Integer column = this.getColumnInteger() + difference[differenceColumn];
 		Integer row = this.getRow() + difference[differenceRow];
-		
+
 		Position position = null;
 		boolean inBounds = ((row > 0 && row <= 8) && (column >= 0 && column < 8));
-		
-		if(inBounds)
-		{
+
+		if (inBounds) {
 			position = new Position(column, row);
 		}
-		
+
 		return position;
 	}
-	
+
 	public static enum RelativePosition {
 		North(0, 1), NorthEast(-1, 1), East(1, 0), SouthEast(1, 1), South(0, -1), SouthWest(
 				1, -1), West(-1, 0), NorthWest(-1, -1);
@@ -107,14 +106,11 @@ public final class Position {
 
 	public static Position relativePosition(Position position,
 			RelativePosition change) {
-		Integer row = position.getRow();
-		row = row + change.getRowOffset();
+		Integer[] difference = { 0, 0 };
+		difference[0] = -change.columnOffset;
+		difference[1] = -change.rowOffset;
 
-		String positionColumn = position.getColumn();
-		Integer column = columnIntegers.get(positionColumn);
-		column = column + change.getColumnOffset();
-		
-		Position relativePosition = new Position(column, row);
+		Position relativePosition = position.positionWithDifference(difference);
 		return relativePosition;
 	}
 

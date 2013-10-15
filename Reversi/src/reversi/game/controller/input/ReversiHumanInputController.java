@@ -1,9 +1,6 @@
 package reversi.game.controller.input;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,7 +29,7 @@ public class ReversiHumanInputController implements
 
 		ReversiInput reversiInput = null;
 		Scanner scanner = human.getInputScanner();
-		
+
 		boolean validMove = false;
 		boolean validInput = false;
 

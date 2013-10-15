@@ -25,7 +25,6 @@ public class ReversiInputController extends
 		super(humanController, intelligenceController);
 	}
 
-
 	@Override
 	protected List<ReversiPlayer> filterPlayersForNextTurn(List<ReversiPlayer> players) {
 		
