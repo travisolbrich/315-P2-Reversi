@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
+
+import base.models.IOModel;
 import base.models.Player;
 
 
@@ -16,7 +18,7 @@ import base.models.Player;
  * @author dereekb
  * 
  */
-public class RemoteClient<P extends Player> {
+public class RemoteClient<P extends Player> implements IOModel{
 
 	private P player;
 	private String asciiPiece;

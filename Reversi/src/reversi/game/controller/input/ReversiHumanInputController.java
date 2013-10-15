@@ -1,12 +1,16 @@
 package reversi.game.controller.input;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Scanner;
 
 import reversi.models.ReversiPlayer;
 import reversi.models.game.ReversiInput;
 import reversi.parser.ReversiParser;
+import reversi.server.ReversiServerResponse;
 import reversi.server.commands.ReversiCommand;
 import reversi.server.controllers.exceptions.ExitException;
 import base.game.controllers.input.HumanInputController;
@@ -24,28 +28,18 @@ public class ReversiHumanInputController implements
 	private final ReversiParser parser = new ReversiParser();
 
 	@Override
-	public ReversiInput inputForHuman(ReversiPlayer human) {
+	public ReversiInput inputForHuman(ReversiPlayer human) throws IOException {
 
 		ReversiInput reversiInput = null;
-		InputStream inputStream = human.getInputStream();
-		Scanner scanner = new Scanner(inputStream);
-
+		Scanner scanner = human.getInputScanner();
+		
+		boolean validMove = false;
 		boolean validInput = false;
 
-		while (validInput) {
+		while (validMove) {
+			
 			String input = scanner.nextLine();
 			ReversiCommand command = parser.parseCommand(input);
-
-			/*
-			 * TODO This is the input controller to use for local games.
-			 * 
-			 * This input controller will recieve input from System.in and transform
-			 * that into reversi input.
-			 * 
-			 * For handling a GUI, this class can be extended (Or another can just
-			 * implement HumanInputController) to update the GUI and wait for a
-			 * player to click.
-			 */
 
 			switch (command.getType()) {
 				case Move: {
@@ -57,18 +51,28 @@ public class ReversiHumanInputController implements
 					
 					Position position = new Position(column, rowInteger);
 					reversiInput = new ReversiInput(human, position);
+					validMove = true;
 					validInput = true;
 				}
 					break;
+				case Display: {
+					human.toggleAsciiDisplay();
+					validInput = true;
+					validMove = false;
+					ReversiServerResponse.sendOk(human);
+				}
 				case Exit: {
 					throw new ExitException();
 				}
 				default: break;
 			}
+			
+			if(validInput == false){
+				ReversiServerResponse.sendIllegal(human);
+			}
 		}
 
-		scanner.close();
-		
+		scanner.close();		
 		return reversiInput;
 	}
 

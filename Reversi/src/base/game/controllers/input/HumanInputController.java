@@ -1,5 +1,7 @@
 package base.game.controllers.input;
 
+import java.io.IOException;
+
 import base.models.Player;
 import base.models.game.Input;
 
@@ -15,6 +17,6 @@ import base.models.game.Input;
  */
 public interface HumanInputController<P extends Player, I extends Input<P>> {
 
-	public I inputForHuman(P human);
+	public I inputForHuman(P human) throws IOException;
 
 }

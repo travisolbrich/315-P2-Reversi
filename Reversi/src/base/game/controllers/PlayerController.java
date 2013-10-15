@@ -24,6 +24,19 @@ public abstract class PlayerController<P extends Player, E extends Entity, B ext
 	public abstract void drawBoard(B board);
 	
 	public abstract void drawFinalScore(B board);
+	
+	public List<P> getPlayingPlayers() {
+		List<P> playing = new ArrayList<P>();
+		
+		for(P player : this.players)
+		{
+			if(player.isInGame()){
+				playing.add(player);
+			}
+		}
+		
+		return playing;
+	}
 
 	public List<P> getPlayers() {
 		return players;

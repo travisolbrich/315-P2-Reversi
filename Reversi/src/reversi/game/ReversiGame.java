@@ -1,5 +1,6 @@
 package reversi.game;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import reversi.models.ReversiBoard;
 import reversi.models.ReversiEntity;
 import reversi.models.ReversiPlayer;
 import reversi.models.game.ReversiInput;
-import reversi.server.ReversiServerResponse;
+
 import base.game.BoardGame;
 import base.game.controllers.BoardController;
 import base.game.controllers.ControllerSet;
@@ -25,50 +26,44 @@ public class ReversiGame extends
 		super(controllerSet);
 	}
 
-	public Boolean playGame() {
+	public Boolean playGame() throws IOException {
 		Boolean gameSuccess = true;
 
 		MessageHandler messageHandler = controllerSet.getMessageHandler();
-		BoardController<ReversiBoard> boardController = controllerSet.getBoardController();
-		InputController<ReversiPlayer, ReversiInput, ReversiBoard> inputController = controllerSet
-				.getInputController();
-		PlayerController<ReversiPlayer, ReversiEntity, ReversiBoard> playerController = controllerSet
-				.getPlayerController();
-		TurnController<ReversiPlayer, ReversiEntity, ReversiInput> turnController = controllerSet
-				.getTurnController();
+		BoardController<ReversiBoard> boardController 
+			= controllerSet.getBoardController();
+		InputController<ReversiPlayer, ReversiInput, ReversiBoard> inputController 
+			= controllerSet.getInputController();
+		PlayerController<ReversiPlayer, ReversiEntity, ReversiBoard> playerController 
+			= controllerSet.getPlayerController();
+		TurnController<ReversiPlayer, ReversiEntity, ReversiInput> turnController 
+			= controllerSet.getTurnController();
 
-		// Write something to show the players initialization is occurring.
-		messageHandler.writeMessage("Initialize", "Creating new board.");
 		ReversiBoard board = boardController.generateNewBoard();
 		List<ReversiPlayer> players = playerController.getPlayers();
 		Integer playerCount = players.size();
 		
 		boolean hasWinner = false;
 		Integer currentTurn = 0;
-
-		messageHandler.writeMessage("Start", "Beginning game.");
+		
 		while (hasWinner == false) {
+
+			/*
+			 * TODO: Run game loop.
+			 * 
+			 * This loop handles both the AI and the user's turn in the same loop
+			 */
 			
 			ReversiPlayer currentPlayer = players.get(currentTurn % playerCount);
 			Integer turnId = (currentTurn += 1);
 			
-			/*
-			 * TODO: Run game loop.
-			 * 
-			 * This loop is responsible for only running the game.
-			 * 
-			 * Once the game ends, the loop exits.
-			 * 
-			 * If the players want to play another round, then a different class
-			 * higher up the stack can handle that.
-			 */
 			playerController.updateScore(board);
 			playerController.drawBoard(board);
 			
 			boolean success = false;
 			while(!success)
 			{
-				ReversiInput input = inputController.getInputForPlayer(currentPlayer, board);
+				ReversiInput input = inputController.getInputForPlayer(currentPlayer, board);				
 				Turn<ReversiPlayer, ReversiInput> turn = new Turn<ReversiPlayer, ReversiInput>(turnId);
 				turn.addInput(input);
 

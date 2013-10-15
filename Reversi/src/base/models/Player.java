@@ -1,7 +1,10 @@
 package base.models;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 /**
  * Base player class that contains information about a given player.
@@ -9,7 +12,7 @@ import java.io.OutputStream;
  *
  * @param <E> Elements that the player can control.
  */
-public abstract class Player {
+public abstract class Player implements IOModel{
 
 	private final String name;
 	private Boolean inGame = true;
@@ -57,6 +60,18 @@ public abstract class Player {
 
 	public OutputStream getOutputStream() {
 		return outputStream;
+	}
+
+	public PrintWriter getWriter() throws IOException{
+		OutputStream output = this.getOutputStream();
+		PrintWriter writer = new PrintWriter(output, true);
+		return writer;
+	}
+
+	public Scanner getInputScanner() throws IOException{
+		InputStream input = this.getInputStream();
+		Scanner scanner = new Scanner(input);
+		return scanner;
 	}
 
 	public Boolean getAsciiDisplay() {

@@ -1,5 +1,6 @@
 package base.game.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public abstract class InputController<P extends Player, I extends Input<P>, B ex
 		this.humanController = humanController;
 	}
 
-	public I getInputForPlayer(P player, B board) {
+	public I getInputForPlayer(P player, B board) throws IOException {
 
 		I input = null;
 
@@ -49,7 +50,7 @@ public abstract class InputController<P extends Player, I extends Input<P>, B ex
 		return input;
 	}
 
-	public List<I> getInputForPlayers(List<P> players, B board) {
+	public List<I> getInputForPlayers(List<P> players, B board) throws IOException {
 		List<I> turnInput = new ArrayList<I>();
 		List<P> playingPlayers = this.filterPlayersForNextTurn(players);
 
