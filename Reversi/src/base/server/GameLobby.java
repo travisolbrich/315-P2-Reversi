@@ -19,7 +19,6 @@ import reversi.server.controllers.exceptions.ExitException;
  */
 public abstract class GameLobby<C extends RemoteClient<?>> implements Runnable {
 
-
 	private Thread thread;
 	private final ServerLobbyManager<?, ?, ?> parent;
 	

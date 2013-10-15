@@ -1,45 +1,45 @@
 package reversi.game;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
+import reversi.game.controller.ReversiBoardController;
+import reversi.game.controller.ReversiControllerSet;
+import reversi.game.controller.ReversiDisplayController;
+import reversi.game.controller.ReversiInputController;
+import reversi.game.controller.ReversiPlayerController;
+import reversi.game.controller.ReversiTurnController;
 import reversi.models.ReversiBoard;
-import reversi.models.ReversiEntity;
 import reversi.models.ReversiPlayer;
 import reversi.models.game.ReversiInput;
 import reversi.server.ReversiServerResponse;
 import reversi.server.commands.ReversiCommand.ReversiCommandType;
 
-import base.game.BoardGame;
-import base.game.controllers.BoardController;
-import base.game.controllers.ControllerSet;
-import base.game.controllers.InputController;
-import base.game.controllers.PlayerController;
-import base.game.controllers.TurnController;
 import base.game.messages.MessageHandler;
 import base.models.game.Turn;
 
-public class ReversiGame extends
-		BoardGame<ReversiPlayer, ReversiEntity, ReversiInput, ReversiBoard> {
+public class ReversiGame {
 
-	public ReversiGame(
-			ControllerSet<ReversiPlayer, ReversiEntity, ReversiInput, ReversiBoard> controllerSet) {
-		super(controllerSet);
+	protected final ReversiControllerSet controllerSet;
+
+	public ReversiGame(ReversiControllerSet controllerSet) {
+		this.controllerSet = controllerSet;
 	}
 
 	public Boolean playGame() throws IOException {
 		Boolean gameSuccess = true;
 
 		MessageHandler messageHandler = controllerSet.getMessageHandler();
-		BoardController<ReversiBoard> boardController = controllerSet
+		ReversiBoardController boardController = controllerSet
 				.getBoardController();
-		InputController<ReversiPlayer, ReversiInput, ReversiBoard> inputController = controllerSet
+		ReversiInputController inputController = controllerSet
 				.getInputController();
-		PlayerController<ReversiPlayer, ReversiEntity, ReversiBoard> playerController = controllerSet
+		ReversiPlayerController playerController = controllerSet
 				.getPlayerController();
-		TurnController<ReversiPlayer, ReversiEntity, ReversiInput> turnController = controllerSet
+		ReversiTurnController turnController = controllerSet
 				.getTurnController();
+		ReversiDisplayController displayController = controllerSet
+				.getDisplayController();
 
 		ReversiBoard board = boardController.generateNewBoard();
 		List<ReversiPlayer> players = playerController.getPlayers();
@@ -54,22 +54,24 @@ public class ReversiGame extends
 
 		while (hasWinner == false) {
 
-			ReversiPlayer currentPlayer = players.get(currentTurn % playerCount);
-			ReversiPlayer nextPlayer = players.get((currentTurn+1) % playerCount);
+			ReversiPlayer currentPlayer = players
+					.get(currentTurn % playerCount);
+			ReversiPlayer nextPlayer = players.get((currentTurn + 1)
+					% playerCount);
 			Integer turnId = (currentTurn += 1);
 
 			playerController.updateScore(board);
-			playerController.drawBoard(board);
-			
+			displayController.drawBoard(board, players);
+
 			boolean success = false;
-			while (!success) {				
+			while (!success) {
 				ReversiInput input = inputController.getInputForPlayer(
 						currentPlayer, board);
 
-				//Process Undo/Redo commands here.
+				// Process Undo/Redo commands here.
 				if (input.isCommand()) {
 					ReversiCommandType type = input.getCommand().getType();
-					
+
 					switch (type) {
 					case Undo: {
 						success = turnController.undoTurn(players, board);
@@ -86,7 +88,7 @@ public class ReversiGame extends
 					}
 				} else {
 
-					//Process turns from here. 
+					// Process turns from here.
 					Turn<ReversiPlayer, ReversiInput> turn = new Turn<ReversiPlayer, ReversiInput>(
 							turnId);
 					turn.addInput(input);
@@ -104,13 +106,13 @@ public class ReversiGame extends
 							input.toString());
 				}
 			}
-			
+
 			hasWinner = (turnController.playerCanMakePlay(nextPlayer, board) == false);
 		}
-		
+
 		ReversiPlayer winner = playerController.determineWinner(board);
 		humanPlayer.getWriter().println(winner + " wins!");
-		
+
 		return gameSuccess;
 	}
 }

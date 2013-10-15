@@ -1,6 +1,5 @@
 package base.game.controllers.input;
 
-import reversi.models.ReversiBoard;
 import base.models.Board;
 import base.models.Player;
 import base.models.game.Input;

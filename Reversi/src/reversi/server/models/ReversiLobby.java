@@ -3,11 +3,8 @@ package reversi.server.models;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
-
 import reversi.game.ReversiGame;
 import reversi.models.ReversiPlayer;
 import reversi.parser.ReversiParser;
@@ -15,7 +12,6 @@ import reversi.server.ReversiGameFactory;
 import reversi.server.ReversiServerResponse;
 import reversi.server.commands.ReversiCommand;
 import reversi.server.commands.ReversiCommand.ReversiCommandType;
-import reversi.server.commands.ReversiCommandReader;
 import reversi.server.controllers.exceptions.ExitException;
 import reversi.server.display.ReversiAsciiDisplayController;
 import base.server.GameLobby;
@@ -115,13 +111,14 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 			ReversiPlayer hostPlayer = this.host.getPlayer();
 			hostPlayer.setInGame(false);
 
-			List<String> parameters = command.getParameters();
-			String address = parameters.get(0);
-			String port = parameters.get(1);
-			String thisDifficulty = parameters.get(2);
-			String theirDifficulty = parameters.get(3);
-
-			// TODO: Implement later.
+			/*
+				// TODO: AI-AI playing
+				List<String> parameters = command.getParameters();
+				String address = parameters.get(0);
+				String port = parameters.get(1);
+				String thisDifficulty = parameters.get(2);
+				String theirDifficulty = parameters.get(3);
+			 */
 
 			this.selectedGameMode = true;
 			this.selectedDifficulty = true;

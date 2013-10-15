@@ -13,6 +13,7 @@ import base.models.Player;
  * @author dereekb
  * 
  */
+@Deprecated
 public abstract class GameSettings<P extends Player> {
 
 	private List<P> players = new ArrayList<P>();

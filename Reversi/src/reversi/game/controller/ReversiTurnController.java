@@ -3,7 +3,6 @@ package reversi.game.controller;
 import java.util.List;
 import java.util.Set;
 
-import base.game.controllers.TurnController;
 import base.models.Board;
 import base.models.BoardPiece;
 import base.models.Position;
@@ -19,14 +18,12 @@ import reversi.models.game.*;
  * @author dereekb
  * 
  */
-public class ReversiTurnController implements
-		TurnController<ReversiPlayer, ReversiEntity, ReversiInput> {
+public class ReversiTurnController {
 
 	private Board<ReversiEntity> previousTurn = null;
 	private Board<ReversiEntity> currentTurn = null;
 	private Board<ReversiEntity> nextTurn = null;
 
-	@Override
 	public boolean processTurn(Turn<ReversiPlayer, ReversiInput> turn,
 			Board<ReversiEntity> board) {
 
@@ -81,7 +78,6 @@ public class ReversiTurnController implements
 		return success;
 	}
 
-	@Override
 	public boolean undoTurn(List<ReversiPlayer> players,
 			Board<ReversiEntity> board) {
 
@@ -98,7 +94,6 @@ public class ReversiTurnController implements
 		return success;
 	}
 
-	@Override
 	public boolean redoTurn(List<ReversiPlayer> players,
 			Board<ReversiEntity> board) {
 	

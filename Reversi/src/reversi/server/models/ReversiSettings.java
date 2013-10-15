@@ -1,7 +1,9 @@
 package reversi.server.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import reversi.models.ReversiPlayer;
-import base.server.GameSettings;
 
 /**
  * Contains setup settings and players. Used by a GameFactory to create a new
@@ -10,9 +12,10 @@ import base.server.GameSettings;
  * @author dereekb
  * 
  */
-public class ReversiSettings extends GameSettings<ReversiPlayer> {
+public class ReversiSettings {
 
 	private Boolean includeAi;
+	private List<ReversiPlayer> players = new ArrayList<ReversiPlayer>();
 	private Integer difficulty;
 
 	public ReversiSettings() {
@@ -32,6 +35,14 @@ public class ReversiSettings extends GameSettings<ReversiPlayer> {
 
 	public void setDifficulty(Integer difficulty) {
 		this.difficulty = difficulty;
+	}
+
+	public List<ReversiPlayer> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(List<ReversiPlayer> players) {
+		this.players = players;
 	}
 
 }

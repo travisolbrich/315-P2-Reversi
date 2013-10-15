@@ -1,24 +1,23 @@
 package reversi.game.controller;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import reversi.models.ReversiBoard;
-import reversi.models.ReversiEntity;
 import reversi.models.ReversiPlayer;
-import reversi.server.display.ReversiAsciiDisplayController;
-import base.game.controllers.PlayerController;
 
-public class ReversiPlayerController extends
-		PlayerController<ReversiPlayer, ReversiEntity, ReversiBoard> {
+public class ReversiPlayerController {
 
-	public ReversiPlayerController(List<ReversiPlayer> players) {
-		super(players);
+	private final List<ReversiPlayer> players;
+
+	public ReversiPlayerController() {
+		this.players = new ArrayList<ReversiPlayer>();
 	};
 
-	@Override
+	public ReversiPlayerController(List<ReversiPlayer> players) {
+		this.players = players;
+	};
+
 	public void updateScore(ReversiBoard board) {
 		/*
 		 * TODO Update the score.
@@ -31,12 +30,13 @@ public class ReversiPlayerController extends
 		 * Score will be a local variable, or linked to the players.
 		 */
 
+		/*
 		List<ReversiPlayer> players = this.getPlayers();
 		
 		for(ReversiPlayer player : players)
 		{
-			
 		}
+		*/
 	}
 	
 	public ReversiPlayer determineWinner(ReversiBoard board)
@@ -58,19 +58,7 @@ public class ReversiPlayerController extends
 		return winner;
 	}
 
-	@Override
-	public void drawBoard(ReversiBoard board) throws IOException {
-		String boardDisplay = ReversiAsciiDisplayController.drawBoard(board);
-		
-		List<ReversiPlayer> players = this.getPlayers();
-		
-		for(ReversiPlayer player : players)
-		{
-			if(player.isHuman()){
-				PrintWriter writer = player.getWriter();
-				writer.println(boardDisplay);
-			}
-		}
+	public List<ReversiPlayer> getPlayers() {
+		return players;
 	}
-
 }

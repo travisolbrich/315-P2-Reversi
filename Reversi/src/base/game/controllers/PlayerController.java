@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import reversi.models.ReversiBoard;
-import reversi.models.ReversiPlayer;
-
 import base.models.Board;
 import base.models.Entity;
 import base.models.Player;
 
+@Deprecated
 public abstract class PlayerController<P extends Player, E extends Entity, B extends Board<E>> {
 
 	private final List<P> players;

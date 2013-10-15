@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 import base.models.Player;
 
-
 public abstract class ServerLobbyManager<L extends GameLobby<?>, P extends Player, C extends RemoteClient<P>> {
 
 	private final Set<L> lobbies = new HashSet<L>();

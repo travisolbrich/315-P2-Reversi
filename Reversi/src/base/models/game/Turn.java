@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import reversi.models.game.ReversiInput;
-
 import base.models.Player;
 
 public class Turn<P extends Player, I extends Input<P>> {

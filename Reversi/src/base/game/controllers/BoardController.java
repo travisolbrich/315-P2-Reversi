@@ -7,6 +7,7 @@ import base.models.Board;
  * @author dereekb
  *
  */
+@Deprecated
 public interface BoardController<B extends Board<?>>{
 
 	public B generateNewBoard();

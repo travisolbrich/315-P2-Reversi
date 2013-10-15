@@ -24,30 +24,29 @@ public class ReversiInputController extends
 	}
 
 	@Override
-	protected List<ReversiPlayer> filterPlayersForNextTurn(List<ReversiPlayer> players) {
-		
+	protected List<ReversiPlayer> filterPlayersForNextTurn(
+			List<ReversiPlayer> players) {
+
 		ReversiPlayer currentPlayer = null;
-		
-		if(previousPlayer == null){
+
+		if (previousPlayer == null) {
 			currentPlayer = players.get(0);
 		} else {
-			for(ReversiPlayer player : players)
-			{
-				if(this.previousPlayer != player)
-				{
+			for (ReversiPlayer player : players) {
+				if (this.previousPlayer != player) {
 					currentPlayer = player;
 					break;
 				}
 			}
 		}
-		
+
 		previousPlayer = currentPlayer;
 		List<ReversiPlayer> playing = new ArrayList<ReversiPlayer>(1);
 		playing.add(currentPlayer);
 		return playing;
 	}
-	
-	//Defaults
+
+	// Defaults
 	public static ReversiInputController defaultServerController(
 			Integer difficulty) {
 

@@ -15,6 +15,7 @@ import base.models.game.Input;
  * @param <I>
  * @param <B>
  */
+@Deprecated
 public class ControllerSet<P extends Player, E extends Entity, I extends Input<P>, B extends Board<E>> {
 	
 	private BoardController<B> boardController;

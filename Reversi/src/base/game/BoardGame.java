@@ -13,6 +13,7 @@ import base.models.game.Input;
  * 
  * @author dereekb
  */
+@Deprecated
 public abstract class BoardGame<P extends Player, E extends Entity, I extends Input<P>, B extends Board<E>> {
 
 	protected final ControllerSet<P, E, I, B> controllerSet;

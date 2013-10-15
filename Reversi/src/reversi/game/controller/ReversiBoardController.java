@@ -4,11 +4,10 @@ import java.util.Map;
 
 import reversi.models.ReversiBoard;
 import reversi.models.ReversiEntity;
-import base.game.controllers.BoardController;
 import base.models.BoardPiece;
 import base.models.Position;
 
-public class ReversiBoardController implements BoardController<ReversiBoard> {
+public class ReversiBoardController {
 
 	private final Integer columns;
 	private final Integer rows;
@@ -23,7 +22,6 @@ public class ReversiBoardController implements BoardController<ReversiBoard> {
 		this.rows = rows;
 	}
 
-	@Override
 	public ReversiBoard generateNewBoard() {
 
 		ReversiBoard board = new ReversiBoard();
