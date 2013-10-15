@@ -35,11 +35,27 @@ public class ReversiPlayerController extends
 		
 		for(ReversiPlayer player : players)
 		{
-			OutputStream output = player.getOutputStream();
-			PrintWriter writer = new PrintWriter(output);
 			
-			writer.println("-SCORE-");
 		}
+	}
+	
+	public ReversiPlayer determineWinner(ReversiBoard board)
+	{
+		List<ReversiPlayer> players = this.getPlayers();
+		ReversiPlayer winner = null;
+		Integer winnerPiecesCount = 0;
+		
+		for(ReversiPlayer player : players)
+		{
+			Integer piecesCount = player.getGamePieces().size();
+			if(piecesCount > winnerPiecesCount)
+			{
+				winner = player;
+				winnerPiecesCount = piecesCount;
+			}
+		}
+		
+		return winner;
 	}
 
 	@Override
@@ -55,12 +71,6 @@ public class ReversiPlayerController extends
 				writer.println(boardDisplay);
 			}
 		}
-	}
-
-	@Override
-	public void drawFinalScore(ReversiBoard board) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

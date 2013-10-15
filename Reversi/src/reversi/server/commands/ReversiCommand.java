@@ -12,6 +12,8 @@ public class ReversiCommand
 
 		Undo,
 		
+		Redo,
+		
 		Easy,
 		
 		Medium,

@@ -51,4 +51,8 @@ public class ReversiPlayer extends Player {
 		this.pieceAscii = pieceAscii;
 	}
 
+	public String toString()
+	{
+		return this.getName();
+	}
 }

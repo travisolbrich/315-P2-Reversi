@@ -1,8 +1,6 @@
 package reversi.game.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import base.game.controllers.TurnController;
@@ -132,6 +130,12 @@ public class ReversiTurnController implements
 				currentPiece.setEntity(cloneEntity);
 			}
 		}
-		
+	}
+	
+	public boolean playerCanMakePlay(ReversiPlayer player, Board<ReversiEntity> board) 
+	{
+		ReversiMoveFinder finder = new ReversiMoveFinder(board, player);
+		Set<Position> moves = finder.findMoves();
+		return (moves.size() > 0);
 	}
 }

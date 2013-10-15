@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import reversi.models.ReversiBoard;
+import reversi.models.ReversiPlayer;
+
 import base.models.Board;
 import base.models.Entity;
 import base.models.Player;
@@ -24,7 +27,7 @@ public abstract class PlayerController<P extends Player, E extends Entity, B ext
 
 	public abstract void drawBoard(B board) throws IOException;
 	
-	public abstract void drawFinalScore(B board);
+	public abstract P determineWinner(B board);
 	
 	public List<P> getPlayingPlayers() {
 		List<P> playing = new ArrayList<P>();

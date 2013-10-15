@@ -58,6 +58,12 @@ public class ReversiHumanInputController implements
 					validMove = false;
 					ReversiServerResponse.sendOk(human);
 				} break;
+				case Undo:
+				case Redo: {
+					reversiInput = new ReversiInput(human, command);
+					validInput = true;
+					validMove = true;
+				} break;
 				case Exit: {
 					throw new ExitException();
 				}
