@@ -1,7 +1,10 @@
 package base.models.game;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import reversi.models.game.ReversiInput;
 
 import base.models.Player;
 
@@ -20,6 +23,10 @@ public class Turn<P extends Player, I extends Input<P>> {
 
 	public List<I> getTurnInput() {
 		return turnInput;
+	}
+
+	public void addInput(Collection<I> input) {
+		this.turnInput.addAll(input);
 	}
 
 	public void addInput(I input) {

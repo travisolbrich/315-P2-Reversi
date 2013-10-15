@@ -1,6 +1,9 @@
 package reversi.game.controller;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import reversi.game.controller.input.ReversiHumanInputController;
 import reversi.game.controller.input.ReversiIntelligenceInputController;
@@ -26,16 +29,26 @@ public class ReversiInputController extends
 	@Override
 	protected List<ReversiPlayer> filterPlayersForNextTurn(List<ReversiPlayer> players) {
 		
-		// TODO Auto-generated method stub
-		/*
-		 * Reversi has a single player per turn, so this controller will track
-		 * the player who played last, then filter out all players except that
-		 * one.
-		 */
-
-		return null;
+		ReversiPlayer currentPlayer = null;
+		
+		if(previousPlayer == null){
+			currentPlayer = players.get(0);
+		} else {
+			for(ReversiPlayer player : players)
+			{
+				if(this.previousPlayer != player)
+				{
+					currentPlayer = player;
+					break;
+				}
+			}
+		}
+		
+		previousPlayer = currentPlayer;
+		List<ReversiPlayer> playing = new ArrayList<ReversiPlayer>(1);
+		playing.add(currentPlayer);
+		return playing;
 	}
-	
 	
 	//Defaults
 	public static ReversiInputController defaultServerController(

@@ -1,77 +1,89 @@
 package reversi.game;
 
+import java.io.PrintWriter;
 import java.util.List;
 
-import reversi.game.controller.ReversiBoardController;
-import reversi.game.controller.ReversiControllerSet;
-import reversi.game.controller.ReversiInputController;
-import reversi.game.controller.ReversiPlayerController;
-import reversi.game.controller.ReversiTurnController;
 import reversi.models.ReversiBoard;
 import reversi.models.ReversiEntity;
 import reversi.models.ReversiPlayer;
 import reversi.models.game.ReversiInput;
+import reversi.server.ReversiServerResponse;
 import base.game.BoardGame;
 import base.game.controllers.BoardController;
 import base.game.controllers.ControllerSet;
 import base.game.controllers.InputController;
 import base.game.controllers.PlayerController;
 import base.game.controllers.TurnController;
-import base.game.messages.DefaultMessageHandler;
 import base.game.messages.MessageHandler;
+import base.models.game.Turn;
 
 public class ReversiGame extends
 		BoardGame<ReversiPlayer, ReversiEntity, ReversiInput, ReversiBoard> {
 
-	public ReversiGame(ControllerSet<ReversiPlayer, ReversiEntity, ReversiInput, ReversiBoard> controllerSet) {
+	public ReversiGame(
+			ControllerSet<ReversiPlayer, ReversiEntity, ReversiInput, ReversiBoard> controllerSet) {
 		super(controllerSet);
 	}
 
-	/**
-	 * Returns a new ReversiGame with no bots that is player vs player.
-	 * 
-	 * @deprecated Should not use, since it won't work with the Server.
-	 * @param players
-	 * @param botDifficulty
-	 * @return
-	 */
-	public static ReversiGame pvpGame(List<ReversiPlayer> players) {
-		return null;
+	public Boolean playGame() {
+		Boolean gameSuccess = true;
+
+		MessageHandler messageHandler = controllerSet.getMessageHandler();
+		BoardController<ReversiBoard> boardController = controllerSet.getBoardController();
+		InputController<ReversiPlayer, ReversiInput, ReversiBoard> inputController = controllerSet
+				.getInputController();
+		PlayerController<ReversiPlayer, ReversiEntity, ReversiBoard> playerController = controllerSet
+				.getPlayerController();
+		TurnController<ReversiPlayer, ReversiEntity, ReversiInput> turnController = controllerSet
+				.getTurnController();
+
+		// Write something to show the players initialization is occurring.
+		messageHandler.writeMessage("Initialize", "Creating new board.");
+		ReversiBoard board = boardController.generateNewBoard();
+		List<ReversiPlayer> players = playerController.getPlayers();
+		Integer playerCount = players.size();
+		
+		boolean hasWinner = false;
+		Integer currentTurn = 0;
+
+		messageHandler.writeMessage("Start", "Beginning game.");
+		while (hasWinner == false) {
+			
+			ReversiPlayer currentPlayer = players.get(currentTurn % playerCount);
+			Integer turnId = (currentTurn += 1);
+			
+			/*
+			 * TODO: Run game loop.
+			 * 
+			 * This loop is responsible for only running the game.
+			 * 
+			 * Once the game ends, the loop exits.
+			 * 
+			 * If the players want to play another round, then a different class
+			 * higher up the stack can handle that.
+			 */
+			playerController.updateScore(board);
+			playerController.drawBoard(board);
+			
+			boolean success = false;
+			while(!success)
+			{
+				ReversiInput input = inputController.getInputForPlayer(currentPlayer, board);
+				Turn<ReversiPlayer, ReversiInput> turn = new Turn<ReversiPlayer, ReversiInput>(turnId);
+				turn.addInput(input);
+
+				success = turnController.processTurn(turn, board);
+				
+				if(success == false)
+				{
+					PrintWriter writer = new PrintWriter(currentPlayer.getOutputStream());
+					writer.println("ILLEGAL");
+				}
+			}
+		}
+
+		playerController.drawFinalScore(board);
+
+		return gameSuccess;
 	}
-
-	/**
-	 * @deprecated Should not use, since it won't work with the Server.
-	 * @param players
-	 * @param botDifficulty
-	 * @return
-	 */
-	public static ReversiGame gameWithBots(List<ReversiPlayer> players,
-			Integer difficulty) {
-
-		// TODO: If needed, create a ReversiMessageController class, and add a
-		// variable to each of these so that message controller can be accessed
-		// per-step.
-
-		ReversiControllerSet set = new ReversiControllerSet();
-		
-		ReversiBoardController boardController = new ReversiBoardController();
-		set.setBoardController(boardController);
-		
-		ReversiInputController inputController = ReversiInputController
-				.defaultServerController(difficulty);
-		set.setInputController(inputController);
-
-		ReversiPlayerController playerController = new ReversiPlayerController();
-		set.setPlayerController(playerController);
-		
-		ReversiTurnController turnController = new ReversiTurnController();
-		set.setTurnController(turnController);
-
-		DefaultMessageHandler messageHandler = new DefaultMessageHandler();
-		set.setMessageHandler(messageHandler);		
-		
-		ReversiGame game = new ReversiGame(set);	
-		return game;
-	}
-
 }

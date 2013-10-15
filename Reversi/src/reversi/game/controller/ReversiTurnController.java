@@ -31,7 +31,6 @@ public class ReversiTurnController implements
 		 * The best way is probably to extend Position with player info.
 		 */
 		
-		
 		for (ReversiInput input : playersInput) {
 			/*
 			 * TODO Processes the user's turn.

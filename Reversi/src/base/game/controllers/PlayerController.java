@@ -21,6 +21,10 @@ public abstract class PlayerController<P extends Player, E extends Entity, B ext
 
 	public abstract void updateScore(B board);
 
+	public abstract void drawBoard(B board);
+	
+	public abstract void drawFinalScore(B board);
+
 	public List<P> getPlayers() {
 		return players;
 	}

@@ -6,7 +6,7 @@ import java.util.Set;
 import base.models.Player;
 
 
-public abstract class ServerLobbyManager<L extends GameLobby, P extends Player, C extends RemoteClient<P>> {
+public abstract class ServerLobbyManager<L extends GameLobby<?>, P extends Player, C extends RemoteClient<P>> {
 
 	private final Set<L> lobbies = new HashSet<L>();
 
@@ -25,7 +25,7 @@ public abstract class ServerLobbyManager<L extends GameLobby, P extends Player, 
 	 * 
 	 * @param gameLobby
 	 */
-	public void removeLobby(GameLobby gameLobby){
+	public void removeLobby(GameLobby<?> gameLobby){
 
 		boolean removed = lobbies.remove(gameLobby);
 

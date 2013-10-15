@@ -36,7 +36,7 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 	private final ReversiPlayer aiPlayer = new ReversiPlayer("AI");
 	private final ReversiGameFactory gameFactory = new ReversiGameFactory();
 	private final ReversiSettings settings = new ReversiSettings();
-	
+
 	private boolean selectedDifficulty = false;
 	private boolean selectedGameMode = false;
 
@@ -48,7 +48,8 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 	}
 
 	public ReversiLobby(ReversiRemoteClient host,
-			ServerLobbyManager<?, ?, ?> manager, String lobbyName) throws IOException {
+			ServerLobbyManager<?, ?, ?> manager, String lobbyName)
+			throws IOException {
 		super(manager, lobbyName);
 		this.setHost(host);
 		this.getClients().add(host);
@@ -86,19 +87,20 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 				} else {
 					ReversiServerResponse.sendIllegal(host);
 				}
-				
+
 				beginGame = this.canBeginGame();
 			}
 		}
-		
+
 	}
 
 	private boolean canBeginGame() {
-		
+
 		/*
-		 * TODO: Check that the player has selected the game type, and difficulty.
+		 * TODO: Check that the player has selected the game type, and
+		 * difficulty.
 		 */
-		
+
 		return (this.selectedDifficulty && this.selectedGameMode);
 	}
 
@@ -118,7 +120,7 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 			String theirDifficulty = parameters.get(3);
 
 			// TODO: Implement later.
-			
+
 			this.selectedGameMode = true;
 			this.selectedDifficulty = true;
 		}
@@ -127,10 +129,12 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 			this.settings.setDifficulty(1);
 			this.selectedDifficulty = true;
 		}
+			break;
 		case Medium: {
 			this.settings.setDifficulty(2);
 			this.selectedDifficulty = true;
 		}
+			break;
 		case Hard: {
 			this.settings.setDifficulty(3);
 			this.selectedDifficulty = true;
@@ -147,16 +151,19 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 		case HumanAI: {
 			ReversiPlayer hostPlayer = this.host.getPlayer();
 			hostPlayer.setInGame(true);
+			this.settings.setIncludeAi(true);
 			this.selectedGameMode = true;
 		}
 			break;
 		case Black: {
-			this.host.setAsciiPiece(ReversiAsciiDisplayController.blackReversiPiece);
+			this.host
+					.setAsciiPiece(ReversiAsciiDisplayController.blackReversiPiece);
 			aiPlayer.setPieceAscii(ReversiAsciiDisplayController.whiteReversiPiece);
 		}
 			break;
 		case White: {
-			this.host.setAsciiPiece(ReversiAsciiDisplayController.whiteReversiPiece);
+			this.host
+					.setAsciiPiece(ReversiAsciiDisplayController.whiteReversiPiece);
 			aiPlayer.setPieceAscii(ReversiAsciiDisplayController.blackReversiPiece);
 		}
 			break;
@@ -173,18 +180,23 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 	public void runGame() throws IOException {
 
 		List<ReversiPlayer> players = new ArrayList<ReversiPlayer>();
-		
-		for(ReversiRemoteClient client : this.clients)
-		{
+
+		for (ReversiRemoteClient client : this.clients) {
 			String asciiPiece = client.getAsciiPiece();
-			ReversiPlayer player = new ReversiPlayer(asciiPiece);
+			ReversiPlayer player = client.getPlayer();
+
+			if (player == null) {
+				player = new ReversiPlayer(asciiPiece);
+				client.setPlayer(player);
+			}
+
 			player.setControlledByAi(false);
 			players.add(player);
 		}
-		
-		players.add(aiPlayer);		
-		this.settings.setPlayers(players);		
-		
+
+		players.add(aiPlayer);
+		this.settings.setPlayers(players);
+
 		ReversiGame game = this.gameFactory.createNewGame(this.settings);
 		game.playGame();
 	}
@@ -200,9 +212,9 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 
 	public void setHost(ReversiRemoteClient host) throws IOException {
 		this.host = host;
-		
+
 		ReversiPlayer hostPlayer = new ReversiPlayer("Host", host.getSocket());
 		this.host.setPlayer(hostPlayer);
 	}
-	
+
 }

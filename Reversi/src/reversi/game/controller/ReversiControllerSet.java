@@ -1,5 +1,7 @@
 package reversi.game.controller;
 
+import java.util.List;
+
 import base.game.controllers.ControllerSet;
 import base.game.messages.DefaultMessageHandler;
 import reversi.models.ReversiBoard;
@@ -26,7 +28,8 @@ public class ReversiControllerSet extends ControllerSet<ReversiPlayer, ReversiEn
 				.defaultServerController(difficulty);
 		set.setInputController(inputController);
 
-		ReversiPlayerController playerController = new ReversiPlayerController();
+		List<ReversiPlayer> players = settings.getPlayers();
+		ReversiPlayerController playerController = new ReversiPlayerController(players);
 		set.setPlayerController(playerController);
 		
 		ReversiTurnController turnController = new ReversiTurnController();

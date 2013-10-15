@@ -20,6 +20,7 @@ public class RemoteClient<P extends Player> {
 
 	private P player;
 	private String asciiPiece;
+	private boolean isObserver = false;
 	private final Socket socket;
 
 	public RemoteClient(Socket socket){
@@ -61,5 +62,13 @@ public class RemoteClient<P extends Player> {
 
 	public void setAsciiPiece(String asciiPiece) {
 		this.asciiPiece = asciiPiece;
+	}
+
+	public boolean isObserver() {
+		return isObserver;
+	}
+
+	public void setObserver(boolean isObserver) {
+		this.isObserver = isObserver;
 	}
 }

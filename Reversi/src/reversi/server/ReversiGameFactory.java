@@ -2,12 +2,8 @@ package reversi.server;
 
 import reversi.game.ReversiGame;
 import reversi.game.controller.ReversiControllerSet;
-import reversi.models.ReversiBoard;
-import reversi.models.ReversiEntity;
 import reversi.models.ReversiPlayer;
-import reversi.models.game.ReversiInput;
 import reversi.server.models.ReversiSettings;
-import base.game.controllers.ControllerSet;
 import base.server.BoardGameFactory;
 
 public class ReversiGameFactory implements

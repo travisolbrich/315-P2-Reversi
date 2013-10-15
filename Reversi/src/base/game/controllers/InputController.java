@@ -33,25 +33,32 @@ public abstract class InputController<P extends Player, I extends Input<P>, B ex
 		this.humanController = humanController;
 	}
 
+	public I getInputForPlayer(P player, B board) {
+
+		I input = null;
+
+		boolean isHuman = player.isHuman();
+
+		if (isHuman) {
+			input = this.humanController.inputForHuman(player);
+		} else {
+			input = this.intelligenceController.inputForIntelligence(player,
+					board);
+		}
+
+		return input;
+	}
+
 	public List<I> getInputForPlayers(List<P> players, B board) {
 		List<I> turnInput = new ArrayList<I>();
 		List<P> playingPlayers = this.filterPlayersForNextTurn(players);
 
 		for (P player : playingPlayers) {
-			I input = null;
+			I input = this.getInputForPlayer(player, board);
 
-				boolean isHuman = player.isHuman();
-
-				if (isHuman) {
-					input = this.humanController.inputForHuman(player);
-				} else {
-					input = this.intelligenceController
-							.inputForIntelligence(player, board);
-				}
-
-				if (input != null) {
-					turnInput.add(input);
-				}
+			if (input != null) {
+				turnInput.add(input);
+			}
 		}
 
 		return turnInput;
