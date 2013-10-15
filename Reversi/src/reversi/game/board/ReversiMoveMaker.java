@@ -55,6 +55,8 @@ public class ReversiMoveMaker {
 	public Set<Position> findChangesForPosition(Position play) {
 		Set<Position> changes = new HashSet<Position>();
 
+		changes.add(play);
+		
 		List<Position> edgePositions = ReversiBoardReader
 				.positionsSurroundingPosition(play);
 
@@ -69,7 +71,7 @@ public class ReversiMoveMaker {
 
 				currentPosition = currentPosition.positionWithDifference(difference);
 
-				if (currentPosition.isWithinBounds()) {
+				if (currentPosition != null && currentPosition.isWithinBounds()) {
 					ReversiEntity entity = this.board
 							.getEntityAtPosition(edgePosition);
 

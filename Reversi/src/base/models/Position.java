@@ -33,7 +33,7 @@ public final class Position {
 	}
 
 	public Position(String column, Integer row) {
-		this.column = column;
+		this.column = column.toLowerCase();
 		this.row = row;
 	}
 
@@ -73,7 +73,14 @@ public final class Position {
 		Integer column = this.getColumnInteger() + difference[differenceColumn];
 		Integer row = this.getRow() + difference[differenceRow];
 		
-		Position position = new Position(column, row);
+		Position position = null;
+		boolean inBounds = ((row > 0 && row <= 8) && (column >= 0 && column < 8));
+		
+		if(inBounds)
+		{
+			position = new Position(column, row);
+		}
+		
 		return position;
 	}
 	

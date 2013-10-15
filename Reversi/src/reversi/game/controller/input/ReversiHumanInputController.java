@@ -71,8 +71,7 @@ public class ReversiHumanInputController implements
 				ReversiServerResponse.sendIllegal(human);
 			}
 		}
-
-		scanner.close();		
+		
 		return reversiInput;
 	}
 

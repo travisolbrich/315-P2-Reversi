@@ -8,6 +8,7 @@ import reversi.models.ReversiBoard;
 import reversi.models.ReversiEntity;
 import reversi.models.ReversiPlayer;
 import reversi.models.game.ReversiInput;
+import reversi.server.ReversiServerResponse;
 
 import base.game.BoardGame;
 import base.game.controllers.BoardController;
@@ -41,6 +42,8 @@ public class ReversiGame extends
 
 		ReversiBoard board = boardController.generateNewBoard();
 		List<ReversiPlayer> players = playerController.getPlayers();
+		ReversiPlayer humanPlayer = players.get(0);
+		
 		Integer playerCount = players.size();
 		
 		board.setInitialPieces(players);
@@ -65,10 +68,16 @@ public class ReversiGame extends
 
 				success = turnController.processTurn(turn, board);
 				
-				if(success == false)
+				if(currentPlayer.isHuman())
 				{
-					PrintWriter writer = new PrintWriter(currentPlayer.getOutputStream());
-					writer.println("ILLEGAL");
+					if(success == false)
+					{
+						ReversiServerResponse.sendIllegal(currentPlayer);
+					} else {
+						ReversiServerResponse.sendOk(currentPlayer);
+					}
+				} else {
+					ReversiServerResponse.sendComment(humanPlayer, input.toString());
 				}
 			}
 		}
