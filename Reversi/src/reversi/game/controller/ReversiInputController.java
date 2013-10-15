@@ -1,9 +1,7 @@
 package reversi.game.controller;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import reversi.game.controller.input.ReversiHumanInputController;
 import reversi.game.controller.input.ReversiIntelligenceInputController;

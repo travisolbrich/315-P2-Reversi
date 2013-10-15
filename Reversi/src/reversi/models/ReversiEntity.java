@@ -20,4 +20,10 @@ public class ReversiEntity extends Entity {
 		return owner;
 	}
 
+	@Override
+	public Entity clone() {
+		ReversiEntity entity = new ReversiEntity(this.owner, this.getPosition());
+		return entity;
+	}
+
 }

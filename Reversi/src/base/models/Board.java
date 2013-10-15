@@ -29,4 +29,19 @@ public class Board<E extends Entity> {
 		E entity = boardPiece.getEntity();
 		return entity;
 	}
+	
+	public Board<E> cloneBoard() 
+	{
+		Map<Position, BoardPiece<E>> elementsClone = new HashMap<Position, BoardPiece<E>>();
+		
+		for(BoardPiece<E> piece : this.boardElements.values())
+		{
+			BoardPiece<E> clone = piece.clonePiece();
+			Position position = clone.getPosition();
+			elementsClone.put(position, clone);
+		}
+
+		Board<E> newBoard = new Board<E>(elementsClone);
+		return newBoard;
+	}
 }

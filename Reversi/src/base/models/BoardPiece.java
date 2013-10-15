@@ -20,5 +20,13 @@ public class BoardPiece<E extends Entity> {
 	public Position getPosition() {
 		return position;
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public BoardPiece<E> clonePiece(){
+		BoardPiece<E> clone = new BoardPiece<E>(this.position);
+		E eClone = (E) this.entity.clone();
+		clone.setEntity(eClone);
+		return clone;
+	}
+	
 }

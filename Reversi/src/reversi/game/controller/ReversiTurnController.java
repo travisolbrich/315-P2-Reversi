@@ -1,10 +1,13 @@
 package reversi.game.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import base.game.controllers.TurnController;
 import base.models.Board;
+import base.models.BoardPiece;
 import base.models.Position;
 import base.models.game.Turn;
 import reversi.game.board.ReversiMoveFinder;
@@ -21,18 +24,24 @@ import reversi.models.game.*;
 public class ReversiTurnController implements
 		TurnController<ReversiPlayer, ReversiEntity, ReversiInput> {
 
+	private Board<ReversiEntity> previousTurn = null;
+	private Board<ReversiEntity> currentTurn = null;
+	private Board<ReversiEntity> nextTurn = null;
+
 	@Override
 	public boolean processTurn(Turn<ReversiPlayer, ReversiInput> turn,
 			Board<ReversiEntity> board) {
 
 		boolean success = true;
 		List<ReversiInput> playersInput = turn.getTurnInput();
-		
+
+		this.currentTurn = board.cloneBoard();
+
 		/*
-		 * TODO: Track modifications. 
-		 * The best way is probably to extend Position with player info.
+		 * TODO: Track modifications. The best way is probably to extend
+		 * Position with player info.
 		 */
-		
+
 		for (ReversiInput input : playersInput) {
 			/*
 			 * TODO Processes the user's turn.
@@ -46,44 +55,83 @@ public class ReversiTurnController implements
 
 			Position play = input.getPosition();
 
-			if(play.isWithinBounds())
-			{
+			if (play.isWithinBounds()) {
 				ReversiPlayer player = input.getPlayer();
 
 				ReversiMoveFinder finder = new ReversiMoveFinder(board, player);
 				Set<Position> moves = finder.findMoves();
 
-				//If the white player goes first, it can play c5, d6, f4, and e3.
-				if(moves.contains(play))
-				{
+				// If the white player goes first, it can play c5, d6, f4, and
+				// e3.
+				if (moves.contains(play)) {
 					ReversiMoveMaker maker = new ReversiMoveMaker(board, player);
 					maker.playAtPosition(play);
 					success = true;
 				} else {
 					success = false;
-				}			
+				}
 			} else {
 				success = false;
-				break; 
+				break;
 			}
+		}
+
+		if (success) {
+			this.previousTurn = this.currentTurn;
 		}
 
 		return success;
 	}
 
 	@Override
-	public boolean undoTurn(Turn<ReversiPlayer, ReversiInput> turn,
+	public boolean undoTurn(List<ReversiPlayer> players,
 			Board<ReversiEntity> board) {
 
 		boolean success = false;
 
+		if (this.previousTurn != null) {
+			this.currentTurn = board.cloneBoard();
+			loadFromCopy(players, board, this.previousTurn);
+			this.nextTurn = this.currentTurn;
+			this.currentTurn = this.previousTurn;
+			success = true;
+		}
+
+		return success;
+	}
+
+	@Override
+	public boolean redoTurn(List<ReversiPlayer> players,
+			Board<ReversiEntity> board) {
+	
+		boolean success = false;
+	
 		/*
-		 * TODO: Undo commands! The easiest way is probably for this
-		 * TurnController to keep track of previous turns before state, then
-		 * when undo is called revert to that state.
+		 * TODO: Do the same as undo, except backwards.
 		 */
 
 		return success;
 	}
 
+	public void loadFromCopy(List<ReversiPlayer> players,
+			Board<ReversiEntity> currentBoard, Board<ReversiEntity> copy) {
+		
+		for (ReversiPlayer player : players) {
+			player.getGamePieces().clear();
+		}
+		
+		for (int c = 0; c < 8; c++) {
+			for (int r = 1; r <= 8; r++) {
+				Position position = new Position(c, r);
+				BoardPiece<ReversiEntity> currentPiece = currentBoard.getBoardPiece(position);
+				BoardPiece<ReversiEntity> clonePiece = copy.getBoardPiece(position);
+				
+				currentPiece.setEntity(null);
+				ReversiEntity cloneEntity = clonePiece.getEntity();
+				cloneEntity.getOwner().getGamePieces().add(cloneEntity);	//Gross
+				currentPiece.setEntity(cloneEntity);
+			}
+		}
+		
+	}
 }
