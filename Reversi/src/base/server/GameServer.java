@@ -1,8 +1,10 @@
 package base.server;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * Base game server that waits for a client to connect.
@@ -15,7 +17,6 @@ import java.net.Socket;
 public abstract class GameServer {
 
 	private final Integer serverPort;
-
 	public GameServer(Integer serverPort) {
 		this.serverPort = serverPort;
 	}
@@ -24,7 +25,7 @@ public abstract class GameServer {
 		ServerSocket serverSocket = null;
 
 		try {
-			serverSocket = new ServerSocket(this.serverPort);
+			serverSocket = new ServerSocket(this.serverPort);			
 			boolean online = true;
 
 			this.printStartupMessage();
@@ -47,9 +48,10 @@ public abstract class GameServer {
 		}
 	}
 
-	protected void printStartupMessage() {
-		String message = String.format("Server started on port '%d'.",
-				this.serverPort);
+	protected void printStartupMessage() throws UnknownHostException {
+		String message = String.format("Server started on port '%d'. Local IP is '%s'.",
+				this.serverPort, InetAddress.getLocalHost().getHostAddress());
+		
 		System.out.println(message);
 	}
 
