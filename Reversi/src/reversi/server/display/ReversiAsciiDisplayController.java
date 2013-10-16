@@ -20,8 +20,7 @@ public class ReversiAsciiDisplayController {
 			"g", "h" };
 
 	public static String drawBoard(ReversiBoard board) {
-		Map<Position, BoardPiece<ReversiEntity>> boardPieces = board
-				.getBoardElements();
+		Map<Position, BoardPiece<ReversiEntity>> boardPieces = board.getBoardElements();
 
 		StringBuilder builder = new StringBuilder();
 
@@ -34,7 +33,7 @@ public class ReversiAsciiDisplayController {
 			builder.append(" ");
 		}
 		
-		builder.append("\n");
+		builder.append("\r\n");
 		
 		for (int r = 1; r <= 8; r += 1) {
 			builder.append(commentLine);
@@ -54,7 +53,7 @@ public class ReversiAsciiDisplayController {
 			}
 
 			builder.append(boardPipe);
-			builder.append("\n");
+			builder.append("\r\n");
 		}
 
 		builder.append(commentLine);
