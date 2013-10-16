@@ -44,18 +44,8 @@ public class ReversiMoveFinder {
 				Position currentPosition = new Position(currentColumn,
 						currentRow);
 
-				ReversiEntity entity = this.board
-						.getEntityAtPosition(currentPosition);
-
-				if (entity != null) {
-					ReversiPlayer owner = entity.getOwner();
-
-					if (owner == this.player) {
-
-						List<Position> availableMoves = this
-								.findMovesAtPosition(currentPosition);
-						possibleMoves.addAll(availableMoves);
-					}
+				if(touchesOpponent(currentPosition) && this.board.getEntityAtPosition(currentPosition) == null) {
+					System.out.println(currentPosition.getColumn() + currentPosition.getRow() + " touches opponent. I am " + this.player.getAsciiDisplayPiece() +".");
 				}
 			}
 		}
@@ -65,41 +55,31 @@ public class ReversiMoveFinder {
 
 	public List<Position> findMovesAtPosition(Position position) {
 		List<Position> possibleMoves = new ArrayList<Position>();
-		boolean foundMove = false;
-
-		Integer opponentPieces = 0;
-		List<Position> opponentPositions = new ArrayList<Position>();
-		List<Position> edgePositions = ReversiBoardReader
-				.positionsSurroundingPosition(position);
-
-		for (Position edgePosition : edgePositions) {
-
-			ReversiEntity entity = this.board.getEntityAtPosition(edgePosition);
-
-			if (entity == null) // Empty
-			{
-				foundMove = true;
-			} else {
-				ReversiPlayer owner = entity.getOwner();
-
-				if (owner != this.player) // Opponent
-				{
-					opponentPieces += 1;
-					opponentPositions.add(edgePosition);
-				}
-			}
-
-			if (foundMove == true && opponentPieces > 0) {
-				boolean emptySpace = (entity == null);
-
-				if (emptySpace) { // An empty space makes this move valid
-					possibleMoves.add(edgePosition);
-				}
-			}
-
-			foundMove = false;
-		}
+		
 
 		return possibleMoves;
+	}
+	
+	/**
+	 * Determine if a blank position touches a piece held by the opponent.
+	 * 
+	 * @param position
+	 * @return true if at least one surrounding piece is owned by the opponent
+	 */
+	public boolean touchesOpponent(Position position)
+	{
+		for(int column = position.getColumnInteger() - 1; column < position.getColumnInteger() + 1; column++) {
+			for(int row = position.getRow() - 1; row < position.getRow() + 1; row++) {
+				
+				// Derek is weird and made row start from 1 but column from 0
+				if(row > 0 && row <= 8 && column >= 0 && column < 8) { 
+					ReversiEntity entity = this.board.getEntityAtPosition(new Position(column, row));
+					if (entity == null) continue;
+					if (entity.getOwner() != this.player) return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 }

@@ -3,6 +3,7 @@ package reversi.game;
 import java.io.IOException;
 import java.util.List;
 
+import reversi.game.board.ReversiMoveFinder;
 import reversi.game.controller.ReversiBoardController;
 import reversi.game.controller.ReversiControllerSet;
 import reversi.game.controller.ReversiDisplayController;
@@ -14,7 +15,6 @@ import reversi.models.ReversiPlayer;
 import reversi.models.game.ReversiInput;
 import reversi.server.ReversiServerResponse;
 import reversi.server.commands.ReversiCommand.ReversiCommandType;
-
 import base.game.messages.MessageHandler;
 import base.models.game.Turn;
 
@@ -67,6 +67,9 @@ public class ReversiGame {
 			while (!success) {
 				ReversiInput input = inputController.getInputForPlayer(
 						currentPlayer, board);
+				
+				ReversiMoveFinder finder = new ReversiMoveFinder(board, humanPlayer);
+				finder.findMoves();
 
 				// Process Undo/Redo commands here.
 				if (input.isCommand()) {
@@ -87,7 +90,8 @@ public class ReversiGame {
 						break;
 					}
 				} else {
-
+					
+					
 					// Process turns from here.
 					Turn<ReversiPlayer, ReversiInput> turn = new Turn<ReversiPlayer, ReversiInput>(
 							turnId);
