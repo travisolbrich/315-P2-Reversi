@@ -30,7 +30,7 @@ public class ReversiControllerSet {
 		this.inputController = inputController;
 		this.playerController = playerController;
 		this.turnController = turnController;
-		this.setDisplayController(displayController);
+		this.displayController = displayController;
 		this.messageHandler = messageHandler;
 	};
 
@@ -57,6 +57,9 @@ public class ReversiControllerSet {
 		DefaultMessageHandler messageHandler = new DefaultMessageHandler();
 		set.setMessageHandler(messageHandler);
 
+		ReversiDisplayController displayController = new ReversiDisplayController();
+		set.setDisplayController(displayController);
+		
 		return set;
 	}
 
