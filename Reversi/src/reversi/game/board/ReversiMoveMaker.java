@@ -54,47 +54,17 @@ public class ReversiMoveMaker {
 
 	public Set<Position> findChangesForPosition(Position play) {
 		Set<Position> changes = new HashSet<Position>();
+		ReversiMoveFinder finder = new ReversiMoveFinder(this.board, this.player);
 
 		changes.add(play);
 		
-		List<Position> edgePositions = ReversiBoardReader
-				.positionsSurroundingPosition(play);
-
-		for (Position edgePosition : edgePositions) {
-
-			List<Position> placeChanges = new ArrayList<Position>();
-			Integer[] difference = play.difference(edgePosition);
-			Position currentPosition = play;
-
-			boolean foundChanges = false;
-			while (true) {
-
-				currentPosition = currentPosition.positionWithDifference(difference);
-
-				if (currentPosition != null && currentPosition.isWithinBounds()) {
-					ReversiEntity entity = this.board
-							.getEntityAtPosition(edgePosition);
-
-					if (entity == null) // Empty
-					{
-						foundChanges = true;
-					} else {
-						ReversiPlayer owner = entity.getOwner();
-
-						if (owner != this.player) // Opponent
-						{
-							placeChanges.add(edgePosition);
-						}
-					}
-				} else {
-					break;
-				}
+		for(int horizontal = -1; horizontal <=1; horizontal++)
+		{
+			for(int vertical = -1; vertical <=1; vertical++)
+			{
+				changes.addAll(finder.piecesBlockedIn(play, horizontal, vertical));
 			}
-
-			if (foundChanges == true && placeChanges.size() > 0) {
-				changes.add(edgePosition);
-			}
-		}
+		}		
 
 		return changes;
 	}

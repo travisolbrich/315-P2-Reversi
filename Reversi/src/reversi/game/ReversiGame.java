@@ -72,6 +72,7 @@ public class ReversiGame {
 				}
 				
 				System.out.println();
+				System.out.println("Current player is " + currentPlayer.getName());
 				
 				ReversiInput input = inputController.getInputForPlayer(	currentPlayer, board);
 				

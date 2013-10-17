@@ -55,9 +55,7 @@ public class ReversiTurnController {
 
 				ReversiMoveFinder finder = new ReversiMoveFinder(board, player);
 				Set<Position> moves = finder.findMoves();
-
-				// If the white player goes first, it can play c5, d6, f4, and
-				// e3.
+				
 				if (moves.contains(play)) {
 					ReversiMoveMaker maker = new ReversiMoveMaker(board, player);
 					maker.playAtPosition(play);

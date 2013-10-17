@@ -40,7 +40,9 @@ public class ReversiMoveFinder {
 				
 				if(touchesOpponent(currentPosition) && this.board.getEntityAtPosition(currentPosition) == null) 
 				{		
-					if(blocksInEnemy(currentPosition)) possibleMoves.add(currentPosition);				
+					if(blocksInEnemy(currentPosition)) {				
+						possibleMoves.add(currentPosition);
+					}
 				}
 			}
 		}
@@ -55,7 +57,7 @@ public class ReversiMoveFinder {
 		{
 			for(int vertical = -1; vertical <=1; vertical++)
 			{
-				if(piecesBlockedIn(position, horizontal, vertical) > 0) return true;
+				if(piecesBlockedIn(position, horizontal, vertical).size() > 0) return true;
 			}
 		}
 		
@@ -76,16 +78,17 @@ public class ReversiMoveFinder {
 	}
 	
 	/**
-	 * Determine how many pieces will be blocked in in a given vector
+	 * Determine which pieces will be blocked in in a given vector
 	 * 
 	 * @param startingPosition The starting position
 	 * @param horizontal Amount of positions to jump each cycle
 	 * @param vertical Amount of positions to jump each cycle
 	 * @return 
 	 */
-	public int piecesBlockedIn(Position startingPosition, int horizontal, int vertical)
+	public Set<Position> piecesBlockedIn(Position startingPosition, int horizontal, int vertical)
 	{
-		int pieces = 0;
+		Set<Position> pieces = new HashSet<Position>();
+		
 		Position position = startingPosition;
 		
 		while(traverse(position, horizontal, vertical) != null) {
@@ -93,15 +96,15 @@ public class ReversiMoveFinder {
 			ReversiEntity entity = this.board.getEntityAtPosition(position);
 			
 			// If the entity is null, then no pieces are blocked
-			if(entity == null) return 0;
+			if(entity == null) return new HashSet<Position>();
 			
 			// If the entity is player's, return pieces captured
 			if(entity.getOwner() == this.player) return pieces;
 			
-			pieces++;
+			pieces.add(position);		
 		}		
 		
-		return pieces;
+		return new HashSet<Position>();
 	}
 	
 	/**
