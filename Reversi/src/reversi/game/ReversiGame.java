@@ -2,6 +2,7 @@ package reversi.game;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import reversi.game.board.ReversiMoveFinder;
 import reversi.game.controller.ReversiBoardController;
@@ -16,6 +17,7 @@ import reversi.models.game.ReversiInput;
 import reversi.server.ReversiServerResponse;
 import reversi.server.commands.ReversiCommand.ReversiCommandType;
 import base.game.messages.MessageHandler;
+import base.models.Position;
 import base.models.game.Turn;
 
 public class ReversiGame {
@@ -30,16 +32,11 @@ public class ReversiGame {
 		Boolean gameSuccess = true;
 
 		MessageHandler messageHandler = controllerSet.getMessageHandler();
-		ReversiBoardController boardController = controllerSet
-				.getBoardController();
-		ReversiInputController inputController = controllerSet
-				.getInputController();
-		ReversiPlayerController playerController = controllerSet
-				.getPlayerController();
-		ReversiTurnController turnController = controllerSet
-				.getTurnController();
-		ReversiDisplayController displayController = controllerSet
-				.getDisplayController();
+		ReversiBoardController boardController = controllerSet.getBoardController();
+		ReversiInputController inputController = controllerSet.getInputController();
+		ReversiPlayerController playerController = controllerSet.getPlayerController();
+		ReversiTurnController turnController = controllerSet.getTurnController();
+		ReversiDisplayController displayController = controllerSet.getDisplayController();
 
 		ReversiBoard board = boardController.generateNewBoard();
 		List<ReversiPlayer> players = playerController.getPlayers();
@@ -65,11 +62,19 @@ public class ReversiGame {
 
 			boolean success = false;
 			while (!success) {
-				ReversiInput input = inputController.getInputForPlayer(
-						currentPlayer, board);
-				
 				ReversiMoveFinder finder = new ReversiMoveFinder(board, humanPlayer);
-				finder.findMoves();
+				Set<Position> allowed = finder.findMoves();
+				
+				System.out.print("Allowed to play at [" + allowed.size() +"] ");
+				
+				for (Position position : allowed) {
+					System.out.print(position.getColumn() + position.getRow() + ", ");
+				}
+				
+				System.out.println();
+				
+				ReversiInput input = inputController.getInputForPlayer(	currentPlayer, board);
+				
 
 				// Process Undo/Redo commands here.
 				if (input.isCommand()) {
@@ -89,8 +94,7 @@ public class ReversiGame {
 					}
 						break;
 					}
-				} else {
-					
+				} else {					
 					
 					// Process turns from here.
 					Turn<ReversiPlayer, ReversiInput> turn = new Turn<ReversiPlayer, ReversiInput>(
