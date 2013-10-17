@@ -12,10 +12,8 @@ import base.models.Position;
  * Finds moves on the board.
  * 
  * 
- * @author dereekb
+ * @author travisolbrich
  * 
- *         Available Positions algorithm derived from algorithm in reversi game
- *         at: http://mnemstudio.org/game-reversi-intro.htm
  */
 public class ReversiMoveFinder {
 
