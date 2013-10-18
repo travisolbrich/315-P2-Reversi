@@ -11,28 +11,49 @@ import reversi.server.display.ReversiAsciiDisplayController;
 
 public class ReversiDisplayController {
 
-	public List<ReversiPlayer> getListeningPlayers(List<ReversiPlayer> players)
-	{
+	/**
+	 * If there is an AI player, they will automatically echo unless they are set to display none.
+	 */
+	private boolean drawToSystem = false;
+
+	public ReversiDisplayController() {
+	}
+
+	public ReversiDisplayController(boolean drawToSystem) {
+		this.drawToSystem = drawToSystem;
+	}
+
+	public List<ReversiPlayer> getAsciiViewingPlayers(List<ReversiPlayer> players) {
 		List<ReversiPlayer> observers = new ArrayList<ReversiPlayer>();
-		
-		for(ReversiPlayer player : players)
-		{
-			if(player.isHuman()){
+
+		for (ReversiPlayer player : players) {
+			if (player.isHuman() && player.showAsciiDisplay()) {
 				observers.add(player);
 			}
 		}
-		
+
 		return observers;
 	}
-	
-	public void drawBoard(ReversiBoard board, List<ReversiPlayer> observers) throws IOException {
+
+	public void drawBoard(ReversiBoard board, List<ReversiPlayer> players) throws IOException {
 		String boardDisplay = ReversiAsciiDisplayController.drawBoard(board);
-		
-		for(ReversiPlayer observer : observers)
-		{
-				PrintWriter writer = observer.getWriter();
-				writer.println(boardDisplay);
+
+		List<ReversiPlayer> playersWithAsciiDisplay = this.getAsciiViewingPlayers(players);
+		for (ReversiPlayer observer : playersWithAsciiDisplay) {
+			PrintWriter writer = observer.getWriter();
+			writer.println(boardDisplay);
+		}
+
+		if (this.drawToSystem) {
+			System.out.println(boardDisplay);
 		}
 	}
 
+	public boolean isDrawToSystem() {
+		return drawToSystem;
+	}
+
+	public void setDrawToSystem(boolean drawToSystem) {
+		this.drawToSystem = drawToSystem;
+	}
 }

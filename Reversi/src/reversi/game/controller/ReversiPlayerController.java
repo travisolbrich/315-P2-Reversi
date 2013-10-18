@@ -41,7 +41,7 @@ public class ReversiPlayerController {
 	
 	public ReversiPlayer determineWinner(ReversiBoard board)
 	{
-		List<ReversiPlayer> players = this.getPlayers();
+		List<ReversiPlayer> players = this.getAllPlayers();
 		ReversiPlayer winner = null;
 		Integer winnerPiecesCount = 0;
 		
@@ -58,7 +58,37 @@ public class ReversiPlayerController {
 		return winner;
 	}
 
-	public List<ReversiPlayer> getPlayers() {
+	public List<ReversiPlayer> getAllPlayers() {
 		return players;
+	}
+
+	public List<ReversiPlayer> getPlaying() {
+		
+		List<ReversiPlayer> players = new ArrayList<ReversiPlayer>();
+
+		for(ReversiPlayer player : this.players)
+		{
+			if(player.isPlaying())
+			{
+				players.add(player);
+			}
+		}
+		
+		return players;
+	}
+
+	public List<ReversiPlayer> getObservers() {
+		
+		List<ReversiPlayer> observers = new ArrayList<ReversiPlayer>();
+
+		for(ReversiPlayer player : this.players)
+		{
+			if(player.isObserver())
+			{
+				observers.add(player);
+			}
+		}
+		
+		return observers;
 	}
 }

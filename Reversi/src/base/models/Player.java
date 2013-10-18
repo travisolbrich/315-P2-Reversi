@@ -15,7 +15,7 @@ import java.util.Scanner;
 public abstract class Player implements IOModel{
 
 	private final String name;
-	private Boolean inGame = true;
+	private Boolean isPlaying = true;
 	private Boolean controlledByAi = false;
 	private Boolean asciiDisplay = false;
 
@@ -38,12 +38,16 @@ public abstract class Player implements IOModel{
 		return name;
 	}
 
-	public Boolean isInGame() {
-		return inGame;
+	public Boolean isPlaying() {
+		return isPlaying;
+	}
+	
+	public Boolean isObserver() {
+		return !isPlaying;
 	}
 
-	public void setInGame(Boolean inGame) {
-		this.inGame = inGame;
+	public void setPlaying(Boolean isPlaying) {
+		this.isPlaying = isPlaying;
 	}
 
 	public Boolean isHuman() {
@@ -78,7 +82,7 @@ public abstract class Player implements IOModel{
 		return scanner;
 	}
 
-	public Boolean getAsciiDisplay() {
+	public Boolean showAsciiDisplay() {
 		return asciiDisplay;
 	}
 

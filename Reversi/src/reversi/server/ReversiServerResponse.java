@@ -61,7 +61,6 @@ public class ReversiServerResponse
 		String message = String.format(this.type.format, this.comments);
 		writer.println(message);
 	}
-	
 
 	public static void sendWelcome(IOModel client) throws IOException
 	{

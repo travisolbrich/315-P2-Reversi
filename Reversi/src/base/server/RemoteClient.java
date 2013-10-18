@@ -41,6 +41,12 @@ public class RemoteClient<P extends Player> implements IOModel{
 		return socket;
 	}
 
+	@Override
+	public OutputStream getOutputStream() throws IOException {
+		OutputStream output = this.socket.getOutputStream();
+		return output;
+	}
+	
 	public PrintWriter getWriter() throws IOException{
 		OutputStream output = this.socket.getOutputStream();
 		PrintWriter writer = new PrintWriter(output, true);

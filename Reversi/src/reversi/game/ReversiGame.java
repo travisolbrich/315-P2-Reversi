@@ -22,106 +22,184 @@ import base.models.game.Turn;
 
 public class ReversiGame {
 
+	private class ReversiGameContext {
+		private Integer turnId;
+		private final ReversiBoard currentBoard;
+		private final List<ReversiPlayer> activePlayers;
+
+		public ReversiGameContext(ReversiBoard currentBoard, List<ReversiPlayer> activePlayers) {
+			this.turnId = 0;
+			this.currentBoard = currentBoard;
+			this.activePlayers = activePlayers;
+		}
+
+		public Integer getTurnId() {
+			return turnId;
+		}
+
+		public void increaseTurnId() {
+			this.turnId += 1;
+		}
+
+		public ReversiBoard getCurrentBoard() {
+			return currentBoard;
+		}
+
+		public List<ReversiPlayer> getActivePlayers() {
+			return activePlayers;
+		}
+	};
+
 	protected final ReversiControllerSet controllerSet;
+	protected ReversiGameContext context;
 
 	public ReversiGame(ReversiControllerSet controllerSet) {
 		this.controllerSet = controllerSet;
+		this.context = null;
 	}
 
-	public Boolean playGame() throws IOException {
-		Boolean gameSuccess = true;
-
-		MessageHandler messageHandler = controllerSet.getMessageHandler();
+	public void resetBoard() {
 		ReversiBoardController boardController = controllerSet.getBoardController();
-		ReversiInputController inputController = controllerSet.getInputController();
 		ReversiPlayerController playerController = controllerSet.getPlayerController();
-		ReversiTurnController turnController = controllerSet.getTurnController();
-		ReversiDisplayController displayController = controllerSet.getDisplayController();
 
 		ReversiBoard board = boardController.generateNewBoard();
-		List<ReversiPlayer> players = playerController.getPlayers();
-		ReversiPlayer humanPlayer = players.get(0);
+		List<ReversiPlayer> activePlayers = playerController.getPlaying();
+		board.setInitialPieces(activePlayers);
 
-		Integer playerCount = players.size();
+		this.context = new ReversiGameContext(board, activePlayers);
+	}
 
-		board.setInitialPieces(players);
+	public void playGame() throws IOException {
+		this.resetBoard();
+
+		MessageHandler messageHandler = this.controllerSet.getMessageHandler();
+
+		List<ReversiPlayer> activePlayers =this.context.getActivePlayers();
+		Integer playerCount = activePlayers.size();
 
 		boolean hasWinner = false;
-		Integer currentTurn = 0;
+		ReversiBoard board = this.context.currentBoard;
 
+		boolean previousPlayerSkippedTurn = false;
 		while (hasWinner == false) {
 
-			ReversiPlayer currentPlayer = players
-					.get(currentTurn % playerCount);
-			ReversiPlayer nextPlayer = players.get((currentTurn + 1)
-					% playerCount);
-			Integer turnId = (currentTurn += 1);
+			Integer currentTurn = this.context.getTurnId();
+			
+			this.redrawBoard();
 
-			playerController.updateScore(board);
-			displayController.drawBoard(board, players);
+			ReversiPlayer currentPlayer = activePlayers.get(currentTurn % playerCount);
+			// ReversiPlayer nextPlayer = players.get((currentTurn + 1) %
+			// playerCount);
 
+			boolean playerSkippedTurn = false;
 			boolean success = false;
 			while (!success) {
-				ReversiMoveFinder finder = new ReversiMoveFinder(board, humanPlayer);
-				Set<Position> allowed = finder.findMoves();
-				
-				System.out.print("Allowed to play at [" + allowed.size() +"] ");
-				
-				for (Position position : allowed) {
-					System.out.print(position.getColumn() + position.getRow() + ", ");
-				}
-				
-				System.out.println();
-				System.out.println("Current player is " + currentPlayer.getName());
-				
-				ReversiInput input = inputController.getInputForPlayer(	currentPlayer, board);
-				
+				ReversiMoveFinder finder = new ReversiMoveFinder(board, currentPlayer);
+				Set<Position> availableMoves = finder.findMoves();
 
-				// Process Undo/Redo commands here.
-				if (input.isCommand()) {
-					ReversiCommandType type = input.getCommand().getType();
-
-					switch (type) {
-					case Undo: {
-						success = turnController.undoTurn(players, board);
-					}
-						break;
-					case Redo: {
-						success = turnController.redoTurn(players, board);
-					}
-						break;
-					default: {
-						success = false;
-					}
-						break;
-					}
-				} else {					
-					
-					// Process turns from here.
-					Turn<ReversiPlayer, ReversiInput> turn = new Turn<ReversiPlayer, ReversiInput>(
-							turnId);
-					turn.addInput(input);
-					success = turnController.processTurn(turn, board);
-				}
-
-				if (currentPlayer.isHuman()) {
-					if (success == false) {
-						ReversiServerResponse.sendIllegal(currentPlayer);
-					} else {
-						ReversiServerResponse.sendOk(currentPlayer);
-					}
+				if (availableMoves.size() > 0) {
+					String formattedMovesString = String.format("Available Moves: %s", availableMoves.toString());
+					ReversiServerResponse.sendComment(currentPlayer, formattedMovesString);
+					success = this.runPlayerTurn(currentPlayer, availableMoves);
 				} else {
-					ReversiServerResponse.sendComment(humanPlayer,
-							input.toString());
+					ReversiServerResponse.sendComment(currentPlayer, "No moves are available.");
+					success = true;
+					playerSkippedTurn = true;
 				}
 			}
 
-			hasWinner = (turnController.playerCanMakePlay(nextPlayer, board) == false);
+			if (playerSkippedTurn) {
+				if (previousPlayerSkippedTurn == false) {
+					previousPlayerSkippedTurn = true;
+					messageHandler.writeMessage(currentPlayer + " cannot make a move!");
+				} else {
+					hasWinner = true;
+				}
+			} else {
+				previousPlayerSkippedTurn = false;
+			}
+
+			this.context.increaseTurnId();
+		} // End Has Winner Loop
+
+		ReversiPlayerController playerController = controllerSet.getPlayerController();
+		ReversiPlayer winner = playerController.determineWinner(board);
+		messageHandler.writeMessage(winner + " wins!");
+	}
+
+	private void redrawBoard() throws IOException {
+		ReversiPlayerController playerController = controllerSet.getPlayerController();
+		ReversiDisplayController displayController = controllerSet.getDisplayController();
+
+		ReversiBoard board = this.context.getCurrentBoard();
+		List<ReversiPlayer> allPlayers = playerController.getAllPlayers();
+
+		playerController.updateScore(board);
+		displayController.drawBoard(board, allPlayers);
+	}
+
+	public boolean runPlayerTurn(ReversiPlayer currentPlayer, Set<Position> availableMoves) throws IOException {
+		boolean success = false;
+
+		ReversiInputController inputController = controllerSet.getInputController();
+		ReversiTurnController turnController = controllerSet.getTurnController();
+		MessageHandler messageHandler = this.controllerSet.getMessageHandler();
+		List<ReversiPlayer> activePlayers = this.context.getActivePlayers();
+		
+		Integer turnId = this.context.getTurnId();
+
+		ReversiBoard board = this.context.getCurrentBoard();
+
+		ReversiInput input = inputController.getInputForPlayer(currentPlayer, board);
+
+		// Process Undo/Redo commands here.
+		if (input.isCommand()) {
+			ReversiCommandType type = input.getCommand().getType();
+
+			switch (type) {
+			case Undo: {
+				success = turnController.undoTurn(activePlayers, board);
+			}
+				break;
+			case Redo: {
+				success = turnController.redoTurn(activePlayers, board);
+			}
+				break;
+			default: {
+				success = false;
+			}
+				break;
+			}
+		} else {
+
+			// Process turns from here.
+			Turn<ReversiPlayer, ReversiInput> turn = new Turn<ReversiPlayer, ReversiInput>(turnId);
+			turn.addInput(input);
+			success = turnController.processTurn(turn, board);
 		}
 
-		ReversiPlayer winner = playerController.determineWinner(board);
-		humanPlayer.getWriter().println(winner + " wins!");
-
-		return gameSuccess;
+		if (currentPlayer.isHuman()) {
+			if (success == false) {
+				ReversiServerResponse.sendIllegal(currentPlayer);
+			} else {
+				ReversiServerResponse.sendOk(currentPlayer);
+			}
+		} else {
+			messageHandler.writeUnformattedMessage(input.toString());
+		}
+		
+		return success;
+	}
+	
+	@Deprecated
+	public void printMoveInfo() {
+		/*
+		 * // System.out.print("Allowed to play at [" + allowed.size() +"] ");
+		 * 
+		 * System.out.println(availableMoves.toString()); }
+		 * 
+		 * // System.out.println(); // System.out.println("Current player is " +
+		 * currentPlayer.getName());
+		 */
 	}
 }

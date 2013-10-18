@@ -109,7 +109,7 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 		switch (type) {
 		case AIAI: {
 			ReversiPlayer hostPlayer = this.host.getPlayer();
-			hostPlayer.setInGame(false);
+			hostPlayer.setPlaying(false);
 
 			/*
 				// TODO: AI-AI playing
@@ -149,7 +149,7 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 		}
 		case HumanAI: {
 			ReversiPlayer hostPlayer = this.host.getPlayer();
-			hostPlayer.setInGame(true);
+			hostPlayer.setPlaying(true);
 			this.settings.setIncludeAi(true);
 			this.selectedGameMode = true;
 		}
@@ -161,8 +161,7 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 		}
 			break;
 		case White: {
-			this.host
-					.setAsciiPiece(ReversiAsciiDisplayController.whiteReversiPiece);
+			this.host.setAsciiPiece(ReversiAsciiDisplayController.whiteReversiPiece);
 			aiPlayer.setAsciiPiece(ReversiAsciiDisplayController.blackReversiPiece);
 		}
 			break;

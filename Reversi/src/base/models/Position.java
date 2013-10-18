@@ -53,7 +53,12 @@ public final class Position {
 	public boolean isWithinBounds() {
 		Integer column = this.getColumnInteger();
 		Integer row = this.row;
-		boolean inBounds = ((row > 0 && row <= 8) && (column >= 0 && column < 8));
+		boolean inBounds = false;
+
+		if (column != null && row != null) {
+			inBounds = ((row > 0 && row <= 8) && (column >= 0 && column < 8));
+		}
+
 		return inBounds;
 	}
 

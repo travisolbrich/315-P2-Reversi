@@ -2,7 +2,6 @@ package reversi.game.controller;
 
 import java.util.List;
 
-import base.game.messages.DefaultMessageHandler;
 import base.game.messages.MessageHandler;
 import reversi.models.ReversiPlayer;
 import reversi.server.models.ReversiSettings;
@@ -16,8 +15,7 @@ public class ReversiControllerSet {
 	private ReversiDisplayController displayController;
 	private MessageHandler messageHandler;
 
-	public ReversiControllerSet() {
-	}
+	public ReversiControllerSet() {}
 
 	public ReversiControllerSet(ReversiBoardController boardController,
 			ReversiInputController inputController,
@@ -54,7 +52,7 @@ public class ReversiControllerSet {
 		ReversiTurnController turnController = new ReversiTurnController();
 		set.setTurnController(turnController);
 
-		DefaultMessageHandler messageHandler = new DefaultMessageHandler();
+		ReversiGroupCommentWriter messageHandler = new ReversiGroupCommentWriter(players);
 		set.setMessageHandler(messageHandler);
 
 		ReversiDisplayController displayController = new ReversiDisplayController();
