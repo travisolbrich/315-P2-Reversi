@@ -79,4 +79,11 @@ public class RemoteClient<P extends Player> implements IOModel{
 	public void setObserver(boolean isObserver) {
 		this.isObserver = isObserver;
 	}
+	
+	@Override
+	public String toString() {
+		return "RemoteClient [player=" + player + ", asciiPiece=" + asciiPiece + ", isObserver=" + isObserver
+				+ ", socket=" + socket + "]";
+	}
+
 }

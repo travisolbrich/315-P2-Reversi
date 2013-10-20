@@ -145,7 +145,7 @@ public class ReversiLobby extends GameLobby<ReversiRemoteClient> {
 		}
 			break;
 		case Exit: {
-			throw new ExitException();
+			throw new ExitException(this.host);
 		}
 		case HumanAI: {
 			ReversiPlayer hostPlayer = this.host.getPlayer();

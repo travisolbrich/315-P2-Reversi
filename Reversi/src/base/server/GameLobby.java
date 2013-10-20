@@ -3,8 +3,10 @@ package base.server;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
+import base.models.IOModel;
 import reversi.server.controllers.exceptions.ExitException;
 
 /**
@@ -53,11 +55,18 @@ public abstract class GameLobby<C extends RemoteClient<?>> implements Runnable {
 
 			this.closeLobby();
 		} catch (ExitException exit){
+			IOModel client = exit.getClient();
 			
-			//TODO: Tell all the players goodbye, etc.
+			try {
+				this.handleDisconnect(client);
+			} catch (IOException e) {
+				
+			}
 			
 		} catch (IOException e){
 			
+		} catch (NoSuchElementException e){
+			System.out.println("Client's connection dropped.");
 		} finally {
 			if(this.parent != null){
 				this.parent.removeLobby(this);
@@ -68,6 +77,12 @@ public abstract class GameLobby<C extends RemoteClient<?>> implements Runnable {
 	public abstract void runLobby() throws IOException;
 
 	public abstract void runGame() throws IOException;
+
+	public void handleDisconnect(IOModel client) throws IOException{
+		System.out.println("Client disconnected. (" + client + ")");
+		client.getInputScanner().close();
+		client.getOutputStream().close();	//Close the client's streams.
+	}
 
 	public void startLobbyThread() {
 		Thread lobbyThread = this.getThread();

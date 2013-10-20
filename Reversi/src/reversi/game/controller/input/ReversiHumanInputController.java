@@ -70,7 +70,7 @@ public class ReversiHumanInputController implements
 					validMove = true;
 				} break;
 				case Exit: {
-					throw new ExitException();
+					throw new ExitException(human);
 				}
 				default: break;
 			}
