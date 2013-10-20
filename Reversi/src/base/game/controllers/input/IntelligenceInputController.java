@@ -18,6 +18,6 @@ public interface IntelligenceInputController<P extends Player, I extends Input<P
 
 	public I inputForIntelligence(P intelligence, B board);
 
-	public Integer getDifficultyForPlayer(P intelligence);
+	public Integer getDifficultyForAiPlayer(P intelligence);
 
 }

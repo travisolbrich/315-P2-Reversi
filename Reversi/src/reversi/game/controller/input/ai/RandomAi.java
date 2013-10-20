@@ -1,29 +1,17 @@
-package reversi.game.controller.input;
+package reversi.game.controller.input.ai;
 
 import java.util.Set;
 
-import base.game.controllers.input.IntelligenceInputController;
-import base.models.Position;
 import reversi.game.board.ReversiMoveFinder;
 import reversi.models.ReversiBoard;
 import reversi.models.ReversiPlayer;
 import reversi.models.game.ReversiInput;
+import base.models.Position;
 
-/**
- * Artificial Intelligence used in the game.
- * 
- * @deprecated Replaced by MinMaxAI and RandomAi.
- * @author dereekb
- * 
- */
-@Deprecated
-public class ReversiIntelligenceInputController implements
-		IntelligenceInputController<ReversiPlayer, ReversiInput, ReversiBoard> {
+public class RandomAi extends ReversiAi {
 
-	private final Integer difficulty;
-
-	public ReversiIntelligenceInputController(Integer difficulty) {
-		this.difficulty = difficulty;
+	public RandomAi(Integer difficulty) {
+		super(difficulty);
 	}
 
 	@Override
@@ -49,8 +37,4 @@ public class ReversiIntelligenceInputController implements
 		return input;
 	}
 
-	@Override
-	public Integer getDifficultyForAiPlayer(ReversiPlayer intelligence) {
-		return this.difficulty;
-	}
 }

@@ -2,8 +2,10 @@ package reversi.game.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import reversi.models.ReversiBoard;
+import reversi.models.ReversiEntity;
 import reversi.models.ReversiPlayer;
 
 public class ReversiPlayerController {
@@ -41,13 +43,15 @@ public class ReversiPlayerController {
 	
 	public ReversiPlayer determineWinner(ReversiBoard board)
 	{
-		List<ReversiPlayer> players = this.getAllPlayers();
+		Map<ReversiPlayer, List<ReversiEntity>> piecesList = board.getPlayerElementsMap();
+		
 		ReversiPlayer winner = null;
 		Integer winnerPiecesCount = 0;
 		
-		for(ReversiPlayer player : players)
+		for(ReversiPlayer player : piecesList.keySet())
 		{
-			Integer piecesCount = player.getGamePieces().size();
+			List<ReversiEntity> entityCount = piecesList.get(player);
+			Integer piecesCount = entityCount.size();
 			if(piecesCount > winnerPiecesCount)
 			{
 				winner = player;

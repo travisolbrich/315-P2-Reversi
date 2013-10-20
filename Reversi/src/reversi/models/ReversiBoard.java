@@ -1,7 +1,11 @@
 package reversi.models;
 
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import reversi.server.display.ReversiAsciiDisplayController;
 import base.models.Board;
@@ -9,6 +13,14 @@ import base.models.BoardPiece;
 import base.models.Position;
 
 public class ReversiBoard extends Board<ReversiEntity> {
+
+	public ReversiBoard() {
+		super();
+	}
+	
+	public ReversiBoard(Map<Position, BoardPiece<ReversiEntity>> pieces) {
+		super(pieces);
+	}
 
 	public String getASCIIView()
 	{
@@ -35,9 +47,110 @@ public class ReversiBoard extends Board<ReversiEntity> {
 	private void createElementAtPositionForPlayer(Position position, ReversiPlayer player)
 	{
 		ReversiEntity newPiece = new ReversiEntity(player, position);
-		player.getGamePieces().add(newPiece);
 		BoardPiece<ReversiEntity> boardPiece = this.getBoardPiece(position);
 		boardPiece.setEntity(newPiece);
 	}
 
+	public ReversiBoard cloneBoard() 
+	{
+		Map<Position, BoardPiece<ReversiEntity>> elementsClone = this.cloneBoardPieces();
+		ReversiBoard newBoard = new ReversiBoard(elementsClone);
+		return newBoard;
+	}
+
+	public Map<ReversiPlayer, List<ReversiEntity>> getPlayerElementsMap(){
+		Map<ReversiPlayer, List<ReversiEntity>> results = new HashMap<ReversiPlayer, List<ReversiEntity>>();
+
+		for(BoardPiece<ReversiEntity> piece : this.boardElements.values())
+		{
+			ReversiEntity entity = piece.getEntity();
+			
+			if(entity != null) {
+				ReversiPlayer owner = entity.getOwner();
+				
+				if(owner != null) {
+					List<ReversiEntity> entityList = results.get(owner);
+					
+					if(entityList == null) {
+						entityList = new ArrayList<ReversiEntity>();
+						results.put(owner, entityList);
+					}
+					
+					entityList.add(entity);
+				}
+			}
+		}
+		
+		return results;
+	}
+
+	public Integer countElementsOwnedByPlayer(ReversiPlayer player){
+		List<ReversiEntity> entities = this.getElementsOwnedByPlayer(player);
+		return entities.size();
+	}
+	
+	public List<ReversiEntity> getElementsOwnedByPlayer(ReversiPlayer player){
+		List<ReversiEntity> entities = new ArrayList<ReversiEntity>();
+
+		for(BoardPiece<ReversiEntity> piece : this.boardElements.values())
+		{
+			ReversiEntity entity = piece.getEntity();
+			
+			if(entity != null) {
+				ReversiPlayer owner = entity.getOwner();
+				boolean isOwner = (player.equals(owner));
+				
+				if(isOwner) {
+					entities.add(entity);
+				}
+			}
+		}
+		
+		return entities;
+	}
+
+	public Integer countElementsNotOwnedByPlayer(ReversiPlayer player){
+		List<ReversiEntity> entities = this.getElementsNotOwnedByPlayer(player);
+		return entities.size();
+	}
+
+	public List<ReversiEntity> getElementsNotOwnedByPlayer(ReversiPlayer player){
+		List<ReversiEntity> entities = new ArrayList<ReversiEntity>();
+
+		for(BoardPiece<ReversiEntity> piece : this.boardElements.values())
+		{
+			ReversiEntity entity = piece.getEntity();
+			
+			if(entity != null) {
+				ReversiPlayer owner = entity.getOwner();
+				boolean isOwner = (player.equals(owner));
+				
+				if(!isOwner) {
+					entities.add(entity);
+				}
+			}
+		}
+		
+		return entities;
+	}
+	
+	public Set<ReversiPlayer> getOpponentsOfPlayerOnBoard(ReversiPlayer player){
+		Set<ReversiPlayer> opponents = new HashSet<ReversiPlayer>();
+
+		for(BoardPiece<ReversiEntity> piece : this.boardElements.values())
+		{
+			ReversiEntity entity = piece.getEntity();
+			
+			if(entity != null) {
+				ReversiPlayer owner = entity.getOwner();
+				boolean isOpponent = (player.equals(owner) == false);
+				
+				if(isOpponent) {
+					opponents.add(owner);
+				}
+			}
+		}
+		
+		return opponents;
+	}
 }

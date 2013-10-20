@@ -1,8 +1,6 @@
 package reversi.game.board;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import reversi.models.ReversiEntity;
@@ -36,16 +34,7 @@ public class ReversiMoveMaker {
 		for (Position position : changes)
 		{
 			BoardPiece<ReversiEntity> piece = this.board.getBoardPiece(position);
-			ReversiEntity currentPiece = piece.getEntity();
-			
-			if(currentPiece != null)
-			{
-				ReversiPlayer player = currentPiece.getOwner();
-				player.getGamePieces().remove(player);
-			}
-			
 			ReversiEntity newPiece = new ReversiEntity(player, position);
-			this.player.getGamePieces().add(newPiece);
 			piece.setEntity(newPiece);
 		}
 		

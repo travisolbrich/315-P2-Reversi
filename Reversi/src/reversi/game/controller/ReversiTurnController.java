@@ -106,11 +106,7 @@ public class ReversiTurnController {
 
 	public void loadFromCopy(List<ReversiPlayer> players,
 			Board<ReversiEntity> currentBoard, Board<ReversiEntity> copy) {
-		
-		for (ReversiPlayer player : players) {
-			player.getGamePieces().clear();
-		}
-		
+				
 		for (int c = 0; c < 8; c++) {
 			for (int r = 1; r <= 8; r++) {
 				Position position = new Position(c, r);
@@ -119,7 +115,6 @@ public class ReversiTurnController {
 				
 				currentPiece.setEntity(null);
 				ReversiEntity cloneEntity = clonePiece.getEntity();
-				cloneEntity.getOwner().getGamePieces().add(cloneEntity);	//Gross
 				currentPiece.setEntity(cloneEntity);
 			}
 		}

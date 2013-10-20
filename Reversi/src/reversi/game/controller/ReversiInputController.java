@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import reversi.game.controller.input.ReversiHumanInputController;
-import reversi.game.controller.input.ReversiIntelligenceInputController;
+import reversi.game.controller.input.ai.MinMaxAi;
 import reversi.models.ReversiBoard;
 import reversi.models.ReversiPlayer;
 import reversi.models.game.ReversiInput;
@@ -12,20 +12,17 @@ import base.game.controllers.InputController;
 import base.game.controllers.input.HumanInputController;
 import base.game.controllers.input.IntelligenceInputController;
 
-public class ReversiInputController extends
-		InputController<ReversiPlayer, ReversiInput, ReversiBoard> {
+public class ReversiInputController extends InputController<ReversiPlayer, ReversiInput, ReversiBoard> {
 
 	private ReversiPlayer previousPlayer = null;
 
-	public ReversiInputController(
-			HumanInputController<ReversiPlayer, ReversiInput> humanController,
+	public ReversiInputController(HumanInputController<ReversiPlayer, ReversiInput> humanController,
 			IntelligenceInputController<ReversiPlayer, ReversiInput, ReversiBoard> intelligenceController) {
 		super(humanController, intelligenceController);
 	}
 
 	@Override
-	protected List<ReversiPlayer> filterPlayersForNextTurn(
-			List<ReversiPlayer> players) {
+	protected List<ReversiPlayer> filterPlayersForNextTurn(List<ReversiPlayer> players) {
 
 		ReversiPlayer currentPlayer = null;
 
@@ -47,15 +44,12 @@ public class ReversiInputController extends
 	}
 
 	// Defaults
-	public static ReversiInputController defaultServerController(
-			Integer difficulty) {
+	public static ReversiInputController defaultServerController(Integer difficulty) {
 
 		ReversiHumanInputController humanInput = new ReversiHumanInputController();
-		ReversiIntelligenceInputController intelInput = new ReversiIntelligenceInputController(
-				difficulty);
+		MinMaxAi intelInput = new MinMaxAi(difficulty);
 
-		ReversiInputController inputController = new ReversiInputController(
-				humanInput, intelInput);
+		ReversiInputController inputController = new ReversiInputController(humanInput, intelInput);
 		return inputController;
 	}
 

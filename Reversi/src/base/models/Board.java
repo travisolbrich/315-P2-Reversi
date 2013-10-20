@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Board<E extends Entity> {
 
-	private final Map<Position, BoardPiece<E>> boardElements;
+	protected final Map<Position, BoardPiece<E>> boardElements;
 
 	public Board() {
 		this.boardElements = new HashMap<Position, BoardPiece<E>>();
@@ -30,18 +30,22 @@ public class Board<E extends Entity> {
 		return entity;
 	}
 	
-	public Board<E> cloneBoard() 
-	{
-		Map<Position, BoardPiece<E>> elementsClone = new HashMap<Position, BoardPiece<E>>();
+	public Board<E> cloneBoard() {
+		Map<Position, BoardPiece<E>> piecesClone = this.cloneBoardPieces();
+		Board<E> newBoard = new Board<E>(piecesClone);
+		return newBoard;
+	}
+	
+	public Map<Position, BoardPiece<E>> cloneBoardPieces() {
+		Map<Position, BoardPiece<E>> piecesClone = new HashMap<Position, BoardPiece<E>>();
 		
 		for(BoardPiece<E> piece : this.boardElements.values())
 		{
 			BoardPiece<E> clone = piece.clonePiece();
 			Position position = clone.getPosition();
-			elementsClone.put(position, clone);
+			piecesClone.put(position, clone);
 		}
-
-		Board<E> newBoard = new Board<E>(elementsClone);
-		return newBoard;
+		
+		return piecesClone;
 	}
 }

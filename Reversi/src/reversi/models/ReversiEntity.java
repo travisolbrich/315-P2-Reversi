@@ -25,5 +25,5 @@ public class ReversiEntity extends Entity {
 		ReversiEntity entity = new ReversiEntity(this.owner, this.getPosition());
 		return entity;
 	}
-
+	
 }
