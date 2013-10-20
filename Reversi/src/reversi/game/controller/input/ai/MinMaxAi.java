@@ -162,11 +162,13 @@ public class MinMaxAi extends ReversiAi {
 				MoveSimulation nextStepsSimulation = new MoveSimulation(player, simulationBoard, futureSimulationRecursions);
 				MoveResult futureResults = nextStepsSimulation.findBestMove();
 
-				Integer predictedPiecesGained = futureResults.getPiecesCaptured() + result.getPiecesCaptured();
-				Integer predictedPiecesLost = futureResults.getPiecesLost() + result.getPiecesLost();
-				
-				result.setPiecesCaptured(predictedPiecesGained);
-				result.setPiecesLost(predictedPiecesLost);
+				if(futureResults != null){
+					Integer predictedPiecesGained = futureResults.getPiecesCaptured() + result.getPiecesCaptured();
+					Integer predictedPiecesLost = futureResults.getPiecesLost() + result.getPiecesLost();
+					
+					result.setPiecesCaptured(predictedPiecesGained);
+					result.setPiecesLost(predictedPiecesLost);
+				}
 			}
 
 			return result;
