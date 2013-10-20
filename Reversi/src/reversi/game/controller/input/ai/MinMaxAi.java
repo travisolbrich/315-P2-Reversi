@@ -53,7 +53,7 @@ public class MinMaxAi extends ReversiAi {
 		private final ReversiBoard board;
 		private final Integer recursiveSimulations;
 		
-		private boolean simulateOpponentMoves;
+		private boolean simulateOpponentMoves = true;
 
 		public MoveSimulation(ReversiPlayer intelligence, ReversiBoard board, Integer recursiveSteps) {
 			this.intelligence = intelligence;
@@ -66,7 +66,8 @@ public class MinMaxAi extends ReversiAi {
 			MoveResult bestMove = null;
 			
 			if (results.size() > 0) {
-				Collections.sort(results);
+				Collections.sort(results);		//Sort least to greatest.
+				Collections.reverse(results);	//Reverse list.
 				bestMove = results.get(0);
 			}
 			
@@ -92,14 +93,14 @@ public class MinMaxAi extends ReversiAi {
 			
 			MoveResult result = new MoveResult(position);
 
-			ReversiBoard simulationBoard = board.cloneBoard();
+			ReversiBoard simulationBoard = this.board.cloneBoard();
 
 			// Count number of pieces that are owned by the AI at the end of that move.
-			Integer initialPiecesCount = board.countElementsOwnedByPlayer(intelligence);
+			Integer initialPiecesCount = simulationBoard.countElementsOwnedByPlayer(intelligence);
 			ReversiMoveMaker moveMaker = new ReversiMoveMaker(simulationBoard, intelligence);
 			moveMaker.playAtPosition(position);
 
-			Integer postMovePiecesCount = board.countElementsOwnedByPlayer(intelligence);
+			Integer postMovePiecesCount = simulationBoard.countElementsOwnedByPlayer(intelligence);
 			Integer gain = postMovePiecesCount - initialPiecesCount;
 			result.setPiecesCaptured(gain);
 
@@ -110,11 +111,11 @@ public class MinMaxAi extends ReversiAi {
 				 *  
 				 *	(Only 1 in Reversi, unless they have no piece after this turn!)
 				 */
-				Set<ReversiPlayer> opponents = board.getOpponentsOfPlayerOnBoard(intelligence);
+				Set<ReversiPlayer> opponents = simulationBoard.getOpponentsOfPlayerOnBoard(intelligence);
 				for(ReversiPlayer opponent : opponents) {
 					
 					//Use this simulator, but only run their moves.
-					MoveSimulation opponentSimulation = new MoveSimulation(opponent, board, 0);
+					MoveSimulation opponentSimulation = new MoveSimulation(opponent, simulationBoard, 0);
 					opponentSimulation.setSimulateOpponentMoves(false);
 					
 					/*
@@ -142,7 +143,7 @@ public class MinMaxAi extends ReversiAi {
 			 * Pieces lost is the amount we ended with minus the amount we gained earlier. 
 			 * The AI wants this to be negative.
 			 */
-			Integer postOpponentPlaysPieceCount = board.countElementsOwnedByPlayer(intelligence);
+			Integer postOpponentPlaysPieceCount = simulationBoard.countElementsOwnedByPlayer(intelligence);
 			Integer piecesLost = postOpponentPlaysPieceCount - postMovePiecesCount;
 			result.setPiecesLost(piecesLost);
 			
@@ -224,5 +225,12 @@ public class MinMaxAi extends ReversiAi {
 
 			return result;
 		}
+		
+		@Override
+		public String toString() {
+			return "MoveResult [move=" + move + ", captured=" + piecesCaptured + ", lost=" + piecesLost
+					+ "]";
+		}
+
 	}
 }
