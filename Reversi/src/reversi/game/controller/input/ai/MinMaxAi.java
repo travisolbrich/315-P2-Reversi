@@ -156,6 +156,18 @@ public class MinMaxAi extends ReversiAi {
 			 * TODO: At this point, further recursion will happen using more
 			 * simulations.
 			 */
+			if(this.recursiveSimulations > 0) {
+				
+				Integer futureSimulationRecursions = this.recursiveSimulations - 1;				
+				MoveSimulation nextStepsSimulation = new MoveSimulation(player, simulationBoard, futureSimulationRecursions);
+				MoveResult futureResults = nextStepsSimulation.findBestMove();
+
+				Integer predictedPiecesGained = futureResults.getPiecesCaptured() + result.getPiecesCaptured();
+				Integer predictedPiecesLost = futureResults.getPiecesLost() + result.getPiecesLost();
+				
+				result.setPiecesCaptured(predictedPiecesGained);
+				result.setPiecesLost(predictedPiecesLost);
+			}
 
 			return result;
 		}
