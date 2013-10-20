@@ -20,9 +20,13 @@ public class ReversiCommand
 		
 		Hard,
 		
+		Impossible,
+		
 		HumanAI,
 		
 		AIAI,
+		
+		AILOCAL,	//For watching the server's AI fight itself.
 		
 		Move, 
 		
@@ -32,9 +36,7 @@ public class ReversiCommand
 		
 		Black,
 		
-		White, 
-		
-		Difficulty
+		White
 	}
 	
 	private final ReversiCommandType type;

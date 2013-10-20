@@ -68,14 +68,32 @@ public class ReversiGame {
 
 		this.context = new ReversiGameContext(board, activePlayers);
 	}
+	
+	public Integer getFirstPlayerIndex() {
+		List<ReversiPlayer> activePlayers = this.context.getActivePlayers();
+		Integer firstPlayerIndex = 0;
+		
+		for(int i = 0; i < activePlayers.size(); i++) {
+			ReversiPlayer player = activePlayers.get(0);
+			String asciiPiece = player.getAsciiDisplayPiece();
+			
+			if(asciiPiece.equals(ReversiBoard.blackReversiPiece)){
+				firstPlayerIndex = i;
+				break;
+			}
+		}
+		
+		return firstPlayerIndex;
+	}
 
 	public void playGame() throws IOException {
 		this.resetBoard();
 
 		MessageHandler messageHandler = this.controllerSet.getMessageHandler();
 
-		List<ReversiPlayer> activePlayers =this.context.getActivePlayers();
+		List<ReversiPlayer> activePlayers = this.context.getActivePlayers();
 		Integer playerCount = activePlayers.size();
+		Integer firstPlayerOffset = this.getFirstPlayerIndex();
 
 		boolean hasWinner = false;
 		ReversiBoard board = this.context.currentBoard;
@@ -83,11 +101,10 @@ public class ReversiGame {
 		boolean previousPlayerSkippedTurn = false;
 		while (hasWinner == false) {
 
-			Integer currentTurn = this.context.getTurnId();
-			
+			Integer currentTurn = this.context.getTurnId();			
 			this.redrawBoard();
 
-			ReversiPlayer currentPlayer = activePlayers.get(currentTurn % playerCount);
+			ReversiPlayer currentPlayer = activePlayers.get((currentTurn + firstPlayerOffset) % playerCount);
 			// ReversiPlayer nextPlayer = players.get((currentTurn + 1) %
 			// playerCount);
 

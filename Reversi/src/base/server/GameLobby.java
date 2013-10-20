@@ -51,6 +51,7 @@ public abstract class GameLobby<C extends RemoteClient<?>> implements Runnable {
 			while (this.isRunning) {
 				this.runLobby();
 				this.runGame();
+				this.runGameEnded();
 			}
 
 			this.closeLobby();
@@ -77,6 +78,8 @@ public abstract class GameLobby<C extends RemoteClient<?>> implements Runnable {
 	public abstract void runLobby() throws IOException;
 
 	public abstract void runGame() throws IOException;
+
+	public abstract void runGameEnded() throws IOException;
 
 	public void handleDisconnect(IOModel client) throws IOException{
 		System.out.println("Client disconnected. (" + client + ")");

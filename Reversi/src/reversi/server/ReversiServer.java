@@ -26,7 +26,7 @@ public class ReversiServer extends GameServer{
 		 */
 
 		ReversiRemoteClient client = new ReversiRemoteClient(socket);
-		showConnectionMessage(client);
+		//showConnectionMessage(client);
 		
 		ReversiLobby lobby = lobbyManager.createNewLobby(client);
 		lobby.startLobbyThread();

@@ -14,27 +14,33 @@ import reversi.models.ReversiPlayer;
  */
 public class ReversiSettings {
 
-	private Boolean includeAi;
+	public enum GameMode {
+		HumanAi,
+		AIAIRemote,
+		AIAILocal
+	}
+	
+	private GameMode gameMode = null;
 	private List<ReversiPlayer> players = new ArrayList<ReversiPlayer>();
-	private Integer difficulty;
+	private Integer aiDifficulty;
+	private Integer aiDifficultySecondary;
 
-	public ReversiSettings() {
+	public ReversiSettings(){}
+	
+	public Integer getAiDifficulty() {
+		return aiDifficulty;
 	}
 
-	public Boolean getIncludeAi() {
-		return includeAi;
+	public void setAiDifficulty(Integer aiDifficulty) {
+		this.aiDifficulty = aiDifficulty;
 	}
 
-	public void setIncludeAi(Boolean includeAi) {
-		this.includeAi = includeAi;
+	public Integer getAiDifficultySecondary() {
+		return aiDifficultySecondary;
 	}
 
-	public Integer getDifficulty() {
-		return difficulty;
-	}
-
-	public void setDifficulty(Integer difficulty) {
-		this.difficulty = difficulty;
+	public void setAiDifficultySecondary(Integer aiDifficultySecondary) {
+		this.aiDifficultySecondary = aiDifficultySecondary;
 	}
 
 	public List<ReversiPlayer> getPlayers() {
@@ -45,4 +51,11 @@ public class ReversiSettings {
 		this.players = players;
 	}
 
+	public GameMode getGameMode() {
+		return gameMode;
+	}
+
+	public void setGameMode(GameMode gameMode) {
+		this.gameMode = gameMode;
+	}
 }

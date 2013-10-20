@@ -16,7 +16,7 @@ public abstract class Player implements IOModel{
 
 	private final String name;
 	private Boolean isPlaying = true;
-	private Boolean controlledByAi = false;
+	private Boolean controlledByAi = true;
 	private Boolean asciiDisplay = false;
 
 	protected final InputStream inputStream;

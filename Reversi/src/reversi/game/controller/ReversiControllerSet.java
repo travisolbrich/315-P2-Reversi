@@ -5,6 +5,7 @@ import java.util.List;
 import base.game.messages.MessageHandler;
 import reversi.models.ReversiPlayer;
 import reversi.server.models.ReversiSettings;
+import reversi.server.models.ReversiSettings.GameMode;
 
 public class ReversiControllerSet {
 
@@ -32,10 +33,10 @@ public class ReversiControllerSet {
 		this.messageHandler = messageHandler;
 	};
 
-	public static ReversiControllerSet controllerSetWithSettings(
-			ReversiSettings settings) {
+	public static ReversiControllerSet controllerSetWithSettings(ReversiSettings settings) {
+		
 		ReversiControllerSet set = new ReversiControllerSet();
-		Integer difficulty = settings.getDifficulty();
+		Integer difficulty = settings.getAiDifficulty();
 
 		ReversiBoardController boardController = new ReversiBoardController();
 		set.setBoardController(boardController);

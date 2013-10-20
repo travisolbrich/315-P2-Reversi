@@ -14,6 +14,9 @@ import base.models.Position;
 
 public class ReversiBoard extends Board<ReversiEntity> {
 
+	public static final String whiteReversiPiece = "O";
+	public static final String blackReversiPiece = "@";
+	
 	public ReversiBoard() {
 		super();
 	}
@@ -29,15 +32,17 @@ public class ReversiBoard extends Board<ReversiEntity> {
 
 	public void setInitialPieces(List<ReversiPlayer> players) {
 		
-		final String whitePieceDisplay = ReversiAsciiDisplayController.whiteReversiPiece;
+		ReversiPlayer playerA = players.get(0);
+		ReversiPlayer playerB = players.get(1);
 		
-		ReversiPlayer human = players.get(0);
-		ReversiPlayer ai = players.get(1);
+		//Set player's pieces.
+		ReversiPlayer whitePlayer = (playerA.getAsciiDisplayPiece().equals(whiteReversiPiece)) ? playerA : playerB;
+		whitePlayer.setAsciiPiece(whiteReversiPiece);
 		
-		//Set four positions at the center of the board.
-		ReversiPlayer whitePlayer = (human.getAsciiDisplayPiece().equals(whitePieceDisplay)) ? human : ai;
-		ReversiPlayer blackPlayer = (human == whitePlayer) ? ai : human;
+		ReversiPlayer blackPlayer = (playerA == whitePlayer) ? playerB : playerA;
+		blackPlayer.setAsciiPiece(blackReversiPiece);
 
+		//Set four positions at the center of the board.
 		this.createElementAtPositionForPlayer(new Position("d",4), whitePlayer);
 		this.createElementAtPositionForPlayer(new Position("e",5), whitePlayer);
 		this.createElementAtPositionForPlayer(new Position("d",5), blackPlayer);
