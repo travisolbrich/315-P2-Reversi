@@ -49,14 +49,14 @@ public class MinMaxAi extends ReversiAi {
 	 * @author dereekb
 	 */
 	private static class MoveSimulation {
-		private final ReversiPlayer intelligence;
+		private final ReversiPlayer player;
 		private final ReversiBoard board;
 		private final Integer recursiveSimulations;
-		
+
 		private boolean simulateOpponentMoves = true;
 
-		public MoveSimulation(ReversiPlayer intelligence, ReversiBoard board, Integer recursiveSteps) {
-			this.intelligence = intelligence;
+		public MoveSimulation(ReversiPlayer player, ReversiBoard board, Integer recursiveSteps) {
+			this.player = player;
 			this.board = board;
 			this.recursiveSimulations = recursiveSteps;
 		}
@@ -64,20 +64,20 @@ public class MinMaxAi extends ReversiAi {
 		public MoveResult findBestMove() {
 			List<MoveResult> results = this.simulateMoves();
 			MoveResult bestMove = null;
-			
+
 			if (results.size() > 0) {
-				Collections.sort(results);		//Sort least to greatest.
-				Collections.reverse(results);	//Reverse list.
+				Collections.sort(results); // Sort least to greatest.
+				Collections.reverse(results); // Reverse list.
 				bestMove = results.get(0);
 			}
-			
+
 			return bestMove;
 		}
-		
+
 		public List<MoveResult> simulateMoves() {
 			List<MoveResult> results = new ArrayList<MoveResult>();
 
-			ReversiMoveFinder finder = new ReversiMoveFinder(board, intelligence);
+			ReversiMoveFinder finder = new ReversiMoveFinder(board, player);
 			Set<Position> moves = finder.findMoves();
 
 			// Simulate running moves on a board for each of those moves
@@ -90,49 +90,54 @@ public class MinMaxAi extends ReversiAi {
 		}
 
 		public MoveResult simulateMove(Position position) {
-			
+
 			MoveResult result = new MoveResult(position);
 
 			ReversiBoard simulationBoard = this.board.cloneBoard();
 
-			// Count number of pieces that are owned by the AI at the end of that move.
-			Integer initialPiecesCount = simulationBoard.countElementsOwnedByPlayer(intelligence);
-			ReversiMoveMaker moveMaker = new ReversiMoveMaker(simulationBoard, intelligence);
+			// Count number of pieces that are owned by the AI at the end of
+			// that move.
+			Integer initialPiecesCount = simulationBoard.countElementsOwnedByPlayer(player);
+			ReversiMoveMaker moveMaker = new ReversiMoveMaker(simulationBoard, player);
 			moveMaker.playAtPosition(position);
 
-			Integer postMovePiecesCount = simulationBoard.countElementsOwnedByPlayer(intelligence);
+			Integer postMovePiecesCount = simulationBoard.countElementsOwnedByPlayer(player);
 			Integer gain = postMovePiecesCount - initialPiecesCount;
 			result.setPiecesCaptured(gain);
 
-			if(this.simulateOpponentMoves){
-				
+			if (this.simulateOpponentMoves) {
+
 				/*
-				 *  Simulate opponents turn for each of their available moves.
-				 *  
-				 *	(Only 1 in Reversi, unless they have no piece after this turn!)
+				 * Simulate opponents turn for each of their available moves.
+				 * 
+				 * (Only 1 in Reversi, unless they have no piece after this
+				 * turn!)
 				 */
-				Set<ReversiPlayer> opponents = simulationBoard.getOpponentsOfPlayerOnBoard(intelligence);
-				for(ReversiPlayer opponent : opponents) {
-					
-					//Use this simulator, but only run their moves.
+				Set<ReversiPlayer> opponents = simulationBoard.getOpponentsOfPlayerOnBoard(player);
+				for (ReversiPlayer opponent : opponents) {
+
+					// Use this simulator, but only run their moves.
 					MoveSimulation opponentSimulation = new MoveSimulation(opponent, simulationBoard, 0);
 					opponentSimulation.setSimulateOpponentMoves(false);
-					
+
 					/*
 					 * Take that best short-term move and apply it to the board.
 					 * 
-					 * Only consider this move here, since we'll check the others during recursion.
-					 * That said, we can easily set opponent move simulation on, and recurse a few times.
+					 * Only consider this move here, since we'll check the
+					 * others during recursion. That said, we can easily set
+					 * opponent move simulation on, and recurse a few times.
 					 * 
-					 * Something to test. (Although I think that might also cause an infinite loop)
+					 * Something to test. (Although I think that might also
+					 * cause an infinite loop)
 					 */
 					MoveResult bestMove = opponentSimulation.findBestMove();
-					
-					//Make sure they have any move. Null would be returned when they have none.
-					if(bestMove != null) {		
+
+					// Make sure they have any move. Null would be returned when
+					// they have none.
+					if (bestMove != null) {
 						Position bestMovePosition = bestMove.getMove();
-						
-						//Apply that best move to our board.
+
+						// Apply that best move to our board.
 						ReversiMoveMaker opponentMoveMaker = new ReversiMoveMaker(simulationBoard, opponent);
 						opponentMoveMaker.playAtPosition(bestMovePosition);
 					}
@@ -140,17 +145,18 @@ public class MinMaxAi extends ReversiAi {
 			}
 
 			/*
-			 * Pieces lost is the amount we ended with minus the amount we gained earlier. 
-			 * The AI wants this to be negative.
+			 * Pieces lost is the amount we ended with minus the amount we
+			 * gained earlier. The AI wants this to be negative.
 			 */
-			Integer postOpponentPlaysPieceCount = simulationBoard.countElementsOwnedByPlayer(intelligence);
+			Integer postOpponentPlaysPieceCount = simulationBoard.countElementsOwnedByPlayer(player);
 			Integer piecesLost = postOpponentPlaysPieceCount - postMovePiecesCount;
 			result.setPiecesLost(piecesLost);
-			
+
 			/*
-			 * TODO: At this point, further recursion will happen using more simulations.
+			 * TODO: At this point, further recursion will happen using more
+			 * simulations.
 			 */
-			
+
 			return result;
 		}
 
@@ -162,9 +168,11 @@ public class MinMaxAi extends ReversiAi {
 			this.simulateOpponentMoves = simulateOpponentMoves;
 		}
 	}
-	
+
 	/**
-	 * Result of making a move at a given position. Used by the MoveSimulator to convey results.
+	 * Result of making a move at a given position. Used by the MoveSimulator to
+	 * convey results.
+	 * 
 	 * @author dereekb
 	 */
 	private static class MoveResult implements Comparable<MoveResult> {
@@ -204,6 +212,8 @@ public class MinMaxAi extends ReversiAi {
 			return move;
 		}
 
+		// TODO: This is where we can apply a heuristic. A greedy AI, a cautious
+		// AI, and a min/max AI heuristic. Just for fun anyways.
 		@Override
 		public int compareTo(MoveResult move) {
 			Integer moveCaptured = move.getPiecesCaptured();
@@ -215,21 +225,32 @@ public class MinMaxAi extends ReversiAi {
 			// Less pieces lost is better than move pieces gained.
 			Integer result = 0;
 
-			if (lostCompare == 0) { // Equal amount of loss
+			if (lostCompare == 0) {
+				/*
+				 * Equal amount of loss. The one with the greater pieces
+				 * captured wins.
+				 */
 				result = capturedCompare;
-			} else if (lostCompare == -1) { // Less Lost
+			} else if (lostCompare == 1) {
+				/*
+				 * More Lost, automatically lesser.
+				 */
+
 				result = 1;
-			} else { // More Lost
-				result = 0;
+			} else {
+				/*
+				 * Less Lost, automatically greater.
+				 */
+
+				result = -1;
 			}
 
 			return result;
 		}
-		
+
 		@Override
 		public String toString() {
-			return "MoveResult [move=" + move + ", captured=" + piecesCaptured + ", lost=" + piecesLost
-					+ "]";
+			return "MoveResult [move=" + move + ", captured=" + piecesCaptured + ", lost=" + piecesLost + "]";
 		}
 
 	}
