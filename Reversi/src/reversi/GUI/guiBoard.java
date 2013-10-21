@@ -9,17 +9,17 @@ import java.awt.*;
 import javax.swing.*;
 
 
-
+/*
 public class guiBoard extends JFrame {
 	
-	DisplayGui();
+	//DisplayGui();
 
-}
+}*/
 
 /*
  * Variable will allow switching between menu display and game board display
  */
-private void variableGameState( int state) {
+/*private void variableGameState( int state) {
 	switch (gameState)
 		case 0:
 			//TODO: Display everything
@@ -29,25 +29,25 @@ private void variableGameState( int state) {
 			//TODO: Display board
 			//TODO: Display game
 			//TODO: Display pieces (sprites)
-}
+}*/
 
 /*
  * Paint method based on variable state
  */
-public void DisplayGUI(Graphics2D gfx) {
-	int gameState;
+//public void DisplayGUI(Graphics2D gfx) {
+	//int gameState;
 	
-	if(gameState = 0)
+	//if(gameState = 0)
 		/*
 		 * Draw/redraw: variableGameState(0);
 		 */
 		
-	else if(gameState = 1)
+	//else if(gameState = 1)
 		/*
 		 * Draw/redraw: varaibleGameState(1);
 		 */
 		
-	else if(gameState = 2)
+	//else if(gameState = 2)
 		/*
 		 * Draw/redraw: variableGameState(2); 
 		 */
@@ -56,9 +56,9 @@ public void DisplayGUI(Graphics2D gfx) {
 	//addComponentsToPane(getContentPane());
 	
 	//setSize(800, 800);
-	setVisible(true);
-}
+	//setVisible(true);
+//}
 
-private void addComponentsToPane( Container contentPane) {
+//private void addComponentsToPane( Container contentPane) {
 	
-}
+//} 
