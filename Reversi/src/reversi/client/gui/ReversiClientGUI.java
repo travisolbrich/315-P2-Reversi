@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -73,7 +72,7 @@ public class ReversiClientGUI extends JFrame implements ActionListener{
 		
 		startServerButton = new JButton("Start Server");
 		startServerButton.setVerticalTextPosition(AbstractButton.CENTER);
-		startServerButton.setHorizontalTextPosition(AbstractButton.LEADING); //aka LEFT, for left-to-right locales
+		startServerButton.setHorizontalTextPosition(AbstractButton.LEADING);
 		startServerButton.setMnemonic(KeyEvent.VK_D);
 		startServerButton.setActionCommand(ServerButtonAction);
 		
@@ -82,16 +81,17 @@ public class ReversiClientGUI extends JFrame implements ActionListener{
 
 		playLocalGameButton = new JButton("Play Local");
 		playLocalGameButton.setVerticalTextPosition(AbstractButton.CENTER);
-		playLocalGameButton.setHorizontalTextPosition(AbstractButton.LEADING); //aka LEFT, for left-to-right locales
+		playLocalGameButton.setHorizontalTextPosition(AbstractButton.LEADING);
 		playLocalGameButton.setMnemonic(KeyEvent.VK_D);
 		playLocalGameButton.setActionCommand(PlayLocalGameButtonAction);
+		playLocalGameButton.setEnabled(false);
 		
 		playLocalGameButton.addActionListener(this);
 		this.buttonPanel.add(playLocalGameButton);
 		
 		playRemoteGameButton = new JButton("Play Remote");
 		playRemoteGameButton.setVerticalTextPosition(AbstractButton.CENTER);
-		playRemoteGameButton.setHorizontalTextPosition(AbstractButton.LEADING); //aka LEFT, for left-to-right locales
+		playRemoteGameButton.setHorizontalTextPosition(AbstractButton.LEADING);
 		playRemoteGameButton.setMnemonic(KeyEvent.VK_D);
 		playRemoteGameButton.setActionCommand(PlayRemoteGameButtonAction);
 		
@@ -138,8 +138,18 @@ public class ReversiClientGUI extends JFrame implements ActionListener{
 		
 		switch (actionCommand) {
 			case ServerButtonAction: {
-				this.delegate.startServer(null);
-				this.startServerButton.setEnabled(false);
+
+				String localPortField = this.localServerPort.getText();
+				
+				try{
+					Integer port = new Integer(localPortField);
+					this.delegate.startServer(port);
+					this.startServerButton.setEnabled(false);
+					this.playLocalGameButton.setEnabled(true);
+				} catch (NumberFormatException n) {
+					this.displayMessage("Bad input for local server port. Must be a number between 1-65565");
+				}
+				
 			} break;
 			case PlayLocalGameButtonAction: {
 				this.delegate.playLocal();
