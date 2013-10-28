@@ -5,6 +5,7 @@ package main;
 
 import java.io.IOException;
 
+import reversi.client.ReversiClient;
 import reversi.server.ReversiServer;
 
 /**
@@ -20,8 +21,8 @@ public class Main {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		ReversiServer server = new ReversiServer(defaultPort);		
-		server.startServer();		
+		ReversiClient client = new ReversiClient();
+		client.display();
 	}
 
 }

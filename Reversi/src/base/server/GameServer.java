@@ -14,14 +14,34 @@ import java.net.UnknownHostException;
  * @author dereekb
  * 
  */
-public abstract class GameServer {
+public abstract class GameServer implements Runnable {
 
+	private Thread thread;
 	private final Integer serverPort;
-	public GameServer(Integer serverPort) {
+	private final GameServerDelegate delegate;
+	
+	public GameServer(GameServerDelegate delegate, Integer serverPort) {
 		this.serverPort = serverPort;
+		this.delegate = delegate;
 	}
 
-	public void startServer() throws IOException {
+	public void start() {
+		Thread serverThread = this.getThread();
+		serverThread.start();
+	}
+
+	public Thread getThread() {
+
+		//Lazy Loading
+		if (this.thread == null) {
+			this.thread = new Thread(this);
+			this.thread.setDaemon(true);
+		}
+
+		return this.thread;
+	}
+	
+	public void run() {
 		ServerSocket serverSocket = null;
 
 		try {
@@ -29,6 +49,7 @@ public abstract class GameServer {
 			boolean online = true;
 
 			this.printStartupMessage();
+			delegate.serverStarted();
 
 			while (online) {
 				Socket socket = serverSocket.accept();
@@ -41,10 +62,14 @@ public abstract class GameServer {
 			System.exit(1);
 		} finally {
 			if (serverSocket != null) {
-				serverSocket.close();
+				try {
+					serverSocket.close();
+				} catch (IOException e) {
+				}
 			}
 			
 			this.printShutdownMessage();
+			delegate.serverClosed();
 		}
 	}
 
@@ -70,4 +95,5 @@ public abstract class GameServer {
 	}
 	
 	public abstract void clientConnected(Socket socket) throws IOException;
+	
 }

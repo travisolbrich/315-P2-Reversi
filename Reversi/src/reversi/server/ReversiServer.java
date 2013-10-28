@@ -7,14 +7,15 @@ import java.net.Socket;
 import reversi.server.models.ReversiLobby;
 import reversi.server.models.ReversiRemoteClient;
 import base.server.GameServer;
+import base.server.GameServerDelegate;
 
 
 public class ReversiServer extends GameServer{
 
 	private final ReversiLobbyManager lobbyManager = new ReversiLobbyManager();
 
-	public ReversiServer(Integer serverPort){
-		super(serverPort);
+	public ReversiServer(GameServerDelegate delegate, Integer serverPort){
+		super(delegate, serverPort);
 	}
 
 	@Override
