@@ -7,7 +7,6 @@ import base.server.GameServerDelegate;
 import reversi.client.connection.ReveriClientConnection;
 import reversi.client.gui.ReversiClientGUI;
 import reversi.client.gui.ReversiClientGUIDelegate;
-import reversi.client.gui.game.ReversiGameGUI;
 import reversi.server.ReversiServer;
 
 public class ReversiClient implements ReversiClientGUIDelegate, GameServerDelegate {
@@ -92,6 +91,7 @@ public class ReversiClient implements ReversiClientGUIDelegate, GameServerDelega
 			
 			if(success) {
 				this.client.connect(address, portInteger);
+				this.gui.setClientConnection(this.client);
 				this.gui.showGameGUI(true);
 			}
 			

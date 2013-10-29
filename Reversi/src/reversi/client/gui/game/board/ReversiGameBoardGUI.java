@@ -1,4 +1,4 @@
-package reversi.client.gui;
+package reversi.client.gui.game.board;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -47,7 +47,7 @@ public class ReversiGameBoardGUI extends JPanel {
 			for (int c = 0; c < 8; c += 1) {
 	
 				Position position = new Position(c, r);
-				ReversiBoardPieceGUI newPiece = new ReversiBoardPieceGUI();
+				ReversiBoardPieceGUI newPiece = new ReversiBoardPieceGUI(position);
 				boardElements.put(position, newPiece);
 			}
 		}

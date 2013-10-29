@@ -1,4 +1,4 @@
-package reversi.client.gui;
+package reversi.client.gui.game.board;
 
 import javax.swing.JButton;
 import base.models.Position;

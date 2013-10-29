@@ -109,7 +109,7 @@ public class ReversiClientGUI extends JFrame implements ActionListener{
 		this.inputPanel.setLayout(new GridLayout(3, 3));
 
 		inputPanel.add(new JLabel("Local Server Port"));		
-		this.localServerPort = new JTextField("");
+		this.localServerPort = new JTextField("1400");
 		inputPanel.add(localServerPort);
 		
 		inputPanel.add(new JLabel("Server Address"));		
@@ -120,9 +120,9 @@ public class ReversiClientGUI extends JFrame implements ActionListener{
 		this.portField = new JTextField("");
 		inputPanel.add(portField);
 		this.add(inputPanel, BorderLayout.NORTH);
-		
-		this.gameGui.setVisible(false);
+
 		this.add(this.gameGui, BorderLayout.CENTER);
+		this.gameGui.setVisible(false);
 	}
 
 	public void setMenuItemsVisible (boolean visible) {

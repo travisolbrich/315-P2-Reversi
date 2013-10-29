@@ -1,5 +1,6 @@
 package reversi.client.gui.game;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
@@ -24,8 +25,14 @@ public class ReversiGameGUI extends JPanel {
 	
 	public ReversiGameGUI() {
 		this.menuActionHandler = new ReversiGameGUIActionHandler();
+		
+		this.setLayout(new BorderLayout());
+		
 		this.menuGui = new ReversiGameMenuGUI(menuActionHandler);
+		this.add(menuGui, BorderLayout.WEST);
+		
 		this.playGui = new ReversiGamePlayGUI(menuActionHandler);
+		this.add(playGui, BorderLayout.EAST);
 	}
 
 	public void showGamePlayScreen(boolean show) {
