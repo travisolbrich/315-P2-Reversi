@@ -66,4 +66,23 @@ Currently the design assumes that clients who connect will be able to use the re
 While any user may be able to connect via telnet at play that way, other standalone clients may not work depending on the InputController's `HumanInputController` implementation.
 If the other client cannot communicate properly, the game loop may become locked after recieving strange input. If special rules/boards are implemented, clients may become out of sync. Individual clients may need to pay some attendtion to their network security suits to allow access over the ports required to connect.
 
+Post Production Notes
+=====================
+
+## Design Changes Made
+The most significant change we made to the project was removing many of the generics. It was initally very high level, and several team members had trouble following the code. By doing this, we made it much easier to work with the code, and teammembers were able to contribute more to the project. 
+
+We added an additional difficulty mode to the server to test out 5-depth recursion on the minmax tree.
+
+Other than this, most of the project stayed the same. The server still accepts multiple concurrent games, and games run very well.
+
+## Work Load Distribution
+
+Travis: 33%
+
+Derek: 33%
+
+Shane: 18%
+
+John: 16%
 
