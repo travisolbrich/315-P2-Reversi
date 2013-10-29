@@ -5,11 +5,11 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import reversi.client.connection.ReveriClientConnection;
+import reversi.client.connection.ReversiClientConnection;
 
 public class ReversiGameGUIActionHandler implements ActionListener{
 
-	private ReveriClientConnection client;
+	private ReversiClientConnection client;
 	
 	public ReversiGameGUIActionHandler() {}
 
@@ -26,11 +26,11 @@ public class ReversiGameGUIActionHandler implements ActionListener{
 		}
 	}
 
-	public ReveriClientConnection getClient() {
+	public ReversiClientConnection getClient() {
 		return client;
 	}
 
-	public void setClient(ReveriClientConnection client) {
+	public void setClient(ReversiClientConnection client) {
 		this.client = client;
 	}
 	

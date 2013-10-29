@@ -73,7 +73,7 @@ public class GameRemoteAIPanel extends JPanel implements ActionListener{
 		String serverAddress = this.serverAddress.getText();
 		String serverPort = this.serverPort.getText();
 		
-		String request = String.format("%@ %@ %@ %@", localDifficulty, remoteDifficulty, serverAddress, serverPort);
+		String request = String.format("%s %s %s %s", localDifficulty, remoteDifficulty, serverAddress, serverPort);
 		ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, request);
 		this.forwardListener.actionPerformed(event);
 	}

@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-import reversi.client.connection.ReveriClientConnection;
+import reversi.client.connection.ReversiClientConnection;
+import reversi.client.gui.game.panels.GameMenuResponsesPanel;
 
 /**
  * The Game's GUI
@@ -22,7 +24,12 @@ public class ReversiGameGUI extends JPanel {
 	private final ReversiGameGUIActionHandler menuActionHandler;
 	private final ReversiGameMenuGUI menuGui;
 	private final ReversiGamePlayGUI playGui;
+	private GameMenuResponsesPanel responseGui;
 	
+	public void setResponseGui(GameMenuResponsesPanel responseGui) {
+		this.responseGui = responseGui;
+	}
+
 	public ReversiGameGUI() {
 		this.menuActionHandler = new ReversiGameGUIActionHandler();
 		
@@ -32,7 +39,7 @@ public class ReversiGameGUI extends JPanel {
 		this.add(menuGui, BorderLayout.WEST);
 		
 		this.playGui = new ReversiGamePlayGUI(menuActionHandler);
-		this.add(playGui, BorderLayout.EAST);
+		this.add(playGui, BorderLayout.CENTER);
 	}
 
 	public void showGamePlayScreen(boolean show) {
@@ -49,8 +56,20 @@ public class ReversiGameGUI extends JPanel {
 		}
 	}
 
-	public void setClientConnection(ReveriClientConnection connection) {
+	public void setClientConnection(ReversiClientConnection connection) {
 		this.menuActionHandler.setClient(connection);
+		this.setResponseGui(connection);
+	}
+
+	public GameMenuResponsesPanel getResponseGui() {
+		return responseGui;
+	}
+
+	public void setResponseGui(ReversiClientConnection connection){
+		this.responseGui = new GameMenuResponsesPanel(connection);
+		this.add(responseGui, BorderLayout.EAST);
+		this.responseGui.start();
+		this.responseGui.setVisible(true);
 	}
 	
 	public ReversiGameGUIActionHandler getMenuActionHandler() {

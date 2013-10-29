@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import base.server.GameServerDelegate;
-import reversi.client.connection.ReveriClientConnection;
+import reversi.client.connection.ReversiClientConnection;
 import reversi.client.gui.ReversiClientGUI;
 import reversi.client.gui.ReversiClientGUIDelegate;
 import reversi.server.ReversiServer;
@@ -13,12 +13,12 @@ public class ReversiClient implements ReversiClientGUIDelegate, GameServerDelega
 
 	private final ReversiClientGUI gui;
 	private ReversiServer server;
-	private ReveriClientConnection client;
+	private ReversiClientConnection client;
 	private boolean serverRunning = false;
 
 	public ReversiClient() {
 		this.gui = new ReversiClientGUI(this);
-		this.client = new ReveriClientConnection();
+		this.client = new ReversiClientConnection();
 	}
 
 	/**

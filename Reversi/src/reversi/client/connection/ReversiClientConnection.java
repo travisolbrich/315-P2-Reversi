@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import base.models.IOModel;
 
-public class ReveriClientConnection implements IOModel {
+public class ReversiClientConnection implements IOModel {
 
 	public static class ReversiClientConnectionUninitialized extends RuntimeException {
 
@@ -20,7 +20,7 @@ public class ReveriClientConnection implements IOModel {
 	
 	private Socket connectionSocket;
 	
-	public ReveriClientConnection() {}
+	public ReversiClientConnection() {}
 
 	public void connect(String ip, Integer port) throws UnknownHostException, IOException {
 		try {

@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import reversi.client.connection.ReveriClientConnection;
+import reversi.client.connection.ReversiClientConnection;
 import reversi.client.gui.game.ReversiGameGUI;
 
 
@@ -130,7 +130,7 @@ public class ReversiClientGUI extends JFrame implements ActionListener{
 		this.inputPanel.setVisible(visible);
 	}
 	
-	public void setClientConnection(ReveriClientConnection connection) {
+	public void setClientConnection(ReversiClientConnection connection) {
 		this.gameGui.setClientConnection(connection);
 	}
 	
