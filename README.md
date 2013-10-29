@@ -10,7 +10,7 @@ Please take a look at the [design documentation](doc/DesignDocument.md).
 
 ### Development Log
 
-Please see the [Commit Log](https://github.com/travisolbrich/315-P2-Reversi/commits/master) for the most up-to-date and detailed development log. The below log will summarize major developments.
+Please see the [Commit Log](https://github.com/travisolbrich/315-P2-Reversi/commits/master) for the most up-to-date and detailed development log.
 
 ### Scrum
 
