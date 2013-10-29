@@ -12,9 +12,14 @@ public class ReversiGameMenuGUI extends JPanel implements GameMenuPanelDelegate{
 
 	private final GameMenuPanel buttonPanel;
 	private final GameRemoteAIPanel remoteAIPanel;
+	private final ReversiGameGUI reversiGameGUI;
+	
+	private boolean selectedDifficulty = false;
+	private boolean selectedGameMode = false;
 
-	public ReversiGameMenuGUI(ReversiGameGUIActionHandler menuActionHandler) {
+	public ReversiGameMenuGUI(ReversiGameGUIActionHandler menuActionHandler, ReversiGameGUI reversiGameGUI) {
 		this.actionHandler = menuActionHandler;
+		this.reversiGameGUI = reversiGameGUI;
 		
 		this.buttonPanel = new GameMenuPanel(menuActionHandler, this);
 		this.add(buttonPanel);
@@ -32,5 +37,23 @@ public class ReversiGameMenuGUI extends JPanel implements GameMenuPanelDelegate{
 
 	public ReversiGameGUIActionHandler getActionHandler() {
 		return actionHandler;
+	}
+
+	@Override
+	public void difficultyActionSent() {
+		this.selectedDifficulty = true;
+	}
+
+	@Override
+	public void gameModeActionSent() {
+		this.selectedGameMode = true;
+	}
+	
+	private void checkGameReadiness() {
+		
+		if(this.selectedDifficulty && this.selectedGameMode) {
+			this.reversiGameGUI.startGame();
+		}
+		
 	}
 }

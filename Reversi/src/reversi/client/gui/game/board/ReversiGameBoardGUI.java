@@ -1,6 +1,7 @@
 package reversi.client.gui.game.board;
 
 import java.awt.Dimension;
+
 import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +9,10 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import reversi.game.ReversiGame;
+import reversi.models.ReversiBoard;
 import reversi.models.ReversiEntity;
+import reversi.models.ReversiPlayer;
 
 import base.models.BoardPiece;
 import base.models.Position;
@@ -56,7 +60,7 @@ public class ReversiGameBoardGUI extends JPanel {
 		
 	}
 
-	public void updateBoard(ReversiGameBoardGUI board) {
+	public void updateBoard(ReversiBoard board) {
 
 		for (int r = 1; r <= 8; r += 1) {
 
@@ -65,8 +69,21 @@ public class ReversiGameBoardGUI extends JPanel {
 				Position position = new Position(c, r);
 				ReversiBoardPieceGUI newPiece = new ReversiBoardPieceGUI(position);
 				boardElements.put(position, newPiece);
+				ReversiEntity entity = board.getEntityAtPosition(position);
 				
-				newPiece.setActionCommand(position.toString());
+				if(entity == null) continue;
+				
+				ReversiPlayer player = entity.getOwner();
+				String displayPiece = player.getAsciiDisplayPiece();
+				
+				if(displayPiece == "O")
+					newPiece.setText("White");
+				
+				else if(displayPiece == "@")
+					newPiece.setText("Black");
+				
+				else
+					newPiece.setActionCommand(position.toString());
 			}
 		}
 		

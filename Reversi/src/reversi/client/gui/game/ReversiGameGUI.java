@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import reversi.client.connection.ReversiClientConnection;
 import reversi.client.gui.game.panels.GameMenuResponsesPanel;
@@ -16,7 +15,7 @@ import reversi.client.gui.game.panels.GameMenuResponsesPanel;
  * 
  */
 public class ReversiGameGUI extends JPanel {
-	 
+	
 	private static final long serialVersionUID = 1L;
 
 	private static final Dimension GAME_GUI_SIZE = new Dimension(1024, 700);
@@ -35,10 +34,10 @@ public class ReversiGameGUI extends JPanel {
 		
 		this.setLayout(new BorderLayout());
 		
-		this.menuGui = new ReversiGameMenuGUI(menuActionHandler);
+		this.menuGui = new ReversiGameMenuGUI(menuActionHandler, this);
 		this.add(menuGui, BorderLayout.WEST);
 		
-		this.playGui = new ReversiGamePlayGUI(menuActionHandler);
+		this.playGui = new ReversiGamePlayGUI(menuActionHandler, responseGui, this);
 		this.add(playGui, BorderLayout.CENTER);
 	}
 
@@ -79,6 +78,15 @@ public class ReversiGameGUI extends JPanel {
 	@Override
 	public Dimension getPreferredSize() {
 		return GAME_GUI_SIZE;
+	}
+
+	public void startGame() {
+		
+		//TODO: Get the player's key.
+		String playersPiece = "@";
+		
+		this.showGameMenu(false);
+		this.playGui.play(playersPiece);
 	}
 
 }

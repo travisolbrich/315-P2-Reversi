@@ -15,6 +15,7 @@ public class ReversiParser implements ReversiCommandReader {
 	private static final Map<String, ReversiCommandType> commandsMap = new HashMap<String, ReversiCommandType>();
 
 	static {
+		commandsMap.put("OK", ReversiCommandType.Ok);
 		commandsMap.put("EXIT", ReversiCommandType.Exit);
 		commandsMap.put("DISPLAY", ReversiCommandType.Display);
 		commandsMap.put("UNDO", ReversiCommandType.Undo);

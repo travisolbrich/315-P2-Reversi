@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import reversi.client.gui.game.ReversiGameGUIActionHandler;
-import reversi.client.gui.game.panels.GameMenuPanel.GameMenuPanelDelegate;
 
 public class GameRemoteAIPanel extends JPanel implements ActionListener{
 	
