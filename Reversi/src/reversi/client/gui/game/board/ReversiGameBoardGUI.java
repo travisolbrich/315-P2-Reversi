@@ -49,6 +49,8 @@ public class ReversiGameBoardGUI extends JPanel {
 				Position position = new Position(c, r);
 				ReversiBoardPieceGUI newPiece = new ReversiBoardPieceGUI(position);
 				boardElements.put(position, newPiece);
+				
+				newPiece.setActionCommand(position.toString());
 			}
 		}
 		
@@ -56,6 +58,18 @@ public class ReversiGameBoardGUI extends JPanel {
 
 	public void updateBoard(ReversiGameBoardGUI board) {
 
+		for (int r = 1; r <= 8; r += 1) {
+
+			for (int c = 0; c < 8; c += 1) {
+	
+				Position position = new Position(c, r);
+				ReversiBoardPieceGUI newPiece = new ReversiBoardPieceGUI(position);
+				boardElements.put(position, newPiece);
+				
+				newPiece.setActionCommand(position.toString());
+			}
+		}
+		
 	}
 	
 	@Override
