@@ -59,7 +59,6 @@ public abstract class GameServer implements Runnable {
 		} catch (IOException e) {
 			String message = String.format("Could not listen on port '%d'.", this.serverPort);
 			System.out.println(message);
-			System.exit(1);
 		} finally {
 			if (serverSocket != null) {
 				try {
@@ -93,7 +92,11 @@ public abstract class GameServer implements Runnable {
 		
 		this.clientConnected(socket);
 	}
-	
+
+	public Integer getServerPort() {
+		return serverPort;
+	}
+
 	public abstract void clientConnected(Socket socket) throws IOException;
 	
 }

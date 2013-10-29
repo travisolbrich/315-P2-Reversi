@@ -14,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import reversi.client.connection.ReveriClientConnection;
+import reversi.client.gui.game.ReversiGameGUI;
+
 
 /**
  * Client GUI that shows the client menu.
@@ -25,8 +28,8 @@ public class ReversiClientGUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private static final String ReversiWindowName = "Reversi";
 
-	private static final Integer windowHeight = 600;
-	private static final Integer windowWidth = 800;
+	private static final Integer windowWidth = 1024;
+	private static final Integer windowHeight = 768;
 	private static final Integer textFieldWidth = 300;
 	private static final Integer textFieldHeight = 40;
 	private static final Integer buttonWidth = 300;
@@ -36,8 +39,9 @@ public class ReversiClientGUI extends JFrame implements ActionListener{
 
 	private static final String ServerButtonAction = "s";
 	private static final String PlayLocalGameButtonAction = "l";
-	private static final String PlayRemoteGameButtonAction = "r";
+	private static final String PlayRemoteGameButtonAction = "r";	
 	
+	private final ReversiGameGUI gameGui;
 	private ReversiClientGUIDelegate delegate;
 
 	private JPanel buttonPanel;
@@ -51,11 +55,12 @@ public class ReversiClientGUI extends JFrame implements ActionListener{
 	
 	private JTextField messageOutput;
 	private JTextField localServerPort;
-	
+
 	public ReversiClientGUI(ReversiClientGUIDelegate delegate) {
 		super(ReversiWindowName);
 		this.delegate = delegate;
 
+		this.gameGui = new ReversiGameGUI();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(0, 0, windowWidth, windowHeight);
         this.buildMainMenu();
@@ -114,17 +119,35 @@ public class ReversiClientGUI extends JFrame implements ActionListener{
 		inputPanel.add(new JLabel("Port Number"));
 		this.portField = new JTextField("");
 		inputPanel.add(portField);
-		
 		this.add(inputPanel, BorderLayout.NORTH);
+		
+		this.gameGui.setVisible(false);
+		this.add(this.gameGui, BorderLayout.CENTER);
 	}
 
 	public void setMenuItemsVisible (boolean visible) {
 		this.buttonPanel.setVisible(visible);
 		this.inputPanel.setVisible(visible);
 	}
+	
+	public void setClientConnection(ReveriClientConnection connection) {
+		this.gameGui.setClientConnection(connection);
+	}
+	
+	public void showGameGUI(boolean show) {
+		if(show) {
+			this.setMenuItemsVisible(false);
+			this.gameGui.showGameMenu(true);
+			this.gameGui.setVisible(true);
+		} else {
+			this.setMenuItemsVisible(true);
+			this.gameGui.setVisible(false);
+		}
+	}
 
 	public void enableStartServerButton (boolean enabled) {
 		this.startServerButton.setEnabled(enabled);
+		this.playLocalGameButton.setEnabled(!enabled);
 	}
 
 	public void displayMessage(String message) {
@@ -144,8 +167,6 @@ public class ReversiClientGUI extends JFrame implements ActionListener{
 				try{
 					Integer port = new Integer(localPortField);
 					this.delegate.startServer(port);
-					this.startServerButton.setEnabled(false);
-					this.playLocalGameButton.setEnabled(true);
 				} catch (NumberFormatException n) {
 					this.displayMessage("Bad input for local server port. Must be a number between 1-65565");
 				}
@@ -158,13 +179,12 @@ public class ReversiClientGUI extends JFrame implements ActionListener{
 								
 				String addressFieldText = this.serverField.getText();
 				String portFieldText = this.portField.getText();
-								
+				
 				this.delegate.playRemote(addressFieldText, portFieldText);
 			} break;				
 		}
 	}
 	
-
 	@Override
 	public Dimension getPreferredSize() {
 		return WINDOW_SIZE;

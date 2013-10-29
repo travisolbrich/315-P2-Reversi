@@ -7,7 +7,7 @@ package reversi.client.gui;
  */
 public interface ReversiClientGUIDelegate{
 
-	boolean startServer(Integer port);
+	public void startServer(Integer port);
 
 	public boolean playLocal();
 	
