@@ -69,12 +69,14 @@ If the other client cannot communicate properly, the game loop may become locked
 Post Production Notes
 =====================
 
-## Design Changes Made
+## Design Changes Made and Things Learned
 The most significant change we made to the project was removing many of the generics. It was initally very high level, and several team members had trouble following the code. By doing this, we made it much easier to work with the code, and teammembers were able to contribute more to the project. 
 
 We added an additional difficulty mode to the server to test out 5-depth recursion on the minmax tree.
 
 Other than this, most of the project stayed the same. The server still accepts multiple concurrent games, and games run very well.
+
+We also learned that the agile method is a poor development method for this kind of project. The point of agile is to be adaptive in reaching the final deadlines, however the project deadline requirements prevented the application being developed in this method. Aside from the presence of a burndown chart, the development of this project could not really represent a project developed with the agile method.
 
 ## Work Load Distribution
 
