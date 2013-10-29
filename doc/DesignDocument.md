@@ -21,7 +21,7 @@ The stand-alone client will implement a GUI to send responses to the server, but
 
 ### Server
 While the server class handles connecting clients, a Lobby Controller is used for figuring out what Lobby to place a player into. 
-For singleplayer Reversi game, this means creating a new Lobby and placing the user into that lobby. For a multiplayer Reversi game, the controller spawns a small task to take the user's input for the lobby they want to join.
+For a singleplayer Reversi game, this means creating a new Lobby and placing the user into that lobby. For a multiplayer Reversi game, the controller spawns a small task to take the user's input for the lobby they want to join.
 
 The Lobby Controller is run on a separate thread to keep the server from locking up while waiting for user input for multiplayer games, but for singleplayer the clients are sent to a new Lobby. 
 Created lobbies are given a `GameFactory` instance that allows them to create a gameboard using the Lobby settings.
@@ -57,10 +57,10 @@ The client will have to specify the `DISPLAY` in order to not recieve ASCII GUI 
 ## Benefits, Assumptions, and Risks
 
 ###Benefits 
-Highly modular design that allows for easy implementation of different AI's, rules, and even games. Could easily switch to implement a new game, and modify reversi with additional rules, or modes. This modularity will allow multiple play styles and difficulty settings to be implemented easily by the user via the GUI. The server will be able to handle multiple clients all running different games and settings as well as opponent matching in the lobby. This feature will enable the user/s to compete against eachother through the server from remote locations.
+Highly modular design that allows for easy implementation of different AI's and rules. We could easily modify reversi with additional rules, or modes. This modularity will allow multiple play styles and difficulty settings to be implemented easily by the user via the GUI. The server will be able to handle multiple clients all running different games and settings as well as opponent matching in the lobby. This feature will enable the user/s to compete against eachother through the server from remote locations.
 
 ###Assumptions
-Currently the design assumes that clients who connect will be able to use the response data. 
+Currently the design assumes that clients who connect will be able to use the response data. It is also assumed that players will know how to play reversi as no help will be provided in game.
 
 ###Risks
 While any user may be able to connect via telnet at play that way, other standalone clients may not work depending on the InputController's `HumanInputController` implementation.
