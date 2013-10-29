@@ -26,6 +26,16 @@ public class ReversiGameGUIActionHandler implements ActionListener{
 		}
 	}
 
+	public void sendCommand(String command) {
+		try {
+			System.out.println("Sending command to remote server: " + command);
+			PrintWriter writer = client.getWriter();
+			writer.println(command);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
 	public ReversiClientConnection getClient() {
 		return client;
 	}

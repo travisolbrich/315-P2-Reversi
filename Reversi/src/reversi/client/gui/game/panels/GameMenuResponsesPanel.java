@@ -6,6 +6,7 @@ import java.util.Scanner;
 import javax.swing.JTextArea;
 
 import reversi.client.connection.ReversiClientConnection;
+import reversi.client.gui.game.ReversiGamePlayGUI;
 
 /**
  * Panel that listens to the remote server's responses and displays them.
@@ -19,6 +20,7 @@ public class GameMenuResponsesPanel extends JTextArea implements Runnable {
 	
 	private Thread thread;
 	private final ReversiClientConnection connection;
+	private ReversiGamePlayGUI messageDelegate;
 	private final static String newline = "\n";
 
 	public GameMenuResponsesPanel(ReversiClientConnection connection) {
@@ -50,7 +52,15 @@ public class GameMenuResponsesPanel extends JTextArea implements Runnable {
 			Scanner scanner = connection.getInputScanner();
 
 			while (Thread.currentThread().isInterrupted() == false) {
-				String response = scanner.nextLine();				
+				String response = scanner.nextLine();
+				
+				if(response.startsWith(";") == false) {
+					if(messageDelegate != null) {
+						messageDelegate.receivedResponse(response);
+					}
+				}
+				
+				
 				this.appendMessage(response);
 			}
 			
@@ -70,6 +80,10 @@ public class GameMenuResponsesPanel extends JTextArea implements Runnable {
 		}
 
 		return this.thread;
+	}
+
+	public void addListener(ReversiGamePlayGUI reversiGamePlayGUI) {
+		
 	}
 
 }

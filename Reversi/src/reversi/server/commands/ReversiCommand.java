@@ -36,7 +36,9 @@ public class ReversiCommand
 		
 		Black,
 		
-		White
+		White, 
+		
+		Ok
 	}
 	
 	private final ReversiCommandType type;
