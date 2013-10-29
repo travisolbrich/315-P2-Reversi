@@ -82,8 +82,5 @@ public class GameMenuResponsesPanel extends JTextArea implements Runnable {
 		return this.thread;
 	}
 
-	public void addListener(ReversiGamePlayGUI reversiGamePlayGUI) {
-		
-	}
 
 }

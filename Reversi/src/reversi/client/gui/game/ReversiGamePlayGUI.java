@@ -31,7 +31,7 @@ public class ReversiGamePlayGUI extends JPanel implements ActionListener{
 
 	public void play(String homePiece) {	
 		this.game.setUpBoard(homePiece);
-		this.responseGui.addListener(this);
+		//this.responseGui.addListener(this);
 	}
 
 	@Override
