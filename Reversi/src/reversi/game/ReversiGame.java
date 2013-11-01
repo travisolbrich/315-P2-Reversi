@@ -74,7 +74,7 @@ public class ReversiGame {
 		Integer firstPlayerIndex = 0;
 		
 		for(int i = 0; i < activePlayers.size(); i++) {
-			ReversiPlayer player = activePlayers.get(0);
+			ReversiPlayer player = activePlayers.get(i);
 			String asciiPiece = player.getAsciiDisplayPiece();
 			
 			if(asciiPiece.equals(ReversiBoard.blackReversiPiece)){

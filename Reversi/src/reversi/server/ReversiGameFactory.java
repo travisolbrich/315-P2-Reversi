@@ -2,13 +2,11 @@ package reversi.server;
 
 import java.util.List;
 
-import base.models.Player;
 import reversi.game.ReversiGame;
 import reversi.game.controller.ReversiControllerSet;
 import reversi.game.controller.ReversiPlayerController;
 import reversi.models.ReversiBoard;
 import reversi.models.ReversiPlayer;
-import reversi.server.display.ReversiAsciiDisplayController;
 import reversi.server.models.ReversiSettings;
 import reversi.server.models.ReversiSettings.GameMode;
 
@@ -41,7 +39,6 @@ public class ReversiGameFactory {
 			players.add(aiPlayer);
 			players.add(aiSecondaryPlayer);
 			host.setPlaying(false);
-
 		}
 			break;
 		case AIAIRemote: {

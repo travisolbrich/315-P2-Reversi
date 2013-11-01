@@ -33,13 +33,14 @@ public class ReversiBoard extends Board<ReversiEntity> {
 	public void setInitialPieces(List<ReversiPlayer> players) {
 		
 		ReversiPlayer playerA = players.get(0);
+		String playerAPiece = playerA.getAsciiDisplayPiece();
 		ReversiPlayer playerB = players.get(1);
 		
 		//Set player's pieces.
-		ReversiPlayer whitePlayer = (playerA.getAsciiDisplayPiece().equals(whiteReversiPiece)) ? playerA : playerB;
+		ReversiPlayer whitePlayer = (playerAPiece.equals(whiteReversiPiece)) ? playerA : playerB;
 		whitePlayer.setAsciiPiece(whiteReversiPiece);
 		
-		ReversiPlayer blackPlayer = (playerA == whitePlayer) ? playerB : playerA;
+		ReversiPlayer blackPlayer = ((playerA == whitePlayer) ? playerB : playerA);
 		blackPlayer.setAsciiPiece(blackReversiPiece);
 
 		//Set four positions at the center of the board.
